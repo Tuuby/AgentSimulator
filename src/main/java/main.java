@@ -1,6 +1,11 @@
+import graphics.Renderer;
+
 public class main {
 
     public static void main(String[] args) {
-        System.out.println("Hello Mister.");
+        Renderer.init();
+        while (true) {
+            Renderer.render();
+        }
     }
 }
