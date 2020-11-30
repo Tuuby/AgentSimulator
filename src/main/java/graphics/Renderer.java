@@ -30,6 +30,7 @@ public class Renderer {
         GLCapabilities caps = new GLCapabilities(profile);
 
         window = GLWindow.create(caps);
+        window.setResizable(true);
         window.requestFocus();
         window.setSize(screenWidth, screenHeight);
         window.addGLEventListener(new EventListener());
@@ -42,5 +43,13 @@ public class Renderer {
             return;
 
         window.display();
+    }
+
+    public static int getWindowHeight() {
+        return window.getHeight();
+    }
+
+    public static int getWindowWidth() {
+        return window.getWidth();
     }
 }
