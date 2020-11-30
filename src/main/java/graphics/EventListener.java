@@ -18,6 +18,8 @@ public class EventListener implements GLEventListener {
         gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        //Graphics.setColor(1, 1, 0, 1);
+        //Graphics.setRotation(45);
     }
 
     // Gets called when the window is closed
@@ -30,6 +32,7 @@ public class EventListener implements GLEventListener {
         gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        Graphics.fillRect(0, 0, 1.9f, 1.9f);
     }
 
     // Gets called everytime the shape of the windows changes
