@@ -36,7 +36,7 @@ public class EventListener implements GLEventListener {
         gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        Graphics.fillRect(Renderer.unitsWide / 2, Renderer.unitsTall / 2, 1, 1);
+        Graphics.fillCircle(Renderer.unitsWide / 2, Renderer.unitsTall / 2, 1);
     }
 
     // Gets called everytime the shape of the windows changes
