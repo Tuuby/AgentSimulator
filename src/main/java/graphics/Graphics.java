@@ -93,13 +93,13 @@ public class Graphics {
         gl.glBegin(GL2.GL_QUADS);
 
         // TODO: fit coordinate order to world coordinate logic
-        gl.glTexCoord2f(0, 1);
+        gl.glTexCoord2f(0, 0);
         gl.glVertex2f(-width / 2, -height / 2);
-        gl.glTexCoord2f(1, 1);
+        gl.glTexCoord2f(1, 0);
         gl.glVertex2f(width / 2, -height / 2);
-        gl.glTexCoord2f(1,0);
+        gl.glTexCoord2f(1,1);
         gl.glVertex2f(width / 2,  height / 2);
-        gl.glTexCoord2f(0,0);
+        gl.glTexCoord2f(0,1);
         gl.glVertex2f(-width / 2, height / 2);
         gl.glEnd();
         gl.glFlush();
