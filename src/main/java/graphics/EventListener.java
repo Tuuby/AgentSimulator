@@ -3,6 +3,9 @@ package graphics;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
+import resource.ImageResource;
+
+import java.awt.*;
 
 // Implementation of the GLEventListener interface
 // This acts as an EventListener for the events that get called by a OpenGL window
@@ -20,7 +23,10 @@ public class EventListener implements GLEventListener {
 
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glEnable(GL2.GL_BLEND);
-        Graphics.setColor(1, 1, 0, 1);
+
+        gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+
+        Graphics.setColor(1, 1, 1, 1);
         //Graphics.setRotation(45);
     }
 
@@ -34,7 +40,9 @@ public class EventListener implements GLEventListener {
         gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        Graphics.fillCircle(Renderer.unitsWide / 2, Renderer.unitsTall / 2, 1);
+
+        ImageResource img = new ImageResource("/caroldanvers.png");
+        Graphics.drawImage(img, Renderer.unitsWide / 2, Renderer.unitsTall / 2, 2, 2);
     }
 
     // Gets called everytime the shape of the windows changes
