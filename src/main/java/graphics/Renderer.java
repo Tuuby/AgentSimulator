@@ -52,4 +52,8 @@ public class Renderer {
     public static int getWindowWidth() {
         return window.getWidth();
     }
+
+    public static GLProfile getProfile() {
+        return profile;
+    }
 }
