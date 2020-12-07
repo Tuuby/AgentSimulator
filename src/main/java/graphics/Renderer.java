@@ -3,6 +3,7 @@ package graphics;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
+import input.KeyInput;
 
 // Class that Initializes the OpenGL context and window and calls the display method from window
 public class Renderer {
@@ -34,6 +35,7 @@ public class Renderer {
         window.requestFocus();
         window.setSize(screenWidth, screenHeight);
         window.addGLEventListener(new EventListener());
+        window.addKeyListener(new KeyInput());
         window.setVisible(true);
     }
 
@@ -55,5 +57,10 @@ public class Renderer {
 
     public static GLProfile getProfile() {
         return profile;
+    }
+
+    public static void stop() {
+        window.destroy();
+        System.exit(0);
     }
 }

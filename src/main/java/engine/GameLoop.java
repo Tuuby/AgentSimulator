@@ -1,7 +1,10 @@
 package engine;
 
 import graphics.Renderer;
+import input.KeyInput;
 import world.World;
+
+import java.awt.event.KeyEvent;
 
 // Class that controls in what time intervals render() and update() get called
 public class GameLoop {
@@ -34,7 +37,10 @@ public class GameLoop {
                 long lastFpsCheck = System.nanoTime();
 
                 while (running) {
-                    // KeyInput exit
+                    if (KeyInput.getKey(KeyEvent.VK_ESCAPE)) {
+                        GameLoop.stop();
+                        Renderer.stop();
+                    }
                     long currentTime = System.nanoTime();
 
                     updates = 0;
