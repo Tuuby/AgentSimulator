@@ -6,13 +6,13 @@ public class World {
 
     private static ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<GameObject>();
 
-    public void update() {
+    public static void update() {
         for (GameObject go : gameObjects) {
             go.update();
         }
     }
 
-    public void render() {
+    public static void render() {
         for (GameObject go : gameObjects) {
             go.render();
         }

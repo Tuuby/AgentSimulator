@@ -1,3 +1,5 @@
+package gameObjects;
+
 import graphics.Animation;
 import graphics.Graphics;
 import resource.ImageResource;
@@ -11,6 +13,7 @@ public class TestGO extends GameObject {
         this.width = width;
         this.height = height;
 
+        animations = new Animation[1];
         animations[0] = new Animation();
         animations[0].frames = new ImageResource[1];
         animations[0].frames[0] = new ImageResource("/caroldanvers.png");

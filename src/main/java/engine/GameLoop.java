@@ -1,6 +1,7 @@
 package engine;
 
 import graphics.Renderer;
+import world.World;
 
 // Class that controls in what time intervals render() and update() get called
 public class GameLoop {
@@ -39,7 +40,7 @@ public class GameLoop {
                     updates = 0;
 
                     while (currentTime - lastUpdateTime > targetTime) {
-                        //World.update();
+                        World.update();
                         lastUpdateTime += targetTime;
                         updates++;
 

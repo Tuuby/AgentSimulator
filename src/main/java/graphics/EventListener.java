@@ -3,9 +3,7 @@ package graphics;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
-import resource.ImageResource;
-
-import java.awt.*;
+import world.World;
 
 // Implementation of the GLEventListener interface
 // This acts as an EventListener for the events that get called by a OpenGL window
@@ -39,6 +37,8 @@ public class EventListener implements GLEventListener {
         gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+
+        World.render();
     }
 
     // Gets called everytime the shape of the windows changes
