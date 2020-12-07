@@ -27,7 +27,6 @@ public class EventListener implements GLEventListener {
         gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
         Graphics.setColor(1, 1, 1, 1);
-        //Graphics.setRotation(45);
     }
 
     // Gets called when the window is closed
@@ -40,9 +39,6 @@ public class EventListener implements GLEventListener {
         gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
-
-        ImageResource img = new ImageResource("/caroldanvers.png");
-        Graphics.drawImage(img, Renderer.unitsWide / 2, Renderer.unitsTall / 2, 2, 2);
     }
 
     // Gets called everytime the shape of the windows changes

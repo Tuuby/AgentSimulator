@@ -3,26 +3,26 @@ package world;
 import graphics.Animation;
 
 // Interface for all GameObjects
-public interface GameObject {
+public abstract class GameObject {
 
     // Coordinates for the in world position
-    float x = 0;
-    float y = 0;
+    public float x = 0;
+    public float y = 0;
 
     // Dimensions for the in world size
-    float width = 1;
-    float height = 1;
+    public float width = 1;
+    public float height = 1;
 
     // Orientation of the GameObject in degrees; mathematically positive direction
-    float rotation = 0;
+    public float rotation = 0;
 
     // List of available Animations and index of the current Animation
-    Animation[] animations = null;
-    int currentAnimation = 0;
+    public Animation[] animations = null;
+    public int currentAnimation = 0;
 
     // Method to update the GameObject each update cycle
-    void update();
+    public abstract void update();
 
     // Method to draw the GameObject each render cycle
-    void render();
+    public abstract void render();
 }
