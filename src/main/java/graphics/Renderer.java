@@ -4,6 +4,7 @@ import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import input.KeyInput;
+import input.MouseInput;
 
 // Class that Initializes the OpenGL context and window and calls the display method from window
 public class Renderer {
@@ -35,6 +36,7 @@ public class Renderer {
         window.requestFocus();
         window.setSize(screenWidth, screenHeight);
         window.addGLEventListener(new EventListener());
+        window.addMouseListener(new MouseInput());
         window.addKeyListener(new KeyInput());
         window.setVisible(true);
     }
