@@ -19,6 +19,13 @@ public class TestGO extends GameObject {
         animations[0].frames[0] = new ImageResource("/caroldanvers.png");
     }
 
+    public boolean extendsTo(int dx, int dy) {
+        return false;
+    }
+
+    public void moveTo(int xabs, int yabs) {
+    }
+
     public void update() {
         rotation++;
     }

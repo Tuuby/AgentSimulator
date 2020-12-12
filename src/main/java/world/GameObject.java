@@ -2,16 +2,21 @@ package world;
 
 import graphics.Animation;
 
-// Interface for all GameObjects
+import java.util.Arrays;
+
+// Abstract class for all GameObjects
 public abstract class GameObject {
 
     // Coordinates for the in world position
-    public float x = 0;
-    public float y = 0;
+    protected float x;
+    protected float y;
+
+    // The world the GameObject is on, as any GameObject can only be on one world
+    protected World world;
 
     // Dimensions for the in world size
-    public float width = 1;
-    public float height = 1;
+    public float width;
+    public float height;
 
     // Orientation of the GameObject in degrees; mathematically positive direction
     public float rotation = 0;
@@ -19,6 +24,63 @@ public abstract class GameObject {
     // List of available Animations and index of the current Animation
     public Animation[] animations = null;
     public int currentAnimation = 0;
+
+    // Default constructor
+    public GameObject() {
+        x = 0;
+        y = 0;
+        world = null;
+        width = 0;
+        height = 0;
+        rotation = 0;
+    }
+
+    // Constructor with the most attributes
+    public GameObject(float x, float y, World world, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.world = world;
+        this.width = width;
+        this.height = height;
+    }
+
+    // Getter for the coordinates, and Getter and Setter for the world
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    // Method to check if the GameObject extends to a specific coordination
+    public abstract boolean extendsTo(int dx, int dy);
+
+    // Method to move a GameObject to a specific position
+    public abstract void moveTo(int xabs, int yabs);
+
+    // Method to output the GameObject as a String
+    @Override
+    public String toString() {
+        return "GameObject{" +
+                "x=" + x +
+                ", y=" + y +
+                ", world=" + world +
+                ", width=" + width +
+                ", height=" + height +
+                ", rotation=" + rotation +
+                ", animations=" + Arrays.toString(animations) +
+                ", currentAnimation=" + currentAnimation +
+                '}';
+    }
 
     // Method to update the GameObject each update cycle
     public abstract void update();
