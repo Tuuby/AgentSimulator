@@ -41,7 +41,7 @@ jobs:
           # The label that will be used to identify TODO comments
           LABEL: TODO
           # The marker used to signify a line comment in your code
-          COMMENT_MARKER: \#
+          COMMENT_MARKER: //
           # Optional input that specifies whether to attempt to close an issue when a TODO is removed
           CLOSE_ISSUES: true
           # For multiline TODOs, format each line as a new paragraph when creating the issue
