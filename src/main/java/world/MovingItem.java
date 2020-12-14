@@ -1,16 +1,21 @@
 package world;
 
-import com.jogamp.nativewindow.OffscreenLayerOption;
 import graphics.Renderer;
 
+// Class to represent a moving GameObject
+// TODO: maybe change name to gameobject
 public abstract class MovingItem extends GameObject {
+
+    // Factor to increase or decrease moved units per time unit
     protected float speed;
 
+    // Constructor for the new MovingItem
     public MovingItem(float x, float y, World w, float speed) {
         super(x, y, w);
         this.speed = speed;
     }
 
+    // Constructor for the MovingItem class without speed as parameter
     public MovingItem(float x, float y, World w) {
         super(x, y, w);
 
@@ -18,6 +23,7 @@ public abstract class MovingItem extends GameObject {
         speed = 1;
     }
 
+    // Getter and setter for speed
     public float getSpeed() {
         return speed;
     }
@@ -26,6 +32,7 @@ public abstract class MovingItem extends GameObject {
         this.speed = speed;
     }
 
+    // Method to update the position of the GameObject for the desired coordinates depending on the time passed
     public float updatePosition(float dx, float dy, float dt) {
         if (speed > 0 && (dx != 0 || dy != 0)) {
             // TODO: rethink world size after game world has been written
