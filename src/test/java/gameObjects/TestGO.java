@@ -38,7 +38,7 @@ public class TestGO extends GameObject {
         this.height = height;
     }
 
-    public boolean extendsTo(int dx, int dy) {
+    public boolean extendsTo(float dx, float dy) {
         return false;
     }
 

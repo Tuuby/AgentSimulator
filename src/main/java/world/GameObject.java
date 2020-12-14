@@ -58,7 +58,7 @@ public abstract class GameObject {
     }
 
     // Method to check if the GameObject extends to a specific coordination
-    public abstract boolean extendsTo(int dx, int dy);
+    public abstract boolean extendsTo(float dx, float dy);
 
     // Method to output the GameObject as a String
     @Override

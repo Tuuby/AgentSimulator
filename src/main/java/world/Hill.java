@@ -31,7 +31,7 @@ public class Hill extends GameObject {
     }
 
     // Inherited method to check if the hill reaches to a specific point
-    public boolean extendsTo(int dx, int dy) {
+    public boolean extendsTo(float dx, float dy) {
         return (dx * dx + dy * dy < radius * radius);
     }
 
