@@ -3,7 +3,7 @@ package world;
 import graphics.Renderer;
 
 // Class to represent a moving GameObject
-// TODO: maybe change name to gameobject
+//TODO: maybe change name to gameobject
 public abstract class MovingItem extends GameObject {
 
     // Factor to increase or decrease moved units per time unit
@@ -19,7 +19,7 @@ public abstract class MovingItem extends GameObject {
     public MovingItem(float x, float y, World w) {
         super(x, y, w);
 
-        // TODO: update standard speed once the logic stands
+        //TODO: update standard speed once the logic stands
         speed = 1;
     }
 
@@ -35,7 +35,7 @@ public abstract class MovingItem extends GameObject {
     // Method to update the position of the GameObject for the desired coordinates depending on the time passed
     public float updatePosition(float dx, float dy, float dt) {
         if (speed > 0 && (dx != 0 || dy != 0)) {
-            // TODO: rethink world size after game world has been written
+            //TODO: rethink world size after game world has been written
             float sizeX = Renderer.unitsWide;
             float sizeY = Renderer.unitsTall;
 
@@ -49,7 +49,7 @@ public abstract class MovingItem extends GameObject {
             else if (dy < -sizeY / 2)
                 dy += sizeY;
 
-            // TODO: figure out how it works and adjust to world coordinates
+            //TODO: figure out how it works and adjust to world coordinates
             double distance = Math.sqrt(dx * dx + dy * dy);
             float wx = (dx * speed * dt) / 100 / (float)distance;
             float wy = (dy * speed * dt) / 100 / (float)distance;
@@ -63,7 +63,7 @@ public abstract class MovingItem extends GameObject {
                     wy = dy-1;
             }
 
-            // TODO: uncomment if world is rewritten
+            //TODO: uncomment if world is rewritten
             if (/*world.moveItemBy(this, wx, wy)*/true)
                 return (float)Math.sqrt(wx * wx + wy * wy);
             else

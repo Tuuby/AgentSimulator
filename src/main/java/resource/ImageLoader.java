@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.LinkedList;
 
 // Class to load multiple images from the same folder into one list
-// TODO: Deal with old images in the list
+//TODO: Deal with old images in the list
 public class ImageLoader {
 
     // List for all the images that have been loaded
