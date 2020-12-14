@@ -1,0 +1,48 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: TODO to Issue
+        # You may pin to the exact commit or the version.
+        # uses: alstr/todo-to-issue-action@a6fcdf71b15ac124447a50f3ac5a49db67f87870
+        uses: alstr/todo-to-issue-action@v2.4.1
+        with:
+          # The path to the repository where the action will be used, e.g. 'alstr/my-repo' (automatically set)
+          REPO: ${{ github.repository }}
+          # The SHA of the last pushed commit (automatically set)
+          BEFORE: ${{ github.event.before }}
+          # The SHA of the latest commit (automatically set)
+          SHA: ${{ github.sha }}
+          # The GitHub access token to allow us to retrieve, create and update issues (automatically set)
+          TOKEN: 8cb6f5783d740d238c1692e2cedea49e05bec74d
+          # The label that will be used to identify TODO comments
+          LABEL: TODO
+          # The marker used to signify a line comment in your code
+          COMMENT_MARKER: \#
+          # Optional input that specifies whether to attempt to close an issue when a TODO is removed
+          CLOSE_ISSUES: true
+          # For multiline TODOs, format each line as a new paragraph when creating the issue
+          AUTO_P: true
