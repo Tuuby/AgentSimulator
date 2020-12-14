@@ -60,9 +60,6 @@ public abstract class GameObject {
     // Method to check if the GameObject extends to a specific coordination
     public abstract boolean extendsTo(int dx, int dy);
 
-    // Method to move a GameObject to a specific position
-    public abstract void moveTo(int xabs, int yabs);
-
     // Method to output the GameObject as a String
     @Override
     public String toString() {
