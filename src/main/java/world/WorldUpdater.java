@@ -2,8 +2,9 @@ package world;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+// TODO: Call update All for all Worlds
 // Prototype class that represents the world and all the GameObjects on it
-public class World {
+public class WorldUpdater {
 
     // List of GameObjects that works well for multithreading
     private static ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<GameObject>();

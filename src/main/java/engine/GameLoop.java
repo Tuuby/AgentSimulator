@@ -2,7 +2,7 @@ package engine;
 
 import graphics.Renderer;
 import input.KeyInput;
-import world.World;
+import world.WorldUpdater;
 
 import java.awt.event.KeyEvent;
 
@@ -46,7 +46,7 @@ public class GameLoop {
                     updates = 0;
 
                     while (currentTime - lastUpdateTime > targetTime) {
-                        World.update();
+                        WorldUpdater.update();
                         lastUpdateTime += targetTime;
                         updates++;
 
