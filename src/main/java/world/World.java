@@ -1,0 +1,235 @@
+package world;
+
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+public class World {
+
+    public final static int TIME_UNIT = 10;
+
+    private final static int GRIDSIZE = 200;
+
+    private ConcurrentLinkedQueue<GameObject>[][] world;
+    private int width;
+    private int height;
+    private int wspeed;
+    private long time;
+
+    public World(int width, int height) {
+        time = 0;
+        wspeed = 5;
+        this.width = width;
+        this.height = height;
+        world = new ConcurrentLinkedQueue[width / GRIDSIZE][height / GRIDSIZE];
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++)
+                world[i][j] = new ConcurrentLinkedQueue<GameObject>();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setWspeed(int wspeed) {
+        this.wspeed = wspeed;
+    }
+
+    private void doClear() {
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j])
+                    go.thisRemovedFromWorld();
+                world[i][j].clear();
+            }
+        time = 0;
+    }
+
+    private void updateAll() {
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++)
+                for (GameObject go : world[i][j])
+                    go.update();
+    }
+
+    public void addObject(GameObject go) {
+        int cellX = Math.round(go.getX()) / GRIDSIZE;
+        int cellY = Math.round(go.getY()) / GRIDSIZE;
+
+        world[cellX][cellY].offer(go);
+    }
+
+    public void removeObject(GameObject go) {
+        int cellX = Math.round(go.getX()) / GRIDSIZE;
+        int cellY = Math.round(go.getY()) / GRIDSIZE;
+
+        world[cellX][cellY].remove(go);
+        go.thisRemovedFromWorld();
+
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++)
+                for (GameObject gameObject : world[i][j])
+                    gameObject.gameObjectRemovedFromWorld(go);
+    }
+
+    public GameObject getObjectAt(int x, int y) {
+        float min_dist2 = Float.MAX_VALUE;
+        GameObject retObject = null;
+        LinkedList<GameObject> env = getEnvironment(x, y, 2 * GRIDSIZE);
+
+        for (GameObject go : env) {
+            float dx = go.getX() - x;
+            float dy = go.getY() - y;
+            float dist2 = dx * dx + dy * dy;
+
+            if (dist2 < min_dist2) {
+                min_dist2 = dist2;
+                retObject = go;
+            }
+        }
+        return retObject;
+    }
+
+    public LinkedList<GameObject> getEnvironment(int x, int y, int radius) {
+        LinkedList<GameObject> objects = new LinkedList<GameObject>();
+        int cellX = y / GRIDSIZE;
+        int cellY = x / GRIDSIZE;
+        int r2 = radius * radius;
+        int neighb = 1;
+
+        while (radius > GRIDSIZE) {
+            neighb++;
+            radius -= GRIDSIZE;
+        }
+
+        for (int j = cellY - neighb; j <= cellY + neighb; j++)
+            for (int i = cellX - neighb; i <=  cellX + neighb; i++) {
+                int cx = (i + world.length) % world.length;
+                int cy = (j + world[0].length) % world[0].length;
+                for (GameObject gameObject : world[cx][cy]) {
+                    float dx = gameObject.getX() - x;
+                    float dy = gameObject.getY() - y;
+                    if (dx * dx + dy * dy <= r2)
+                        objects.add(gameObject);
+                }
+            }
+        return objects;
+    }
+
+    // TODO: redo completely when clear what it should do
+    public Enumeration<GameObject> getItems() {
+        return new Enumeration<GameObject>() {
+            int cx = 0;
+            int cy = 0;
+            int ci = 0;
+            ConcurrentLinkedQueue<GameObject> cell = world[0][0];
+            GameObject next = null;
+            public boolean hasMoreElements() {
+                while(ci >= cell.size()) {
+                    ci = 0;
+                    cx++;
+                    if (cx >= world[0].length) {
+                        cx = 0;
+                        cy++;
+                        if (cy >= world[0].length)
+                            return false;
+                    }
+                    cell = world[cx][cy];
+                }
+                next = cell.element();
+                return true;
+            }
+
+            public GameObject nextElement() {
+                return next;
+            }
+        };
+    }
+
+    public int getCellX(GameObject gameObject) {
+        return Math.round(gameObject.getX()) / GRIDSIZE;
+    }
+
+    public int getCellY(GameObject gameObject) {
+        return Math.round(gameObject.getY()) / GRIDSIZE;
+    }
+
+    public boolean isPositionFree(int x, int y) {
+        int cellX = x / GRIDSIZE;
+        int cellY = y / GRIDSIZE;
+        for (int j = cellY - 1; j <= cellY + 1; j++)
+            for (int i = cellX - 1; i <= cellX + 1; i++) {
+                int cx = (i + world.length) % world.length;
+                int cy = (j + world[0].length) % world[0].length;
+
+                for (GameObject go : world[cx][cy]) {
+                    if (go.extendsTo(go.getX() - x, go.getY() - y))
+                        return false;
+                }
+            }
+        return true;
+    }
+
+    public boolean moveObjectBy(GameObject go, int dx, int dy) {
+        float x = go.getX();
+        float y = go.getY();
+        float newX = (x + width + dx) % width;
+        float newY = (y + width + dx) % height;
+
+        if (isPositionFree(Math.round(newX), Math.round(newY))) {
+            int cellX = Math.round(x) / GRIDSIZE;
+            int cellY = Math.round(y) / GRIDSIZE;
+
+            go.moveTo(newX, newY);
+
+            int ncellX = Math.round(newX) / GRIDSIZE;
+            int ncellY = Math.round(newY) / GRIDSIZE;
+
+            if (ncellX != cellX || ncellY != cellY) {
+                if (!world[cellX][cellY].contains(go))
+                    System.out.println("Serious world error!");
+
+                world[cellX][cellY].remove(go);
+                world[ncellX][ncellY].offer(go);
+            }
+            return true;
+        } else
+            return false;
+    }
+
+    public float getD1(float x0, float x1) {
+        float dx = x1 - x0;
+        if (dx > width / 2)
+            dx -= width;
+        else if (dx < -width / 2)
+            dx += width;
+
+        return dx;
+    }
+
+    public float distance(GameObject go0, GameObject go1) {
+        float dx = getD1(go0.getX(), go1.getX());
+        float dy = getD1(go0.getY(), go1.getY());
+
+        return (float)Math.sqrt(dx * dx + dy * dy) + 0.5f;
+    }
+
+    public float distance(float dx, float dy) {
+        return (float)Math.sqrt(dx * dx + dy * dy) + 0.5f;
+    }
+
+    public boolean visible(GameObject go, GameObject target, int visibility) {
+        float dx = target.getX() - go.getX();
+        float dy = target.getY() - go.getY();
+
+        return  distance(dx, dy) <= visibility;
+    }
+}
