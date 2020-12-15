@@ -78,4 +78,8 @@ public abstract class GameObject {
 
     // Method to draw the GameObject each render cycle
     public abstract void render();
+
+    public abstract void thisRemovedFromWorld();
+
+    public abstract void gameObjectRemovedFromWorld(GameObject go);
 }
