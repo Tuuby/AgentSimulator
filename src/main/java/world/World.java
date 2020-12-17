@@ -236,6 +236,7 @@ public class World {
     }
 
     // Method to calculate the distance between two GameObjects
+    // + 0.5f was used in integer Number Space to round up; can be discarded here
     public float distance(GameObject go0, GameObject go1) {
         float dx = getD1(go0.getX(), go1.getX());
         float dy = getD1(go0.getY(), go1.getY());
