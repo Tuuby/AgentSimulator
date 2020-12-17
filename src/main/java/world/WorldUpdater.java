@@ -2,7 +2,7 @@ package world;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-// TODO: Call update All for all Worlds
+// TODO: Call updateAll for all Worlds
 // Prototype class that represents the world and all the GameObjects on it
 public class WorldUpdater {
 
@@ -12,7 +12,7 @@ public class WorldUpdater {
     // Method to call update for all the GameObjects in this world
     public static void update() {
         for (GameObject go : gameObjects) {
-            go.update();
+            go.update(0);
         }
     }
 

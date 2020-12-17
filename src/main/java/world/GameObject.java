@@ -12,7 +12,7 @@ public abstract class GameObject {
     protected float y;
 
     // The world the GameObject is on, as any GameObject can only be on one world
-    protected WorldUpdater world;
+    protected World world;
 
     // Dimensions for the in world size; Not ever GameObject has a width and a height
     //public float width;
@@ -34,7 +34,7 @@ public abstract class GameObject {
     }
 
     // Constructor with the most attributes
-    public GameObject(float x, float y, WorldUpdater world) {
+    public GameObject(float x, float y, World world) {
         this.x = x;
         this.y = y;
         this.world = world;
@@ -49,11 +49,11 @@ public abstract class GameObject {
         return y;
     }
 
-    public WorldUpdater getWorld() {
+    public World getWorld() {
         return world;
     }
 
-    public void setWorld(WorldUpdater world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 
@@ -79,7 +79,7 @@ public abstract class GameObject {
     }
 
     // Method to update the GameObject each update cycle
-    public abstract void update();
+    public abstract void update(long time);
 
     // Method to draw the GameObject each render cycle
     public abstract void render();

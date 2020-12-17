@@ -10,13 +10,13 @@ public abstract class MovingItem extends GameObject {
     protected float speed;
 
     // Constructor for the new MovingItem
-    public MovingItem(float x, float y, WorldUpdater w, float speed) {
+    public MovingItem(float x, float y, World w, float speed) {
         super(x, y, w);
         this.speed = speed;
     }
 
     // Constructor for the MovingItem class without speed as parameter
-    public MovingItem(float x, float y, WorldUpdater w) {
+    public MovingItem(float x, float y, World w) {
         super(x, y, w);
 
         // TODO: update standard speed once the logic stands

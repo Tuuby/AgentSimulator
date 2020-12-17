@@ -67,7 +67,7 @@ public class World {
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
-                    go.update();
+                    go.update(time);
     }
 
     // Method to add an object to the array of GameObjects at the world position

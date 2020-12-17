@@ -45,7 +45,7 @@ public class TestGO extends GameObject {
     public void moveTo(int xabs, int yabs) {
     }
 
-    public void update() {
+    public void update(long time) {
         rotation++;
     }
 

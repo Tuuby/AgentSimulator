@@ -9,7 +9,7 @@ public class Hill extends GameObject {
     private float radius;
 
     // Constructor to make a new GameObject with a radius
-    public Hill(WorldUpdater w, float x, float y, float r) {
+    public Hill(World w, float x, float y, float r) {
         super(x, y, w);
         radius = r;
     }
@@ -36,7 +36,7 @@ public class Hill extends GameObject {
     }
 
     // Method to update the hill every gameupdate tick
-    public void update() {
+    public void update(long time) {
         // Probably not much to do here, as a hill just hangs around
     }
 
