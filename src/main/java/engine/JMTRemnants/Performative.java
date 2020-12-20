@@ -3,13 +3,13 @@ package engine.JMTRemnants;
 import java.util.Enumeration;
 import java.util.Vector;
 
-public class Perfomative extends ScriptObject {
+public class Performative extends ScriptObject {
 
-    public Perfomative(String type) {
+    public Performative(String type) {
         super(type);
     }
 
-    public Perfomative(String type, int content) {
+    public Performative(String type, Object content) {
         super(type);
         put(":contenct", content);
     }

@@ -1,5 +1,6 @@
 package world;
 
+import engine.JMTRemnants.Performative;
 import world.enums.AgentSpecial;
 
 import java.util.*;
@@ -21,11 +22,11 @@ public class AgentKomm {
 
     private Agent thisAgent;
 
-    private List<Hashtable<String, GameObject>> request;
-    private List<Hashtable<String, GameObject>> recruitRequests;
-    private List<Hashtable<String, GameObject>> joinRequests;
-    private List<GameObject> potentialPartners;
-    private List<Hashtable<String, GameObject>> potentialReprodPartners;
+    private List<Performative> request;
+    private List<Performative> recruitRequests;
+    private List<Performative> joinRequests;
+    private List<Agent> potentialPartners;
+    private List<Agent> potentialReprodPartners;
 
     private long lastEnvFromPartners;
 
@@ -43,12 +44,12 @@ public class AgentKomm {
         }
         thisAgent = agent;
         leader = null;
-        request = new ArrayList<Hashtable<String, GameObject>>();
+        request = new ArrayList<Performative>();
         partners = new ArrayList<GameObject>();
-        potentialPartners = new ArrayList<GameObject>();
-        recruitRequests = new ArrayList<Hashtable<String, GameObject>>();
-        joinRequests = new ArrayList<Hashtable<String, GameObject>>();
-        potentialReprodPartners = new ArrayList<Hashtable<String, GameObject>>();
+        potentialPartners = new ArrayList<Agent>();
+        recruitRequests = new ArrayList<Performative>();
+        joinRequests = new ArrayList<Performative>();
+        potentialReprodPartners = new ArrayList<Agent>();
     }
 
     public void death() {
@@ -68,6 +69,13 @@ public class AgentKomm {
     }
 
     public void recruit(Agent agent) {
+        Performative perf;
+        if (leader == thisAgent) {
+            perf = new Performative("ask-about", "attributes");
+        } else {
+            Hashtable<String, Integer> info = thisAgent.getInfo();
+            perf = new Performative("advertise", info);
+        }
         potentialPartners.add(agent);
     }
 

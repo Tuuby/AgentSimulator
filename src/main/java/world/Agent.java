@@ -4,6 +4,7 @@ import world.enums.AgentActions;
 import world.enums.AgentSpecial;
 import world.enums.AgentStates;
 
+import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -198,5 +199,15 @@ public class Agent extends MovingItem implements IAgent{
 
     public AgentSpecial getSpecial() {
         return special;
+    }
+
+    public Hashtable<String, Integer> getInfo() {
+        Hashtable<String, Integer> info = new Hashtable<String, Integer>();
+        info.put("health", health);
+        info.put("speed", Math.round(speed));
+        info.put("visibility", visibility);
+        info.put("stamina", dna.stamina);
+        info.put("special", special.getSpecialNumber());
+        return info;
     }
 }
