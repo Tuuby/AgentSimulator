@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 public class KQML {
@@ -53,12 +54,10 @@ public class KQML {
             perform(sender, reciever, performative);
     }
 
-    public static void multicast(IAgent sender, Vector<IAgent> recievers, Performative performative) {
-        Enumeration<IAgent> agents = recievers.elements();
-        while (agents.hasMoreElements()) {
+    public static void multicast(IAgent sender, List<IAgent> recievers, Performative performative) {
+        for (IAgent iAgent : recievers) {
             Performative perf = (Performative)performative.clone();
-            IAgent rec = (IAgent)agents.nextElement();
-            perform(sender, rec, perf);
+            perform(sender, iAgent, perf);
         }
     }
 }

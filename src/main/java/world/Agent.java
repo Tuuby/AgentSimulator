@@ -69,8 +69,7 @@ public class Agent extends MovingItem implements IAgent{
     private int avSuccessPerTime = 0;
     private long startHuntTime;
 
-    // TODO: Write the AgentKomm class
-    //private AgentKommm komm;
+    private AgentKomm komm;
 
     private List<GameObject> environment;
 
@@ -134,9 +133,9 @@ public class Agent extends MovingItem implements IAgent{
         return dna;
     }
 
-    /*public AgentKommm getKomm() {
+    public AgentKomm getKomm() {
         return komm;
-    }*/
+    }
 
     public Object getAttrib(String name) throws NoSuchFieldException, IllegalAccessException
     {
@@ -199,6 +198,19 @@ public class Agent extends MovingItem implements IAgent{
 
     public AgentSpecial getSpecial() {
         return special;
+    }
+
+    public AgentStates getState() {
+        return currentState;
+    }
+
+    public List<GameObject> getEnvironment() {
+        return environment;
+    }
+
+    public MovingFood getTarget()
+    {
+        return targetToHunt;
     }
 
     public Hashtable<String, Integer> getInfo() {
