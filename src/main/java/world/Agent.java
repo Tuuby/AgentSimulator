@@ -69,7 +69,7 @@ public class Agent extends MovingItem implements IAgent{
     private long startHuntTime;
 
     // TODO: Write the AgentKomm class
-    private AgentKommm komm;
+    //private AgentKommm komm;
 
     private List<GameObject> environment;
 
@@ -80,7 +80,7 @@ public class Agent extends MovingItem implements IAgent{
     public static void initRun() {
         cAgentNo = 1;
         cPortalUses = 0;
-        AgentKomm.initRun();
+        //AgentKomm.initRun();
     }
 
     public Agent(float x, float y, World w, DNA idna, int ifood) {
@@ -133,9 +133,9 @@ public class Agent extends MovingItem implements IAgent{
         return dna;
     }
 
-    public AgentKommm getKomm() {
+    /*public AgentKommm getKomm() {
         return komm;
-    }
+    }*/
 
     public Object getAttrib(String name) throws NoSuchFieldException, IllegalAccessException
     {
@@ -156,31 +156,31 @@ public class Agent extends MovingItem implements IAgent{
 
         if (lastUpdate >= 0) {
             age += dt;
-            updateAge(time);
+            //updateAge(time);
         }
         lastUpdate = time;
 
         if (currentState == AgentStates.TRANSPORTING) {
-            transport(0);
+            //transport(0);
             return;
         }
 
-        AgentActions need = nextNeed(time);
+        /*AgentActions need = nextNeed(time);
         if (need != currentNeeds) {
             currentNeed = need;
             initState(time);
-        }
+        }*/
 
-        AgentActions action = nextAction(time);
+        /*AgentActions action = nextAction(time);
         if (action != AgentActions.NONE)
-            doAction(action, dt);
+            doAction(action, dt);*/
 
         if (--food < 0)
             health--;
 
         if (health <= 0) {
             world.removeObject(this);
-            komm.death();
+            //komm.death();
         }
     }
 
@@ -194,5 +194,9 @@ public class Agent extends MovingItem implements IAgent{
 
     public String getName() {
         return null;
+    }
+
+    public AgentSpecial getSpecial() {
+        return special;
     }
 }
