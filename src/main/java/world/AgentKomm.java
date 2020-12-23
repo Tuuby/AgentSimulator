@@ -313,6 +313,38 @@ public class AgentKomm {
         return null;
     }
 
+    public void partnerWithdraw(Agent agent) {
+        if (leader == thisAgent && partners.contains(agent)) {
+            AgentStates state = thisAgent.getState();
+            partners.remove(agent);
+            thisAgent.notifyGroupState();
+            cancellations++;
+            if (state == AgentStates.HUNTING && !groupSufficient())
+                thisAgent.setState(AgentStates.SEARCHING_AGENT);
+            else if (state == AgentStates.EATING)
+                thisAgent.setFoodAmount();
+        } else if (agent == leader) {
+            leader = null;
+            partners = new LinkedList<IAgent>();
+            thisAgent.notifyGroupState();
+            cancellations++;
+        }
+
+        if (reprodOffered.contains(agent))
+            reprodOffered.remove(agent);
+
+        if (gotReprodOfferFrom.contains(agent))
+            gotReprodOfferFrom.remove(agent);
+
+        if (acceptReprodOffers == agent)
+            acceptReprodOffers = null;
+
+        if (potentialReprodPartners.contains(agent)) {
+            potentialReprodPartners.remove(agent);
+            reproduceRequests = new LinkedList<Performative>();
+        }
+    }
+
     public boolean groupSufficient() {
         if (leader == thisAgent) {
             int attacker = 0;
@@ -397,6 +429,7 @@ public class AgentKomm {
     }
 
     private boolean isRecruitable(Agent agent, Object info) {
+        Hashtable<String, Integer>infoTable = (Hashtable<String, Integer>)info;
         int subGroupSize = 0;
         AgentSpecial special = agent.getSpecial();
         Hashtable<String, Integer> worstInfo = null;
@@ -419,7 +452,7 @@ public class AgentKomm {
             return true;
         } else if (special == AgentSpecial.PARALYZER && subGroupSize < dna.preferredNofParalyser) {
             return true;
-        } else if (info1IsBetter(info, worstInfo)) {
+        } else if (info1IsBetter(infoTable, worstInfo)) {
             if (worstAgent != null) {
                 KQML.perform(thisAgent, worstAgent, new Performative("cancel"));
                 partners.remove(worstAgent);
@@ -428,5 +461,46 @@ public class AgentKomm {
             return true;
         } else
             return false;
+    }
+
+    private boolean info1IsBetter(Hashtable<String, Integer> info1, Hashtable<String, Integer> info2) {
+        if (info2 == null)
+            return true;
+        else
+            return (info1.get("speed") > info2.get("speed"));
+    }
+
+    private boolean isTrustworthy(Agent agent) {
+        return agent == leader || partners.contains(agent);
+    }
+
+    private int getSuccess(Performative perf) {
+        Integer success = (Integer)perf.get(":success");
+        return success != null ? success : 0;
+    }
+
+    protected void initReproduction(Agent partner) {
+        potentialReprodPartners = new LinkedList<Agent>();
+        reproduceRequests = new LinkedList<Performative>();
+        gotReprodOfferFrom = new LinkedList<Agent>();
+        thisAgent.initReproduction(partner);
+        acceptReprodOffers = null;
+    }
+
+    private int getQuality(Hashtable<String, Integer> info) {
+        Integer healthObj = (Integer)info.get("health");
+        Integer speedObj = (Integer)info.get("speed");
+        Integer visibleObj = (Integer)info.get("visibility");
+        Integer staminaObj = (Integer)info.get("stamina");
+        int health = healthObj != null ? healthObj : 0;
+        int speed = speedObj != null ? speedObj : 0;
+        int visibility = visibleObj != null ? visibleObj : 0;
+        int stamina = staminaObj != null ? staminaObj : 0;
+        int qual = health * 5 + speed * 10 + visibility + stamina / 10;
+        return qual / 10 - 150;
+    }
+
+    private boolean readyForReproduction() {
+        return thisAgent.getState() == AgentStates.REPRODUCING || !thisAgent.conditionCritical();
     }
 }
