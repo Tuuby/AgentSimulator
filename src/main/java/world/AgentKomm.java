@@ -171,7 +171,7 @@ public class AgentKomm {
 
                 if (leader == thisAgent) {
                     partners.add(sender);
-                    thisAgent.notifyGroupState();
+                    //thisAgent.notifyGroupState();
                     cMembers++;
 
                     if (partners.size() > cMaxMembers)
@@ -317,7 +317,7 @@ public class AgentKomm {
         if (leader == thisAgent && partners.contains(agent)) {
             AgentStates state = thisAgent.getState();
             partners.remove(agent);
-            thisAgent.notifyGroupState();
+            //thisAgent.notifyGroupState();
             cancellations++;
             if (state == AgentStates.HUNTING && !groupSufficient())
                 thisAgent.setState(AgentStates.SEARCHING_AGENT);
@@ -326,7 +326,7 @@ public class AgentKomm {
         } else if (agent == leader) {
             leader = null;
             partners = new LinkedList<IAgent>();
-            thisAgent.notifyGroupState();
+            //thisAgent.notifyGroupState();
             cancellations++;
         }
 
@@ -405,7 +405,7 @@ public class AgentKomm {
             groupsDissolved++;
             cGroupsDissolved++;
             KQML.multicast(thisAgent, partners, cancelPerf);
-            thisAgent.notifyGroupState();
+            //thisAgent.notifyGroupState();
         } else if (leader != null) {
             groupsLeft++;
             KQML.perform(thisAgent, leader, cancelPerf);
@@ -456,7 +456,7 @@ public class AgentKomm {
             if (worstAgent != null) {
                 KQML.perform(thisAgent, worstAgent, new Performative("cancel"));
                 partners.remove(worstAgent);
-                thisAgent.notifyGroupState();
+                //thisAgent.notifyGroupState();
             }
             return true;
         } else
