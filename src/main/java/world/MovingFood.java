@@ -1,9 +1,6 @@
 package world;
 
-import javax.swing.*;
-import java.lang.ref.PhantomReference;
 import java.util.List;
-import java.util.WeakHashMap;
 
 public class MovingFood extends MovingItem {
 
@@ -170,7 +167,7 @@ public class MovingFood extends MovingItem {
                 } else
                     move(dt);
             } else {
-                target = (Food)getItem(foodClass);
+                target = (Food)getObject(foodClass);
                 move(dt);
             }
             if (food > 0) {
@@ -197,6 +194,23 @@ public class MovingFood extends MovingItem {
             if (energy < 0)
                 world.removeObject(this);
         }
+    }
+
+    private GameObject getObject(Class t) {
+        GameObject go = null;
+        float min_dist2 = Float.MAX_VALUE;
+        for (GameObject envObject : environment) {
+            if (go.getClass() == t) {
+                float dx = world.getD1(envObject.getX(), x);
+                float dy = world.getD1(envObject.getY(), y);
+                float dist2 = dx * dx + dy * dy;
+                if (dist2 < min_dist2) {
+                    min_dist2 = dist2;
+                    go = envObject;
+                }
+            }
+        }
+        return go;
     }
 
     private void eat(int dt) {

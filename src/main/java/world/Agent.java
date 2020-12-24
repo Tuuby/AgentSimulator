@@ -490,7 +490,7 @@ public class Agent extends MovingItem implements IAgent{
                 setFoodAmount();
                 updateSuccess(amountToEat);
                 currentState = EATING;
-                notifyState(special, currentState);
+                //notifyState(special, currentState);
             }
         }
         else
@@ -591,7 +591,7 @@ public class Agent extends MovingItem implements IAgent{
     private MovingFood findTarget(boolean dead, boolean nearest) {
         float minDist = Integer.MAX_VALUE;
         int maxEnergy = 0;
-        MovingFood target = null
+        MovingFood target = null;
         for (GameObject go : environment) {
             if (go instanceof MovingFood && ((MovingFood)go).isAlive() != dead) {
                 if (nearest) {
