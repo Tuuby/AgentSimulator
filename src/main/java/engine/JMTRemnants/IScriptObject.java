@@ -2,6 +2,7 @@ package engine.JMTRemnants;
 
 import java.util.Enumeration;
 
+// Interface for the methods that a ScriptObject should have
 public interface IScriptObject {
     Enumeration<Object> keys();
     Enumeration<Object> elements();

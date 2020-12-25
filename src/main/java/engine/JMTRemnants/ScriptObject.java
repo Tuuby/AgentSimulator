@@ -2,6 +2,7 @@ package engine.JMTRemnants;
 
 import java.util.Hashtable;
 
+// Necessary for Performative
 public class ScriptObject extends Hashtable<Object, Object> implements IScriptObject {
 
     final static String PROTO_SLOT = "proto";

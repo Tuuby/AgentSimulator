@@ -9,38 +9,46 @@ import world.enums.AgentStates;
 import java.util.*;
 import java.util.prefs.PreferenceChangeEvent;
 
+// Java class to represent an agent in a group
 public class AgentKomm {
 
+    // Fields to count global statistics
     public static int cGroups;
     public static int cGroupsDissolved;
     public static int cMembers;
     public static int cMaxMembers;
 
+    // Fields to count individual statistics
     public int groupsJoined;
     public int groupsLeft;
     public int groupsDissolved;
     public int cancellations;
 
+    // Fields to hold the other people in the group and the leader of the group
     protected Agent leader;
     protected Vector<IAgent> partners;
 
+    // Field to hold the agent this instance belongs to
     private Agent thisAgent;
 
+    // Fields to hold requests and other Agents for joining the group
     private Vector<Performative> requests;
     private Vector<Performative> recruitRequests;
     private Vector<Performative> joinRequests;
     private Vector<Agent> potentialPartners;
     private Vector<Agent> potentialReprodPartners;
 
+    // Field to hold the point in time when the last environmentUpdate from Partners arrived
     private long lastEnvFromPartners;
 
+    // Fields to hold requests and offers for reproduction
     private Vector<Agent> reprodOffered = new Vector<Agent>();
     private long lastReprodOffered = 0;
     private Vector<Performative> reproduceRequests = new Vector<Performative>();
     private Vector<Agent> gotReprodOfferFrom = new Vector<Agent>();
-
     private Agent acceptReprodOffers = null;
 
+    // Field to hold the success of the group
     private static final int SUCCESS_EPS = 500;
 
     public static void initRun() {

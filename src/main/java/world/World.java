@@ -139,7 +139,6 @@ public class World {
         return objects;
     }
 
-    // TODO: redo completely when clear what it should do
     // Probably a method to get all GameObjects
     public Enumeration<GameObject> getItems() {
         return new Enumeration<GameObject>() {

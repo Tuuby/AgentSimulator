@@ -6,18 +6,20 @@ import world.IAgent;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Vector;
 
+// Class to represent the KQML communication of Agents
 public class KQML {
     private static Hashtable<String, IAgent> AGENTS = new Hashtable<String, IAgent>();
     private static int agentID = 0;
 
+    // Constructor for a new KQML object
     public KQML() {
         AGENTS = new Hashtable<String, IAgent>();
         agentID = 0;
     }
 
+    // Register a new Agent Object in the AGENTS hashtable and set the name of the agent
     public static boolean register(IAgent agent, String name) {
         if (name != null)
             if (AGENTS.get(name) != null)
@@ -36,25 +38,29 @@ public class KQML {
         return true;
     }
 
+    // Unregister the specified Agent from the AGENTS hashtable
     public static void unregister(IAgent agent, String name) {
         AGENTS.remove(name);
     }
 
-    public static void perform(IAgent sender, IAgent reciever, Performative performative) {
+    // Puts two fields into the performative and then gives it to the receiving Agent
+    public static void perform(IAgent sender, IAgent receiver, Performative performative) {
         performative.put(":sender", sender);
-        performative.put(":reciever", reciever);
+        performative.put(":receiver", receiver);
 
-        reciever.performKQML(sender, performative);
+        receiver.performKQML(sender, performative);
     }
 
-    public static void perform(IAgent sender, String recieverName, Performative performative) {
-        IAgent reciever = (IAgent)AGENTS.get(recieverName);
-        if (reciever != null)
-            perform(sender, reciever, performative);
+    // Method that gets the IAgent object from the specified name and then passes that to the other perform method
+    public static void perform(IAgent sender, String receiverName, Performative performative) {
+        IAgent receiver = (IAgent)AGENTS.get(receiverName);
+        if (receiver != null)
+            perform(sender, receiver, performative);
     }
 
-    public static void multicast(IAgent sender, Vector<IAgent> recievers, Performative performative) {
-        for (IAgent iAgent : recievers) {
+    // Method to send a single Performative from a sender to multiple receivers
+    public static void multicast(IAgent sender, Vector<IAgent> receivers, Performative performative) {
+        for (IAgent iAgent : receivers) {
             Performative perf = (Performative)performative.clone();
             perform(sender, iAgent, perf);
         }

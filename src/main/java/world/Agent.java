@@ -10,11 +10,14 @@ import java.util.*;
 
 import static world.enums.AgentStates.*;
 
+// Class that represents an Agent and controls its decisions
 public class Agent extends MovingItem implements IAgent{
 
+    // fields for counting
     public static int cAgentNo;
     public static int cPortalUses;
 
+    // Static fields that every Agent has in common
     public static int TIME_OF_YEAR = 1000;
     public static int FOOD_INPUT_RATE = 50;
     public static int STAMINA_REGAIN_RATE = 2;
@@ -29,40 +32,50 @@ public class Agent extends MovingItem implements IAgent{
     public static int HUNT_TIME_MAX = 4000;
     public static int TRANSPORTATION_TIME = 60;
 
+    // Private fields to store specific points of time
     private long lastUpdate = -1000;
     private long lastEnvironUpdate = -1000;
     private long lastAgeUpdate = 0;
     private long lastReproductionTime = 0;
     private long lastPortalUse;
 
+    // Fields to hold the amount of food that is currently Stored in the agent
     protected int food;
     protected int foodInput = FOOD_INPUT_RATE;
 
+    // Fields to hold the amount of stamina and staminaRegen the agent has
     protected int stamina;
     protected int staminaRegen = STAMINA_REGAIN_RATE;
 
+    // Fields to hold specific values that impact the health and capabilities of the agent
     protected int health;
     protected int age;
     protected int staminaMax;
     protected int reproductInstinct;
     protected int visibility;
 
+    // Fields to count specific actions of the agent
     protected int reproductions;
     protected int paralysesOrKills;
     protected int portalUses;
 
+    // Threshold at what point the agent is starving and should start looking for food
     protected static int FOOD_CRITICAL = 4000;
 
+    // The dna object that holds all the instance specific values and is used for reproducing
     private DNA dna;
 
+    // Fields of enums to hold the speciality, the current need and current state of the agent
     private AgentSpecial special;
     private AgentActions currentNeed;
     private AgentStates currentState;
 
+    // Fields to hold game relevant objects
     private MovingFood targetToHunt;
     private Agent agentToRecruit;
     private Portal portal;
 
+    // Fields for internal numbers to calculate the decisions
     private int amountToEat = 0;
     private int dirX;
     private int dirY;
@@ -70,29 +83,37 @@ public class Agent extends MovingItem implements IAgent{
     private int avSuccessPerTime = 0;
     private long startHuntTime;
 
+    // Field to hold the group the agent is part of
     private AgentKomm komm;
 
+    // List of all surrounding gameObjects in vision range
     private Vector<GameObject> environment;
 
+    // Field that holds an Agent that is chosen as Reproduction Partner
     private Agent reproductionPartner;
 
+    // Random object which is used throughout the class to get random numbers
     private Random random;
 
+    // Something something blocking the agent
     private GameObject blocked;
     private long blockTime;
 
+    // Field to track of the chosen direction was successfull
     private int successDir = 0;
 
+    // Method to initialize the Agent and set it running
     public static void initRun() {
         cAgentNo = 1;
         cPortalUses = 0;
         AgentKomm.initRun();
     }
 
-    public Agent(int x, int y, World w, DNA idna, int ifood) {
+    // Constructor to make a new Agent at a specific position, in a specific world, with a specific dna object and an initial food value
+    public Agent(int x, int y, World w, DNA iDna, int ifood) {
         super(x, y, w);
         age = 0;
-        dna = idna;
+        dna = iDna;
         special = dna.special;
         health = dna.health;
         staminaMax = dna.stamina;
@@ -109,6 +130,7 @@ public class Agent extends MovingItem implements IAgent{
         cAgentNo++;
     }
 
+    // Initialize the Agent after construction or after travelling through a portal
     protected void initAgent(Portal from) {
         KQML.register(this, null);
         komm = new AgentKomm(this);
@@ -123,36 +145,42 @@ public class Agent extends MovingItem implements IAgent{
         lastUpdate = time - 1;
     }
 
+    // Constructor for an agent without an initial food value
     public Agent(int x, int y, World w, DNA idna) {
         this(x, y, w, idna, idna.foodSaturation);
     }
 
+    // Method to get the type of GameObject
     public String getType() {
         return "agent";
     }
 
+    // Method to calculate of the agent extends to a specific point around it
     public boolean extendsTo(int dx, int dy) {
         return dx == 0 && dy == 0;
     }
 
+    // Method to return the DNA of the agent
     public DNA getDna() {
         return dna;
     }
 
+    // Method to return the group the agent is in
     public AgentKomm getKomm() {
         return komm;
     }
 
-    public Object getAttrib(String name) throws NoSuchFieldException, IllegalAccessException
-    {
+    // Method to return a specified attribute of the agent
+    public Object getAttrib(String name) throws NoSuchFieldException, IllegalAccessException {
         return getClass().getDeclaredField(name).get(this);
     }
 
-    public void setAttrib(String name, Object value) throws NoSuchFieldException, IllegalAccessException
-    {
+    // Method to set a specified attribute of the agent
+    public void setAttrib(String name, Object value) throws NoSuchFieldException, IllegalAccessException {
         getClass().getDeclaredField(name).set(this, value);
     }
 
+    // Method to update the Agent in relation to the passed time
     public void update(long time) {
         int dt = (int)(time - lastUpdate);
 
@@ -189,10 +217,12 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // method that tells OpenGL how an agent is supposed to be rendered
     public void render() {
 
     }
 
+    // Getter and Setter for varios attributes
     public void setName(String name) {
 
     }
@@ -226,6 +256,7 @@ public class Agent extends MovingItem implements IAgent{
         return targetToHunt;
     }
 
+    // Method to set the MovingFood object as targetTuHunt if the agent is currently able to hunt
     public boolean setTarget(MovingFood target, int amount) {
         if (currentState == REPRODUCING2)
             return false;
@@ -255,12 +286,14 @@ public class Agent extends MovingItem implements IAgent{
         averageSuccess = success;
     }
 
+    // Method to tell the group how much food from the current selected target is to be expected
     public void setFoodAmount() {
         int energy = targetToHunt.getEnergy();
         amountToEat = energy / (komm.partners.size() + 1) + 1;
         komm.notifyFoodAmount(targetToHunt, amountToEat);
     }
 
+    // Method to determine whether the agent is in critical condition or not
     public boolean conditionCritical() {
         return currentState != EATING && currentState != HUNTING && food < FOOD_CRITICAL;
     }
@@ -273,11 +306,14 @@ public class Agent extends MovingItem implements IAgent{
         return reproductionPartner;
     }
 
+    // Method to initiate the Reproduction with the specified partner
     public void initReproduction(Agent partner) {
         reproductionPartner = partner;
         currentState = REPRODUCING2;
         //notifyState(special, currentState);
     }
+
+    // Method to determine if the agent is available for reproduction
     public boolean readyForReproduction() {
         int nAgent = 0;
         for (GameObject go : environment) {
@@ -296,6 +332,7 @@ public class Agent extends MovingItem implements IAgent{
                 Math.random() * p < reproductInstinct);
     }
 
+    // Method to choose the next important need
     private AgentActions nextNeed(long time) {
         if (stamina < STAMINA_MIN || currentState == AgentStates.SLEEPING && stamina < staminaMax / 2)
             return AgentActions.SLEEP;
@@ -311,6 +348,7 @@ public class Agent extends MovingItem implements IAgent{
         return AgentActions.EAT;
     }
 
+    // Method to set the agents State depending on the needs
     private void initState(long time) {
         if (currentNeed == AgentActions.SLEEP) {
             currentState = AgentStates.SLEEPING;
@@ -324,6 +362,7 @@ public class Agent extends MovingItem implements IAgent{
             currentState = AgentStates.NONE;
     }
 
+    // Method to calculate the next Action depending on the time and internal variables
     private AgentActions nextAction(long time) {
         MovingFood target;
         if (conditionCritical()) {
@@ -426,6 +465,7 @@ public class Agent extends MovingItem implements IAgent{
         return AgentActions.NONE;
     }
 
+    // Do the selected action
     private void doAction(AgentActions action, int dt) {
         komm.handleRequests();
         switch (action) {
@@ -440,6 +480,7 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method to sleep for the specified time or until the stamina is Full
     private void sleep(int dt) {
         stamina += dt * staminaRegen;
         if (stamina > staminaMax)
@@ -449,12 +490,14 @@ public class Agent extends MovingItem implements IAgent{
             food--;
     }
 
+    // Method to update the Environment
     private void look(int dt) {
         environment = world.getEnvironment(x, y, visibility);
         lastEnvironUpdate = lastUpdate;
         food--;
     }
 
+    // Method to walk to the desired position for the time
     private void walk(int dt) {
         int prevX = x;
         int prevY = y;
@@ -463,6 +506,7 @@ public class Agent extends MovingItem implements IAgent{
             setDirection();
     }
 
+    // Method to execute the hunt based on the Speciality of the agent
     private void hunt(int dt) {
         MovingFood target = targetToHunt;
         if (special == AgentSpecial.ATTACKER) {
@@ -492,6 +536,7 @@ public class Agent extends MovingItem implements IAgent{
             System.out.println("The Agent with the speciality: " + special + "can not hunt.");
     }
 
+    // Update the averageSuccess depending on the current success
     private void updateSuccess(int currSuccess) {
         if (averageSuccess > 0)
             averageSuccess = (averageSuccess + currSuccess) / 2;
@@ -499,6 +544,7 @@ public class Agent extends MovingItem implements IAgent{
             averageSuccess = currSuccess;
     }
 
+    // Method to eat from the selected target
     private void eat(int dt) {
          int energy;
          MovingFood target = targetToHunt;
@@ -538,11 +584,13 @@ public class Agent extends MovingItem implements IAgent{
          }
     }
 
+    // Method to recruit another agent to the group
     private void recruit() {
         food -= 2;
         komm.recruit(agentToRecruit);
     }
 
+    // Method to make a new agent with a partner
     private void reproduce(int dt) {
         if (!reachable(reproductionPartner))
             moveToTarget(reproductionPartner, dt);
@@ -563,6 +611,7 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method to transport the agent through a portal
     private void transport(int dt) {
         if (!portal.isFunctionable()) {
             currentNeed = AgentActions.NONE;
@@ -587,6 +636,7 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method that gets called when this agent is removed from the world
     public void objectRemovedFromWorld(GameObject gameObject) {
         environment.remove(gameObject);
         if ((currentState == HUNTING || currentState == EATING) && targetToHunt == gameObject) {
@@ -603,6 +653,7 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method to look for a new target to hunt
     private MovingFood findTarget(boolean dead, boolean nearest) {
         float minDist = Integer.MAX_VALUE;
         int maxEnergy = 0;
@@ -627,6 +678,7 @@ public class Agent extends MovingItem implements IAgent{
         return target;
     }
 
+    // Method to look for the closest portal in the environment
     private Portal findPortal() {
         for (GameObject envItem : environment) {
             if (envItem instanceof Portal) {
@@ -638,10 +690,12 @@ public class Agent extends MovingItem implements IAgent{
         return null;
     }
 
+    // Method to give the performative to the group to handle it
     public void performKQML(IAgent sender, Performative performative) {
         komm.handleRequest(performative);
     }
 
+    // Method to decrease the health of the agent
     public void decreaseHealth(int dh) {
         health -= dh;
         if (health < 0)
@@ -653,6 +707,7 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method to check if the specified target is better than the current target
     private boolean targetIsBetter(MovingFood newTarget) {
         float dist1 = world.distance(targetToHunt, this);
         float dist2 = world.distance(newTarget, this);
@@ -661,12 +716,14 @@ public class Agent extends MovingItem implements IAgent{
         return energy2 - dist2 > energy1 - dist1;
     }
 
+    // Method to randomly select a new direction
     public void setDirection() {
         int dir = random.nextInt() % 360;
         dirX = (int) (Math.cos(dir / 180.0 * Math.PI) * 100);
         dirY = (int) (Math.sin(dir / 180.0 * Math.PI) * 100);
     }
 
+    // Method to return a hashtable with the most important attributes
     public Hashtable<String, Integer> getInfo() {
         Hashtable<String, Integer> info = new Hashtable<String, Integer>();
         info.put("health", health);
@@ -677,6 +734,7 @@ public class Agent extends MovingItem implements IAgent{
         return info;
     }
 
+    // Method to calculate the direction to the target and then move there
     private void moveToTarget(GameObject target, int dt) {
         int dx = target.getX() - x;
         int dy = target.getY() - y;
@@ -684,6 +742,7 @@ public class Agent extends MovingItem implements IAgent{
             move(dx, dy, dt);
     }
 
+    // Method to move to a specific direction
     private void move(int dx, int dy, int dt) {
         float dist = updatePosition(dx, dy, dt);
         if (dist == 0) {
@@ -710,6 +769,7 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method to update the Age of the agent depending on the time passed
     public void updateAge(long time) {
         int dt = (int)((time - lastAgeUpdate) / TIME_OF_YEAR);
         if (dt > 0) {
@@ -726,14 +786,17 @@ public class Agent extends MovingItem implements IAgent{
         }
     }
 
+    // Method to check if a GameObject is visible from the agent
     private boolean visible(GameObject go) {
         return world.visible(this, go, visibility);
     }
 
+    // Method to check if a GameObject is reachable from the target
     private boolean reachable(GameObject go) {
         return world.visible(this, go, 6);
     }
 
+    // Method to return a String with most of the important attributes
     public String getStat() {
         float dist;
         if (currentState == HUNTING || currentState == EATING)
@@ -757,6 +820,8 @@ public class Agent extends MovingItem implements IAgent{
                         "\n\nUmgebung: " + environment;
     }
 
+
+    // Method to return the name of the agent
     public String toString() {
         return getName().substring(getName().indexOf(':') + 1);
     }

@@ -82,6 +82,7 @@ public class GameLoop {
         running = false;
     }
 
+    // Method to return the targeted time for a single frame in fractions of a second i think
     public static float updateDelta() {
         return 1.0f / 1000000000 * targetTime;
     }

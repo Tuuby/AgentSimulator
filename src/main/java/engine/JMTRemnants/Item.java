@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
+// Necessary for Performative and ScriptObject
 public class Item implements Serializable {
     Object obj;
     Object field;

@@ -3,21 +3,26 @@ package engine.JMTRemnants;
 import java.util.Enumeration;
 import java.util.Vector;
 
+// Java representation of the KQML concept Performative
 public class Performative extends ScriptObject {
 
+    // Constructor for a new Performative with a parameter for the type
     public Performative(String type) {
         super(type);
     }
 
+    // Constructor for a new Performative with 2 parameters for the type and the content
     public Performative(String type, Object content) {
         super(type);
         put(":contenct", content);
     }
 
+    // Method to return the type of Performative
     public String getType() {
         return getName();
     }
 
+    // Method to write the whole Performative to a String object
     public String toString() {
         StringBuilder res = new StringBuilder();
         res.append("(").append(getName());
