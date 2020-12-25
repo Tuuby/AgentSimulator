@@ -9,7 +9,7 @@ public class Hill extends GameObject {
     private float radius;
 
     // Constructor to make a new GameObject with a radius
-    public Hill(World w, float x, float y, float r) {
+    public Hill(float x, float y, World w, float r) {
         super(x, y, w);
         radius = r;
     }

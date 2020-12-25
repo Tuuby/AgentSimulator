@@ -52,7 +52,7 @@ public class World {
     }
 
     // Method to clear the entire world of GameObjects
-    private void doClear() {
+    public void doClear() {
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++) {
                 for (GameObject go : world[i][j])
