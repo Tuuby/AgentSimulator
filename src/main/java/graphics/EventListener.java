@@ -3,7 +3,7 @@ package graphics;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
-import world.WorldUpdater;
+import engine.WorldUpdater;
 
 // Implementation of the GLEventListener interface
 // This acts as an EventListener for the events that get called by a OpenGL window

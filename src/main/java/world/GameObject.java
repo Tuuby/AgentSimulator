@@ -8,8 +8,8 @@ import java.util.Arrays;
 public abstract class GameObject {
 
     // Coordinates for the in world position
-    protected float x;
-    protected float y;
+    protected int x;
+    protected int y;
 
     // The world the GameObject is on, as any GameObject can only be on one world
     protected World world;
@@ -34,18 +34,18 @@ public abstract class GameObject {
     }
 
     // Constructor with the most attributes
-    public GameObject(float x, float y, World world) {
+    public GameObject(int x, int y, World world) {
         this.x = x;
         this.y = y;
         this.world = world;
     }
 
     // Getter for the coordinates, and Getter and Setter for the world
-    public float getX() {
+    public int getX() {
         return x;
     }
 
-    public float getY() {
+    public int getY() {
         return y;
     }
 
@@ -58,9 +58,9 @@ public abstract class GameObject {
     }
 
     // Method to check if the GameObject extends to a specific coordination
-    public abstract boolean extendsTo(float dx, float dy);
+    public abstract boolean extendsTo(int dx, int dy);
 
-    public void moveTo(float xabs, float yabs) {
+    public void moveTo(int xabs, int yabs) {
         x = xabs;
         y = yabs;
     }

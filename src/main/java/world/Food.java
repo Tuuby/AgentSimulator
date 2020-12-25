@@ -21,7 +21,7 @@ public class Food extends GameObject {
         return "food";
     }
 
-    public boolean extendsTo(float dx, float dy) {
+    public boolean extendsTo(int dx, int dy) {
         return false;
     }
 

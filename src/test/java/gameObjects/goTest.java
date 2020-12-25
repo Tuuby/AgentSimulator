@@ -2,7 +2,7 @@ package gameObjects;
 
 import engine.GameLoop;
 import graphics.Renderer;
-import world.WorldUpdater;
+import engine.WorldUpdater;
 
 public class goTest {
     public static void main(String[] args) {

@@ -2,7 +2,6 @@ package engine;
 
 import graphics.Renderer;
 import input.KeyInput;
-import world.WorldUpdater;
 
 import java.awt.event.KeyEvent;
 

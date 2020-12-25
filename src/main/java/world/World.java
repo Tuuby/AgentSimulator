@@ -198,14 +198,14 @@ public class World {
 
     // Method to move a GameObject by a specific amount if the target position is free
     public boolean moveObjectBy(GameObject go, int dx, int dy) {
-        float x = go.getX();
-        float y = go.getY();
-        float newX = (x + width + dx) % width;
-        float newY = (y + width + dx) % height;
+        int x = go.getX();
+        int y = go.getY();
+        int newX = (x + width + dx) % width;
+        int newY = (y + width + dx) % height;
 
         if (isPositionFree(Math.round(newX), Math.round(newY))) {
-            int cellX = Math.round(x) / GRIDSIZE;
-            int cellY = Math.round(y) / GRIDSIZE;
+            int cellX = x / GRIDSIZE;
+            int cellY = y / GRIDSIZE;
 
             go.moveTo(newX, newY);
 

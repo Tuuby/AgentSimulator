@@ -1,4 +1,6 @@
-package world;
+package engine;
+
+import world.GameObject;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

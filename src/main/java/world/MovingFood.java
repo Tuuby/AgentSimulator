@@ -80,7 +80,7 @@ public class MovingFood extends MovingItem {
         cQuarryNo = 1;
     }
 
-    public MovingFood(float initX, float initY, World w, int startHealth, int startRegenRate,
+    public MovingFood(int initX, int initY, World w, int startHealth, int startRegenRate,
                       int startFood, int startEnergy, int startSpeed, int startVisibility) {
         super(initX, initY, w, startSpeed);
         health = startHealth;
@@ -99,7 +99,7 @@ public class MovingFood extends MovingItem {
         cQuarryNo++;
     }
 
-    public MovingFood(float initX, float initY, World w) {
+    public MovingFood(int initX, int initY, World w) {
         this(initX, initY, w,
                 randomAttrib(HEALTH_MIN, HEALTH_MAX),
                 randomAttrib(REGEN_MIN, REGEN_MAX),
@@ -117,7 +117,7 @@ public class MovingFood extends MovingItem {
         return "quarry";
     }
 
-    public boolean extendsTo(float dx, float dy) {
+    public boolean extendsTo(int dx, int dy) {
         return dx == 0 && dy == 0;
     }
 
@@ -141,7 +141,7 @@ public class MovingFood extends MovingItem {
             speed = orgSpeed - energy / 5000;
 
             if (time - lastEnvironUpdate > ENVIRON_UPDATE_PERIOD) {
-                environment = world.getEnvironment(Math.round(x), Math.round(y), visibility);
+                environment = world.getEnvironment(x, y, visibility);
                 lastEnvironUpdate = time;
             }
 
@@ -256,8 +256,8 @@ public class MovingFood extends MovingItem {
     }
 
     private void move(int dt) {
-        float dx;
-        float dy;
+        int dx;
+        int dy;
         if (target != null) {
             dx = target.getX() - x;
             dy = target.getY() - y;

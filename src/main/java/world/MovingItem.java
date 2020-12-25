@@ -7,16 +7,16 @@ import graphics.Renderer;
 public abstract class MovingItem extends GameObject {
 
     // Factor to increase or decrease moved units per time unit
-    protected float speed;
+    protected int speed;
 
     // Constructor for the new MovingItem
-    public MovingItem(float x, float y, World w, float speed) {
+    public MovingItem(int x, int y, World w, int speed) {
         super(x, y, w);
         this.speed = speed;
     }
 
     // Constructor for the MovingItem class without speed as parameter
-    public MovingItem(float x, float y, World w) {
+    public MovingItem(int x, int y, World w) {
         super(x, y, w);
 
         // TODO: update standard speed once the logic stands
@@ -24,20 +24,19 @@ public abstract class MovingItem extends GameObject {
     }
 
     // Getter and setter for speed
-    public float getSpeed() {
+    public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(float speed) {
+    public void setSpeed(int speed) {
         this.speed = speed;
     }
 
     // Method to update the position of the GameObject for the desired coordinates depending on the time passed
-    public float updatePosition(float dx, float dy, float dt) {
+    public int updatePosition(int dx, int dy, int dt) {
         if (speed > 0 && (dx != 0 || dy != 0)) {
-            // TODO: rethink world size after game world has been written
-            float sizeX = Renderer.unitsWide;
-            float sizeY = Renderer.unitsTall;
+            int sizeX = world.getWidth();
+            int sizeY = world.getHeight();
 
             if (dx > sizeX / 2)
                 dx -= sizeX;
@@ -50,9 +49,9 @@ public abstract class MovingItem extends GameObject {
                 dy += sizeY;
 
             // TODO: figure out how it works and adjust to world coordinates
-            double distance = Math.sqrt(dx * dx + dy * dy);
-            float wx = (dx * speed * dt) / 100 / (float)distance;
-            float wy = (dy * speed * dt) / 100 / (float)distance;
+            int distance = (int) Math.sqrt(dx * dx + dy * dy);
+            int wx = (dx * speed * dt) / 100 / distance;
+            int wy = (dy * speed * dt) / 100 / distance;
 
             if (wx == 0 && wy == 0) {
                 return 0;
@@ -63,9 +62,8 @@ public abstract class MovingItem extends GameObject {
                     wy = dy-1;
             }
 
-            // TODO: uncomment if world is rewritten
-            if (/*world.moveItemBy(this, wx, wy)*/true)
-                return (float)Math.sqrt(wx * wx + wy * wy);
+            if (world.moveObjectBy(this, wx, wy))
+                return (int) world.distance(wx, wy);
             else
                 return 0;
         } else

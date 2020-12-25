@@ -9,7 +9,7 @@ public class Hill extends GameObject {
     private float radius;
 
     // Constructor to make a new GameObject with a radius
-    public Hill(float x, float y, World w, float r) {
+    public Hill(int x, int y, World w, float r) {
         super(x, y, w);
         radius = r;
     }
@@ -31,7 +31,7 @@ public class Hill extends GameObject {
     }
 
     // Inherited method to check if the hill reaches to a specific point
-    public boolean extendsTo(float dx, float dy) {
+    public boolean extendsTo(int dx, int dy) {
         return (dx * dx + dy * dy < radius * radius);
     }
 
@@ -40,7 +40,7 @@ public class Hill extends GameObject {
         // Probably not much to do here, as a hill just hangs around
     }
 
-    // Method to render the hill ever frame
+    // Method to render the hill every frame
     public void render() {
         Graphics.setColor(0.54f, 0.27f, 0.07f, 1);
         Graphics.fillCircle(x, y, radius);

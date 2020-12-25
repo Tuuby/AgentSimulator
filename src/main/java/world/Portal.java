@@ -102,7 +102,7 @@ public class Portal extends GameObject {
         return "portal";
     }
 
-    public boolean extendsTo(float dx, float dy) {
+    public boolean extendsTo(int dx, int dy) {
         return false;
     }
 

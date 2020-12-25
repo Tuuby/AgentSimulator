@@ -92,7 +92,7 @@ public class Agent extends MovingItem implements IAgent{
         AgentKomm.initRun();
     }
 
-    public Agent(float x, float y, World w, DNA idna, int ifood) {
+    public Agent(int x, int y, World w, DNA idna, int ifood) {
         super(x, y, w);
         age = 0;
         dna = idna;
@@ -126,7 +126,7 @@ public class Agent extends MovingItem implements IAgent{
         lastUpdate = time - 1;
     }
 
-    public Agent(float x, float y, World w, DNA idna) {
+    public Agent(int x, int y, World w, DNA idna) {
         this(x, y, w, idna, idna.foodSaturation);
     }
 
@@ -134,7 +134,7 @@ public class Agent extends MovingItem implements IAgent{
         return "agent";
     }
 
-    public boolean extendsTo(float dx, float dy) {
+    public boolean extendsTo(int dx, int dy) {
         return dx == 0 && dy == 0;
     }
 
@@ -156,7 +156,6 @@ public class Agent extends MovingItem implements IAgent{
         getClass().getDeclaredField(name).set(this, value);
     }
 
-    // TODO: add all missing functions and check needs and actions in AgentActions
     public void update(long time) {
         int dt = (int)(time - lastUpdate);
 
@@ -454,16 +453,16 @@ public class Agent extends MovingItem implements IAgent{
     }
 
     private void look(int dt) {
-        environment = world.getEnvironment(Math.round(x), Math.round(y), visibility);
+        environment = world.getEnvironment(x, y, visibility);
         lastEnvironUpdate = lastUpdate;
         food--;
     }
 
     private void walk(int dt) {
-        int prevX = Math.round(x);
-        int prevY = Math.round(y);
+        int prevX = x;
+        int prevY = y;
         move(dirX, dirY, dt);
-        if (Math.round(x) == prevX && Math.round(y) == prevY)
+        if (x == prevX && y == prevY)
             setDirection();
     }
 
@@ -523,10 +522,10 @@ public class Agent extends MovingItem implements IAgent{
                  food = dna.foodCapacity;
              }
          } else {
-             int prevX = Math.round(x);
-             int prevY = Math.round(y);
+             int prevX = x;
+             int prevY = y;
              moveToTarget(target, dt);
-             if (Math.round(x) == prevX && Math.round(y) == prevY) {
+             if (x == prevX && y == prevY) {
                  if (blocked == target && lastUpdate - blockTime > 100) {
                      environment.remove(target);
                      targetToHunt = null;
@@ -682,10 +681,10 @@ public class Agent extends MovingItem implements IAgent{
     }
 
     private void moveToTarget(GameObject target, int dt) {
-        float dx = target.getX() - x;
-        float dy = target.getY() - y;
+        int dx = target.getX() - x;
+        int dy = target.getY() - y;
         if (dx != 0 || dy != 0)
-            move(Math.round(dx), Math.round(dy), dt);
+            move(dx, dy, dt);
     }
 
     private void move(int dx, int dy, int dt) {
