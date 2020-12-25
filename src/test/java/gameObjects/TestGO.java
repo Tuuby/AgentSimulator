@@ -10,7 +10,7 @@ public class TestGO extends GameObject {
     private float width;
     private float height;
 
-    public TestGO(float x, float y, float width, float height) {
+    public TestGO(int x, int y, float width, float height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -38,7 +38,7 @@ public class TestGO extends GameObject {
         this.height = height;
     }
 
-    public boolean extendsTo(float dx, float dy) {
+    public boolean extendsTo(int dx, int dy) {
         return false;
     }
 
