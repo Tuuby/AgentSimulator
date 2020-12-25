@@ -42,7 +42,7 @@ public class WorldGenerator {
     public void generate() {
         Agent.initRun();
         MovingFood.initRun();
-        //Portal.initRun();
+        Portal.initRun();
         int i;
         int xsize = world.getWidth();
         int ysize = world.getHeight();
@@ -53,11 +53,11 @@ public class WorldGenerator {
             world.addObject(h);
         }
 
-        /*for (i = 0; i < nPortals; i++) {
+        for (i = 0; i < nPortals; i++) {
             int[] pos = newCoords(xsize, ysize);
             Portal p = new Portal(pos[0], pos[1], world, portalHost[i]);
             world.addObject(p);
-        }*/
+        }
 
         for (i = 0; i < nFoodElems; i++) {
             int[] pos = newCoords(xsize, ysize);

@@ -64,7 +64,7 @@ public class Agent extends MovingItem implements IAgent{
 
     private MovingFood targetToHunt;
     private Agent agentToRecruit;
-    //private Portal portal;
+    private Portal portal;
 
     private int amountToEat = 0;
     private int dirX;
@@ -89,7 +89,7 @@ public class Agent extends MovingItem implements IAgent{
     public static void initRun() {
         cAgentNo = 1;
         cPortalUses = 0;
-        //AgentKomm.initRun();
+        AgentKomm.initRun();
     }
 
     public Agent(float x, float y, World w, DNA idna, int ifood) {
@@ -108,17 +108,17 @@ public class Agent extends MovingItem implements IAgent{
             staminaRegen++;
 
         portalUses = 0;
-        initAgent(/*null*/);
+        initAgent(null);
         cAgentNo++;
     }
 
-    protected void initAgent(/*Portal from*/) {
+    protected void initAgent(Portal from) {
         KQML.register(this, null);
         komm = new AgentKomm(this);
         random = new Random();
         environment = new LinkedList<GameObject>();
         komm.updateLeader();
-        //portal = from;
+        portal = from;
         long time = world.getTime();
         lastReproductionTime = time + REPROD_PERIOD / 2;
         lastAgeUpdate = time;
@@ -284,8 +284,7 @@ public class Agent extends MovingItem implements IAgent{
     }
     public boolean readyForReproduction() {
         int nAgent = 0;
-        for (int i = 0; i < environment.size(); i++) {
-            GameObject go = environment.get(i);
+        for (GameObject go : environment) {
             if (go instanceof Agent)
                 nAgent++;
         }
@@ -333,11 +332,11 @@ public class Agent extends MovingItem implements IAgent{
         MovingFood target;
         if (conditionCritical()) {
             if (time - lastPortalUse > 1000) {
-                //Portal p = findPortal();
-                if (true/*p != null*/) {
+                Portal p = findPortal();
+                if (p != null) {
                     currentState = AgentStates.APPROACHING_PORTAL;
                     //notifyState(special, currentState);
-                    //portal = p;
+                    portal = p;
                 }
             }
         }
@@ -569,7 +568,27 @@ public class Agent extends MovingItem implements IAgent{
     }
 
     private void transport(int dt) {
-        // TODO: figure out if theres enpugh time for implementing Portals
+        if (!portal.isFunctionable()) {
+            currentNeed = AgentActions.NONE;
+            currentState = NONE;
+        } else if (!reachable(portal))
+            moveToTarget(portal, dt);
+        else if (currentState != TRANSPORTING) {
+            currentState = TRANSPORTING;
+            lastPortalUse = lastUpdate + TRANSPORTATION_TIME;
+        } else if (lastUpdate - lastPortalUse >= TRANSPORTATION_TIME) {
+            currentState = NONE;
+            currentNeed = AgentActions.NONE;
+        } else if (lastUpdate == lastPortalUse) {
+            environment = new LinkedList<GameObject>();
+            reproductionPartner = null;
+            targetToHunt = null;
+            agentToRecruit = null;
+            komm.updateLeader();
+            portalUses++;
+            cPortalUses++;
+            portal.activate(this);
+        }
     }
 
     public void objectRemovedFromWorld(GameObject gameObject) {
@@ -612,10 +631,16 @@ public class Agent extends MovingItem implements IAgent{
         return target;
     }
 
-    // TODO: figure out if theres enough time for Portals
-    /*private Portal findPortal() {
-
-    }*/
+    private Portal findPortal() {
+        for (GameObject envItem : environment) {
+            if (envItem instanceof Portal) {
+                Portal p = (Portal)envItem;
+                if (p.isFunctionable())
+                    return p;
+            }
+        }
+        return null;
+    }
 
     public void performKQML(IAgent sender, Performative performative) {
         komm.handleRequest(performative);
