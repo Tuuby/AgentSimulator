@@ -1,6 +1,5 @@
 package world;
 
-import java.util.List;
 import java.util.Vector;
 
 public class MovingFood extends MovingItem {
@@ -9,7 +8,7 @@ public class MovingFood extends MovingItem {
 
     public static double HEALTH_MUTATION = 0.05;
     public static double REGEN_MUTATION = 0.1;
-    public static double ENERGY_MUTATION = 0.1;
+    //public static double ENERGY_MUTATION = 0.1;
     public static double SPEED_MUTATION = 0.04;
     public static double VISIB_MUTATION = 0.06;
 
@@ -49,7 +48,7 @@ public class MovingFood extends MovingItem {
     protected int homeDY;
     protected int orgSpeed;
 
-    private long lifeTime;
+    private final long lifeTime;
     private long reprodTime;
     private long deathTime;
     private long lastUpdate;
