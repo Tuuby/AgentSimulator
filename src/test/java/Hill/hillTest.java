@@ -14,7 +14,7 @@ public class hillTest {
         Renderer.init();
         GameLoop.start();
         for (int i = 0; i < 10; i++) {
-            WorldUpdater.addObject(new Hill(null, rnd.nextInt(200) / 10f, rnd.nextInt(100) / 10f, 1));
+            WorldUpdater.addObject(new Hill(rnd.nextInt(100) / 10f, rnd.nextInt(200) / 10f, null, 1));
         }
     }
 }
