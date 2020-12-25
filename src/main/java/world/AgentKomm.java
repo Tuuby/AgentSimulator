@@ -22,22 +22,22 @@ public class AgentKomm {
     public int cancellations;
 
     protected Agent leader;
-    protected List<IAgent> partners;
+    protected Vector<IAgent> partners;
 
     private Agent thisAgent;
 
-    private List<Performative> requests;
-    private List<Performative> recruitRequests;
-    private List<Performative> joinRequests;
-    private List<Agent> potentialPartners;
-    private List<Agent> potentialReprodPartners;
+    private Vector<Performative> requests;
+    private Vector<Performative> recruitRequests;
+    private Vector<Performative> joinRequests;
+    private Vector<Agent> potentialPartners;
+    private Vector<Agent> potentialReprodPartners;
 
     private long lastEnvFromPartners;
 
-    private List<Agent> reprodOffered = new ArrayList<Agent>();
+    private Vector<Agent> reprodOffered = new Vector<Agent>();
     private long lastReprodOffered = 0;
-    private List<Performative> reproduceRequests = new ArrayList<Performative>();
-    private List<Agent> gotReprodOfferFrom = new ArrayList<Agent>();
+    private Vector<Performative> reproduceRequests = new Vector<Performative>();
+    private Vector<Agent> gotReprodOfferFrom = new Vector<Agent>();
 
     private Agent acceptReprodOffers = null;
 
@@ -57,12 +57,12 @@ public class AgentKomm {
         }
         thisAgent = agent;
         leader = null;
-        requests = new ArrayList<Performative>();
-        partners = new ArrayList<IAgent>();
-        potentialPartners = new ArrayList<Agent>();
-        recruitRequests = new ArrayList<Performative>();
-        joinRequests = new ArrayList<Performative>();
-        potentialReprodPartners = new ArrayList<Agent>();
+        requests = new Vector<Performative>();
+        partners = new Vector<IAgent>();
+        potentialPartners = new Vector<Agent>();
+        recruitRequests = new Vector<Performative>();
+        joinRequests = new Vector<Performative>();
+        potentialReprodPartners = new Vector<Agent>();
     }
 
     public void death() {
@@ -105,7 +105,7 @@ public class AgentKomm {
     }
 
     public Agent findAgent(boolean recruiting) {
-        List<GameObject> envObjects = thisAgent.getEnvironment();
+        Vector<GameObject> envObjects = (Vector<GameObject>) thisAgent.getEnvironment();
         for (GameObject object : envObjects) {
             if (object instanceof Agent && object != thisAgent) {
                 Agent agent = (Agent)object;
@@ -126,12 +126,12 @@ public class AgentKomm {
 
     public void broadcastReprodReq(long time) {
         if (time - lastReprodOffered >= 40) {
-            reprodOffered = new ArrayList<Agent>();
+            reprodOffered = new Vector<Agent>();
             lastReprodOffered = time;
-            gotReprodOfferFrom = new ArrayList<Agent>();
+            gotReprodOfferFrom = new Vector<Agent>();
         }
         boolean male = thisAgent.getDna().male;
-        List<GameObject> envObjects = thisAgent.getEnvironment();
+        Vector<GameObject> envObjects = thisAgent.getEnvironment();
         for (GameObject envObject : envObjects) {
             if (envObject instanceof Agent && ((Agent)envObject).getDna().male != male && !reprodOffered.contains(envObject) && !gotReprodOfferFrom.contains(envObject)) {
                 Performative request = new Performative("reproduce", thisAgent.getInfo());
@@ -147,7 +147,7 @@ public class AgentKomm {
     }
 
     public void handleRequests() {
-        List<Performative> deferredRequests = new ArrayList<Performative>();
+        Vector<Performative> deferredRequests = new Vector<Performative>();
         for (Performative request : requests) {
             Agent sender = (Agent)request.get(":sender");
             Performative deferred = handleRequest(sender, request);
@@ -242,7 +242,7 @@ public class AgentKomm {
                         cancelContracts();
                         leader = sender;
                         KQML.perform(thisAgent, sender, new Performative("accept", perf));
-                        partners = (List<IAgent>) content;
+                        partners = (Vector<IAgent>) content;
                     } else
                         KQML.perform(thisAgent, sender, new Performative("decline", perf));
                 } else {
@@ -290,7 +290,7 @@ public class AgentKomm {
             Object subject = perf.get(":subject");
             if (subject.equals("environment")) {
                 if (content instanceof Vector) {
-                    List<GameObject> env = thisAgent.getEnvironment();
+                    Vector<GameObject> env = thisAgent.getEnvironment();
                     Vector v = (Vector)content;
                     Enumeration elems = v.elements();
                     while(elems.hasMoreElements()) {
@@ -325,7 +325,7 @@ public class AgentKomm {
                 thisAgent.setFoodAmount();
         } else if (agent == leader) {
             leader = null;
-            partners = new LinkedList<IAgent>();
+            partners = new Vector<IAgent>();
             //thisAgent.notifyGroupState();
             cancellations++;
         }
@@ -341,7 +341,7 @@ public class AgentKomm {
 
         if (potentialReprodPartners.contains(agent)) {
             potentialReprodPartners.remove(agent);
-            reproduceRequests = new LinkedList<Performative>();
+            reproduceRequests = new Vector<Performative>();
         }
     }
 
@@ -387,7 +387,7 @@ public class AgentKomm {
                 KQML.perform(thisAgent, sender, new Performative("accept", bestRequest));
                 leader = sender;
                 groupsJoined++;
-                partners = (List<IAgent>)bestRequest.get(":content");
+                partners = (Vector<IAgent>) bestRequest.get(":content");
                 thisAgent.setSuccess(getSuccess(bestRequest));
             }
         }
@@ -396,7 +396,7 @@ public class AgentKomm {
             Agent sender = (Agent)performative.get(":sender");
             KQML.perform(thisAgent, sender, new Performative("decline", performative));
         }
-        joinRequests = new ArrayList<Performative>();
+        joinRequests = new Vector<Performative>();
     }
 
     private void cancelContracts() {
@@ -411,7 +411,7 @@ public class AgentKomm {
             KQML.perform(thisAgent, leader, cancelPerf);
             leader = null;
         }
-        partners = new LinkedList<IAgent>();
+        partners = new Vector<IAgent>();
     }
 
     private boolean giveUpOwnRecruitingFor(Performative performative) {
@@ -480,9 +480,9 @@ public class AgentKomm {
     }
 
     protected void initReproduction(Agent partner) {
-        potentialReprodPartners = new LinkedList<Agent>();
-        reproduceRequests = new LinkedList<Performative>();
-        gotReprodOfferFrom = new LinkedList<Agent>();
+        potentialReprodPartners = new Vector<Agent>();
+        reproduceRequests = new Vector<Performative>();
+        gotReprodOfferFrom = new Vector<Agent>();
         thisAgent.initReproduction(partner);
         acceptReprodOffers = null;
     }

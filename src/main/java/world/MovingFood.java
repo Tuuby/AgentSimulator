@@ -1,6 +1,7 @@
 package world;
 
 import java.util.List;
+import java.util.Vector;
 
 public class MovingFood extends MovingItem {
 
@@ -56,7 +57,7 @@ public class MovingFood extends MovingItem {
     private long lastRegeneration;
 
     private Food target = null;
-    private List<GameObject> environment;
+    private Vector<GameObject> environment;
 
     private static Class foodClass;
     private static Class agentClass;

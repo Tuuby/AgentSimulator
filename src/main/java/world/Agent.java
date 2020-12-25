@@ -6,10 +6,7 @@ import world.enums.AgentActions;
 import world.enums.AgentSpecial;
 import world.enums.AgentStates;
 
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static world.enums.AgentStates.*;
 
@@ -75,7 +72,7 @@ public class Agent extends MovingItem implements IAgent{
 
     private AgentKomm komm;
 
-    private List<GameObject> environment;
+    private Vector<GameObject> environment;
 
     private Agent reproductionPartner;
 
@@ -116,7 +113,7 @@ public class Agent extends MovingItem implements IAgent{
         KQML.register(this, null);
         komm = new AgentKomm(this);
         random = new Random();
-        environment = new LinkedList<GameObject>();
+        environment = new Vector<GameObject>();
         komm.updateLeader();
         portal = from;
         long time = world.getTime();
@@ -220,7 +217,7 @@ public class Agent extends MovingItem implements IAgent{
         currentState = state;
     }
 
-    public List<GameObject> getEnvironment() {
+    public Vector<GameObject> getEnvironment() {
         return environment;
     }
 
@@ -579,7 +576,7 @@ public class Agent extends MovingItem implements IAgent{
             currentState = NONE;
             currentNeed = AgentActions.NONE;
         } else if (lastUpdate == lastPortalUse) {
-            environment = new LinkedList<GameObject>();
+            environment = new Vector<GameObject>();
             reproductionPartner = null;
             targetToHunt = null;
             agentToRecruit = null;

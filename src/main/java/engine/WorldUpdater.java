@@ -2,6 +2,7 @@ package engine;
 
 import world.GameObject;
 
+import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 // TODO: Call updateAll for all Worlds
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class WorldUpdater {
 
     // List of GameObjects that works well for multithreading
-    private static ConcurrentLinkedQueue<GameObject> gameObjects = new ConcurrentLinkedQueue<GameObject>();
+    private static Vector<GameObject> gameObjects = new Vector<GameObject>();
 
     // Method to call update for all the GameObjects in this world
     public static void update() {
@@ -27,6 +28,6 @@ public class WorldUpdater {
 
     // Method to add a new GameObject to the list during the Runtime
     public static void addObject(GameObject go) {
-        gameObjects.offer(go);
+        gameObjects.add(go);
     }
 }

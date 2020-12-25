@@ -5,7 +5,6 @@ import world.IAgent;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -54,7 +53,7 @@ public class KQML {
             perform(sender, reciever, performative);
     }
 
-    public static void multicast(IAgent sender, List<IAgent> recievers, Performative performative) {
+    public static void multicast(IAgent sender, Vector<IAgent> recievers, Performative performative) {
         for (IAgent iAgent : recievers) {
             Performative perf = (Performative)performative.clone();
             perform(sender, iAgent, perf);

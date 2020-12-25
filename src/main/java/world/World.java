@@ -2,6 +2,7 @@ package world;
 
 import java.util.Enumeration;
 import java.util.LinkedList;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 // Class that represents a world filled of hills and Agents
@@ -96,7 +97,7 @@ public class World {
     public GameObject getObjectAt(int x, int y) {
         float min_dist2 = Float.MAX_VALUE;
         GameObject retObject = null;
-        LinkedList<GameObject> env = getEnvironment(x, y, 2 * GRIDSIZE);
+        Vector<GameObject> env = getEnvironment(x, y, 2 * GRIDSIZE);
 
         for (GameObject go : env) {
             float dx = go.getX() - x;
@@ -112,8 +113,8 @@ public class World {
     }
 
     // Method to get all GameObjects in a radius around the coordinates
-    public LinkedList<GameObject> getEnvironment(int x, int y, int radius) {
-        LinkedList<GameObject> objects = new LinkedList<GameObject>();
+    public Vector<GameObject> getEnvironment(int x, int y, int radius) {
+        Vector<GameObject> objects = new Vector<GameObject>();
         int cellX = y / GRIDSIZE;
         int cellY = x / GRIDSIZE;
         int r2 = radius * radius;

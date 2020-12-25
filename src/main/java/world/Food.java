@@ -14,7 +14,6 @@ public class Food extends GameObject {
     public Food(int initX, int initY, World w) {
         super(initX, initY, w);
         energy = (int)(Math.random() * (ENERGY_MAX - ENERGY_MIN)) + ENERGY_MIN;
-
         animations = new Animation[1];
         animations[0] = new Animation();
         animations[0].frames = new ImageResource[1];
