@@ -1,5 +1,9 @@
 package world;
 
+import graphics.Animation;
+import graphics.Graphics;
+import resource.ImageResource;
+
 public class Food extends GameObject {
 
     public static int ENERGY_MIN = 12000;
@@ -10,6 +14,11 @@ public class Food extends GameObject {
     public Food(int initX, int initY, World w) {
         super(initX, initY, w);
         energy = (int)(Math.random() * (ENERGY_MAX - ENERGY_MIN)) + ENERGY_MIN;
+
+        animations = new Animation[1];
+        animations[0] = new Animation();
+        animations[0].frames = new ImageResource[1];
+        animations[0].frames[0] = new ImageResource("/GameObjects/Food.png");
     }
 
     public Food(int initX, int initY, World w, int initEnergy) {
@@ -44,6 +53,8 @@ public class Food extends GameObject {
     }
 
     public void render() {
-
+        animations[currentAnimation].play();
+        Graphics.setRotation(0);
+        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 1, 1);
     }
 }
