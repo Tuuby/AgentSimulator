@@ -33,6 +33,7 @@ public class WorldGenerator {
         nAgentSpecials[AgentSpecial.LEADER.getSpecialNumber()] = leaderCount;
         nAgentSpecials[AgentSpecial.SCAVENGER.getSpecialNumber()] = scavengerCount;
         this.hillSize = hillSize;
+        world = new World(sizeX, sizeY);
     }
 
     public void clear() {
