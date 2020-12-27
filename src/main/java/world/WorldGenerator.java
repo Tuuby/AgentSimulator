@@ -19,8 +19,6 @@ public class WorldGenerator {
     public WorldGenerator(int width, int height, int hillCount, int portalCount, String[] hosts, int foodCount,
                           int quarryCount, int agentCount, int attackerCount, int paralyzerCount, int leaderCount,
                           int scavengerCount, int hillSize) {
-        int sizeX = width;
-        int sizeY = height;
         nHills = hillCount;
         nPortals = portalCount;
         portalHost = hosts;
@@ -33,7 +31,7 @@ public class WorldGenerator {
         nAgentSpecials[AgentSpecial.LEADER.getSpecialNumber()] = leaderCount;
         nAgentSpecials[AgentSpecial.SCAVENGER.getSpecialNumber()] = scavengerCount;
         this.hillSize = hillSize;
-        world = new World(sizeX, sizeY);
+        world = new World(width, height);
     }
 
     public void clear() {
