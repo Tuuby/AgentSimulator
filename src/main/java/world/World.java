@@ -29,7 +29,7 @@ public class World {
         wspeed = 5;
         this.width = width;
         this.height = height;
-        world = (Vector<GameObject>[][]) new Vector[width / GRIDSIZE][height / GRIDSIZE];
+        world = new Vector[width / GRIDSIZE][height / GRIDSIZE];
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 world[i][j] = new Vector<GameObject>();
@@ -64,11 +64,18 @@ public class World {
     }
 
     // Method to update all GameObjects
-    private void updateAll() {
+    public void updateAll() {
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
                     go.update(time);
+    }
+
+    public void renderAll() {
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++)
+                for (GameObject go : world[i][j])
+                    go.render();
     }
 
     // Method to add an object to the array of GameObjects at the world position

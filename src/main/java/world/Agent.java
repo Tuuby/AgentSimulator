@@ -102,6 +102,9 @@ public class Agent extends MovingItem implements IAgent{
     // Field to track of the chosen direction was successfull
     private int successDir = 0;
 
+    // Field for the name of the agent
+    private String name;
+
     // Method to initialize the Agent and set it running
     public static void initRun() {
         cAgentNo = 1;
@@ -222,13 +225,13 @@ public class Agent extends MovingItem implements IAgent{
 
     }
 
-    // Getter and Setter for varios attributes
+    // Getter and Setter for various attributes
     public void setName(String name) {
-
+        this.name = name;
     }
 
     public String getName() {
-        return null;
+        return name;
     }
 
     public AgentSpecial getSpecial() {
