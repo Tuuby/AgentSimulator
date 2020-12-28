@@ -92,7 +92,7 @@ public class MovingFood extends MovingItem {
         visibility = startVisibility;
         setHomeDir();
         lastUpdate = world.getTime();
-        lastEnvironUpdate = lastUpdate - ENVIRON_UPDATE_PERIOD;
+        lastEnvironUpdate = lastUpdate - ENVIRON_UPDATE_PERIOD - 1;
         lastRegeneration = lastUpdate;
         reprodTime = lastUpdate + randomAttrib(REPROD_TIME_MIN, REPROD_TIME_MAX) / 2;
         lifeTime = lastUpdate = randomAttrib(LIFE_TIME_MIN, LIFE_TIME_MAX);
@@ -200,7 +200,7 @@ public class MovingFood extends MovingItem {
         GameObject go = null;
         float min_dist2 = Float.MAX_VALUE;
         for (GameObject envObject : environment) {
-            if (go.getClass() == t) {
+            if (envObject.getClass() == t) {
                 float dx = world.getD1(envObject.getX(), x);
                 float dy = world.getD1(envObject.getY(), y);
                 float dist2 = dx * dx + dy * dy;

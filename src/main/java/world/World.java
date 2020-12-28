@@ -1,5 +1,8 @@
 package world;
 
+import engine.GameLoop;
+import engine.WorldUpdater;
+
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -69,6 +72,7 @@ public class World {
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
                     go.update(time);
+        time += GameLoop.updateDelta();
     }
 
     public void renderAll() {

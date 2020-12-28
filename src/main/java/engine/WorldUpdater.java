@@ -1,12 +1,9 @@
 package engine;
 
-import world.GameObject;
 import world.World;
 
 import java.util.Vector;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
-// TODO: Call updateAll for all Worlds
 // Prototype class that represents the world and all the GameObjects on it
 public class WorldUpdater {
 

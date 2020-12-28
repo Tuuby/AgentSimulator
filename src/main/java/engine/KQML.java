@@ -21,10 +21,10 @@ public class KQML {
 
     // Register a new Agent Object in the AGENTS hashtable and set the name of the agent
     public static boolean register(IAgent agent, String name) {
-        if (name != null)
+        if (name != null) {
             if (AGENTS.get(name) != null)
                 return false;
-        else {
+        } else {
             try {
                 name = InetAddress.getLocalHost().toString() + ":" + agentID;
             } catch (UnknownHostException e) {
