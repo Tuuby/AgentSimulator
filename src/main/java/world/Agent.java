@@ -135,7 +135,7 @@ public class Agent extends MovingItem implements IAgent{
 
     // Initialize the Agent after construction or after travelling through a portal
     protected void initAgent(Portal from) {
-        KQML.register(this, null);
+        KQML.register(this, name);
         komm = new AgentKomm(this);
         random = new Random();
         environment = new Vector<GameObject>();
