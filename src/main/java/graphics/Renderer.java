@@ -14,8 +14,8 @@ public class Renderer {
     private static GLWindow window = null;
 
     // Variables for the window size in pixels
-    public static int screenWidth = 800;
-    public static int screenHeight = 800;
+    public static int screenWidth = 1200;
+    public static int screenHeight = 1200;
 
     // Variables for the window size in Units
     public static float unitsWide = 800;

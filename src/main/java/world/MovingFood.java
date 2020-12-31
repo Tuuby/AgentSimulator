@@ -1,5 +1,9 @@
 package world;
 
+import graphics.Animation;
+import graphics.Graphics;
+import resource.ImageResource;
+
 import java.util.Vector;
 
 public class MovingFood extends MovingItem {
@@ -97,6 +101,10 @@ public class MovingFood extends MovingItem {
         reprodTime = lastUpdate + randomAttrib(REPROD_TIME_MIN, REPROD_TIME_MAX) / 2;
         lifeTime = lastUpdate = randomAttrib(LIFE_TIME_MIN, LIFE_TIME_MAX);
         cQuarryNo++;
+        animations = new Animation[1];
+        animations[0] = new Animation();
+        animations[0].frames = new ImageResource[1];
+        animations[0].frames[0] = new ImageResource("/GameObjects/MovingFood.png");
     }
 
     public MovingFood(int initX, int initY, World w) {
@@ -387,6 +395,8 @@ public class MovingFood extends MovingItem {
     }
 
     public void render() {
-
+        animations[currentAnimation].play();
+        Graphics.setRotation(0);
+        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 20, 20);
     }
 }

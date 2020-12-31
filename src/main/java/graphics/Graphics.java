@@ -75,10 +75,10 @@ public class Graphics {
 
         //TODO: check World coordinate logic and fit method to that
         // Avoid rendering textures outside of the Window;
-        if (x - width / 2 > Renderer.unitsWide / 2 ||
-            x + width / 2 < -Renderer.unitsWide / 2 ||
-            y - height / 2 > Renderer.unitsTall / 2 ||
-            y + height / 2 < -Renderer.unitsTall / 2) {
+        if (x - width / 2 > Renderer.unitsWide ||
+            x + width / 2 < 0 ||
+            y - height / 2 > Renderer.unitsTall ||
+            y + height / 2 < 0) {
             return;
         }
 
@@ -89,7 +89,7 @@ public class Graphics {
         gl.glTranslatef(x, y, 0);
         gl.glRotatef(rotation, 0, 0, 1);
 
-        gl.glColor4f(red, green, blue, 1);
+        gl.glColor4f(1, 1, 1, 1);
         gl.glBegin(GL2.GL_QUADS);
 
         //TODO: fit coordinate order to world coordinate logic
