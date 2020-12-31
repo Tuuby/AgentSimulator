@@ -181,9 +181,10 @@ public class AgentKomm {
     // Method to handle a specific request from a specific sender
     private Performative handleRequest(Agent sender, Performative perf) {
         String type = perf.getType();
+
         Object content = perf.get(":content");
-        if (type.equals("accept"))
-        {
+
+        if (type.equals("accept")) {
             Performative what = (Performative)content;
 
             if (recruitRequests.contains(what)) {

@@ -72,7 +72,7 @@ public class World {
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
                     go.update(time);
-        time += GameLoop.updateDelta();
+        time += TIME_UNIT;
     }
 
     public void renderAll() {

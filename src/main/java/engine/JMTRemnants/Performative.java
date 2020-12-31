@@ -14,7 +14,7 @@ public class Performative extends ScriptObject {
     // Constructor for a new Performative with 2 parameters for the type and the content
     public Performative(String type, Object content) {
         super(type);
-        put(":contenct", content);
+        put(":content", content);
     }
 
     // Method to return the type of Performative
