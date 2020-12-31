@@ -32,6 +32,7 @@ public abstract class MovingItem extends GameObject {
         this.speed = speed;
     }
 
+    // TODO: Fix bug that doesn't move Objects at all
     // Method to update the position of the GameObject for the desired coordinates depending on the time passed
     public int updatePosition(int dx, int dy, int dt) {
         if (speed > 0 && (dx != 0 || dy != 0)) {

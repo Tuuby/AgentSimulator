@@ -274,7 +274,7 @@ public class MovingFood extends MovingItem {
             dy = homeDY;
         }
 
-        float dist = updatePosition(dx, dy, dt);
+        int dist = updatePosition(dx, dy, dt);
         if (speed > 0 && dist == 0) {
             if (target != null) {
                 environment.remove(target);

@@ -18,7 +18,8 @@ public class World {
     private final static int GRIDSIZE = 200;
 
     // 2-dimensional array of Lists of GameObjects that can be modified while a thread is running
-    private Vector<GameObject>[][] world;
+    private ConcurrentLinkedQueue<GameObject>[][] world;
+    //private Vector<GameObject>[][] world;
 
     // Attributes of a world width & height are the size; time is the elapsed time in the world
     private int width;
@@ -32,10 +33,12 @@ public class World {
         wspeed = 5;
         this.width = width;
         this.height = height;
-        world = new Vector[width / GRIDSIZE][height / GRIDSIZE];
+        world = new ConcurrentLinkedQueue[width / GRIDSIZE][height / GRIDSIZE];
+        //world = new Vector[width / GRIDSIZE][height / GRIDSIZE];
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
-                world[i][j] = new Vector<GameObject>();
+                //world[i][j] = new Vector<GameObject>();
+                world[i][j] = new ConcurrentLinkedQueue<GameObject>();
     }
 
     // Getter and Setter
@@ -87,7 +90,7 @@ public class World {
         int cellX = Math.round(go.getX()) / GRIDSIZE;
         int cellY = Math.round(go.getY()) / GRIDSIZE;
 
-        world[cellX][cellY].add(go);
+        world[cellX][cellY].offer(go);
     }
 
     // Method to remove an object from the array of Gameobjects and notify the other objects about it
@@ -99,7 +102,7 @@ public class World {
         go.thisRemovedFromWorld();
 
         for (int j = 0; j < world[0].length; j++)
-            for (Vector<GameObject>[] tile : world)
+            for (ConcurrentLinkedQueue<GameObject>[] tile : world)
                 for (GameObject gameObject : tile[j])
                     gameObject.gameObjectRemovedFromWorld(go);
     }
@@ -156,7 +159,7 @@ public class World {
             int cx = 0;
             int cy = 0;
             int ci = 0;
-            Vector<GameObject> cell = world[0][0];
+            ConcurrentLinkedQueue<GameObject> cell = world[0][0];
             GameObject next = null;
             public boolean hasMoreElements() {
                 while(ci >= cell.size()) {
@@ -170,7 +173,7 @@ public class World {
                     }
                     cell = world[cx][cy];
                 }
-                next = cell.elementAt(ci++);
+                next = cell.poll();
                 return true;
             }
 
