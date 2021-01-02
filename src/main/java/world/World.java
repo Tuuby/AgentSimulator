@@ -215,7 +215,7 @@ public class World {
         int x = go.getX();
         int y = go.getY();
         int newX = (x + width + dx) % width;
-        int newY = (y + width + dx) % height;
+        int newY = (y + width + dy) % height;
 
         if (isPositionFree(Math.round(newX), Math.round(newY))) {
             int cellX = x / GRIDSIZE;
