@@ -49,7 +49,6 @@ public abstract class MovingItem extends GameObject {
             else if (dy < -sizeY / 2)
                 dy += sizeY;
 
-            // TODO: figure out how it works and adjust to world coordinates
             int distance = (int) Math.sqrt(dx * dx + dy * dy);
             int wx = (dx * speed * dt) / 100 / distance;
             int wy = (dy * speed * dt) / 100 / distance;

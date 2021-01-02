@@ -92,6 +92,7 @@ public class MovingFood extends MovingItem {
         regenRate = startRegenRate;
         food = startFood;
         energy = startEnergy;
+        orgSpeed = startSpeed;
         speedInc = 0;
         visibility = startVisibility;
         setHomeDir();
