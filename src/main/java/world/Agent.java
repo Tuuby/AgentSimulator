@@ -2,6 +2,9 @@ package world;
 
 import engine.JMTRemnants.Performative;
 import engine.KQML;
+import graphics.Animation;
+import graphics.Graphics;
+import resource.ImageResource;
 import world.enums.AgentActions;
 import world.enums.AgentSpecial;
 import world.enums.AgentStates;
@@ -131,6 +134,17 @@ public class Agent extends MovingItem implements IAgent{
         portalUses = 0;
         initAgent(null);
         cAgentNo++;
+
+        animations = new Animation[4];
+        for (int i = 0; i < animations.length; i++) {
+            animations[i] = new Animation();
+            animations[i].frames = new ImageResource[1];
+        }
+        animations[0].frames[0] = new ImageResource("/GameObjects/Agents/AgentAttacker.png");
+        animations[1].frames[0] = new ImageResource("/GameObjects/Agents/AgentParalyzer.png");
+        animations[2].frames[0] = new ImageResource("/GameObjects/Agents/AgentLeader.png");
+        animations[3].frames[0] = new ImageResource("/GameObjects/Agents/AgentScavanger.png");
+        currentAnimation = special.getSpecialNumber();
     }
 
     // Initialize the Agent after construction or after travelling through a portal
@@ -222,7 +236,9 @@ public class Agent extends MovingItem implements IAgent{
 
     // method that tells OpenGL how an agent is supposed to be rendered
     public void render() {
-
+        animations[currentAnimation].play();
+        Graphics.setRotation(0);
+        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 20, 20);
     }
 
     // Getter and Setter for various attributes
