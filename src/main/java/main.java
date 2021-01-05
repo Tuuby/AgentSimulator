@@ -9,7 +9,7 @@ public class main {
         Renderer.init();
         WorldGenerator worldGen = new WorldGenerator(800, 800, 10, 0, null,
                                             20, 2, 0, 0, 0,
-                                            0,0, 10);
+                                            0,0, 20);
         worldGen.generate();
         WorldUpdater.addWorld(worldGen.getWorld());
         GameLoop.start();

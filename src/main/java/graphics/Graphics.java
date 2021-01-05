@@ -73,8 +73,6 @@ public class Graphics {
 
         Texture texture = image.getTexture();
 
-        //TODO: check World coordinate logic and fit method to that
-        // Avoid rendering textures outside of the Window;
         if (x - width / 2 > Renderer.unitsWide ||
             x + width / 2 < 0 ||
             y - height / 2 > Renderer.unitsTall ||
@@ -92,7 +90,6 @@ public class Graphics {
         gl.glColor4f(1, 1, 1, 1);
         gl.glBegin(GL2.GL_QUADS);
 
-        //TODO: fit coordinate order to world coordinate logic
         gl.glTexCoord2f(0, 0);
         gl.glVertex2f(-width / 2, -height / 2);
         gl.glTexCoord2f(1, 0);
