@@ -63,6 +63,5 @@ public class Renderer {
 
     public static void stop() {
         window.destroy();
-        System.exit(0);
     }
 }

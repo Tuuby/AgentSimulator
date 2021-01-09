@@ -30,6 +30,7 @@ public class EventListener implements GLEventListener {
     // Gets called when the window is closed
     public void dispose(GLAutoDrawable glAutoDrawable) {
         System.out.println("Window is closed!");
+        System.exit(0);
     }
 
     // Gets called by the Renderer to draw the next frame
