@@ -1,9 +1,7 @@
 package Hill;
 
-import engine.GameLoop;
-import graphics.Renderer;
-import world.Hill;
-import engine.WorldUpdater;
+import de.Tuuby.AgentSimulator.engine.GameLoop;
+import de.Tuuby.AgentSimulator.graphics.Renderer;
 
 import java.util.Random;
 
