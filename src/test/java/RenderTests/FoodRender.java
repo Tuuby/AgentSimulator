@@ -1,7 +1,9 @@
 package RenderTests;
 
-import de.tuuby.AgentSimulator.engine.GameLoop;
-import de.tuuby.AgentSimulator.graphics.Renderer;
+import engine.GameLoop;
+import engine.WorldUpdater;
+import graphics.Renderer;
+import world.Food;
 
 public class FoodRender {
     public static void main(String[] args) {

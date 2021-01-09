@@ -1,7 +1,8 @@
 package gameObjects;
 
-import de.tuuby.AgentSimulator.engine.GameLoop;
-import de.tuuby.AgentSimulator.graphics.Renderer;
+import engine.GameLoop;
+import graphics.Renderer;
+import engine.WorldUpdater;
 
 public class goTest {
     public static void main(String[] args) {
