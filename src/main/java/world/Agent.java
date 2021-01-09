@@ -238,7 +238,7 @@ public class Agent extends MovingItem implements IAgent{
     public void render() {
         animations[currentAnimation].play();
         Graphics.setRotation(0);
-        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 20, 20);
+        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 30, 30);
     }
 
     // Getter and Setter for various attributes

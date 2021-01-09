@@ -208,9 +208,11 @@ public class AgentKomm {
         } else if(type.equals("achieve")) {
             if(sender == leader || partners.contains(sender)) {
                 Integer amount = (Integer)perf.get(":amount");
-                MovingFood target = (MovingFood)content;
-                if(!thisAgent.setTarget(target, amount))
-                    return perf;
+                if (amount != null) {
+                    MovingFood target = (MovingFood) content;
+                    if (!thisAgent.setTarget(target, amount))
+                        return perf;
+                }
             } else
                 KQML.perform(thisAgent, sender, new Performative("sorry", perf));
         } else if(type.equals("advertise")) {
