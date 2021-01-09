@@ -1,9 +1,9 @@
 package gameObjects;
 
-import graphics.Animation;
-import graphics.Graphics;
-import resource.ImageResource;
-import world.GameObject;
+import de.tuuby.AgentSimulator.graphics.Animation;
+import de.tuuby.AgentSimulator.graphics.Graphics;
+import de.tuuby.AgentSimulator.resource.ImageResource;
+import de.tuuby.AgentSimulator.world.GameObject;
 
 public class TestGO extends GameObject {
 
