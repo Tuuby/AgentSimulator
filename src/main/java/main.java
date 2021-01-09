@@ -7,8 +7,8 @@ public class main {
 
     public static void main(String[] args) {
         Renderer.init();
-        WorldGenerator worldGen = new WorldGenerator(800, 800, 10, 0, null,
-                                            20, 2, 2, 1, 1,
+        WorldGenerator worldGen = new WorldGenerator(800, 800, 15, 0, null,
+                                            30, 10, 6, 0, 0,
                                             0,0, 20);
         worldGen.generate();
         WorldUpdater.addWorld(worldGen.getWorld());
