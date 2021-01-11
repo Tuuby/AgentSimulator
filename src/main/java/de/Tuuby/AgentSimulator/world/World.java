@@ -17,7 +17,7 @@ public class World {
     private ConcurrentLinkedQueue<GameObject>[][] world;
     //private Vector<GameObject>[][] de.Tuuby.AgentSimulator.world;
 
-    // Attributes of a de.Tuuby.AgentSimulator.world width & height are the size; time is the elapsed time in the de.Tuuby.AgentSimulator.world
+    // Attributes of a world width & height are the size; time is the elapsed time in the de.Tuuby.AgentSimulator.world
     private int width;
     private int height;
     private int wspeed;
@@ -67,6 +67,8 @@ public class World {
 
     // Method to update all GameObjects
     public void updateAll() {
+        if (Math.random() <= 0.025f)
+            spawnRandomFood(2);
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
@@ -265,5 +267,21 @@ public class World {
         float dy = target.getY() - go.getY();
 
         return  distance(dx, dy) <= visibility;
+    }
+
+    private void spawnRandomFood(int foodAmount) {
+
+        for (int i = 0; i < foodAmount; i++) {
+
+            int x;
+            int y;
+
+            do {
+                x = (int)(Math.random() * width);
+                y = (int)(Math.random() * height);
+            } while (!isPositionFree(x, y));
+
+            addObject(new Food(x, y, this));
+        }
     }
 }
