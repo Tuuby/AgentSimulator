@@ -19,7 +19,7 @@ public class TestGO extends GameObject {
         animations = new Animation[1];
         animations[0] = new Animation();
         animations[0].frames = new ImageResource[1];
-        animations[0].frames[0] = new ImageResource("/caroldanvers.png");
+        //animations[0].frames[0] = new ImageResource("/caroldanvers.png");
     }
 
     public float getWidth() {
