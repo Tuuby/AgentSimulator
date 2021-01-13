@@ -8,7 +8,7 @@ public class WorldGenerator {
     private int nHills;
     private int nPortals;
     private int nFoodElems;
-    private int nQuarries;
+    private int nHerbivores;
     private int nAgents;
     private int hillSize;
 
@@ -17,13 +17,13 @@ public class WorldGenerator {
     private int[] nAgentSpecials;
 
     public WorldGenerator(int width, int height, int hillCount, int portalCount, String[] hosts, int foodCount,
-                          int quarryCount, int agentCount, int attackerCount, int paralyzerCount, int leaderCount,
+                          int herbivoreCount, int agentCount, int attackerCount, int paralyzerCount, int leaderCount,
                           int scavengerCount, int hillSize) {
         nHills = hillCount;
         nPortals = portalCount;
         portalHost = hosts;
         nFoodElems = foodCount;
-        nQuarries = quarryCount;
+        nHerbivores = herbivoreCount;
         nAgents = agentCount;
         nAgentSpecials = new int[4];
         nAgentSpecials[AgentSpecial.ATTACKER.getSpecialNumber()] = attackerCount;
@@ -64,7 +64,7 @@ public class WorldGenerator {
             world.addObject(f);
         }
 
-        for (i = 0; i < nQuarries; i++) {
+        for (i = 0; i < nHerbivores; i++) {
             int[] pos = newCoords(xsize, ysize);
             MovingFood q = new MovingFood(pos[0], pos[1], world);
             world.addObject(q);
