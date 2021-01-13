@@ -5,18 +5,18 @@ import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 import java.util.Properties;
 
 public class WorldGenerator {
-    private World world;
+    private final World world;
 
-    private int nHills;
-    private int nPortals;
-    private int nFoodElems;
-    private int nHerbivores;
-    private int nAgents;
-    private int hillSize;
+    private final int nHills;
+    private final int nPortals;
+    private final int nFoodElems;
+    private final int nHerbivores;
+    private final int nAgents;
+    private final int hillSize;
 
-    private String[] portalHost;
+    private final String[] portalHost;
 
-    private int[] nAgentSpecials;
+    private final int[] nAgentSpecials;
 
     public WorldGenerator(int width, int height, int hillCount, int portalCount, String[] hosts, int foodCount,
                           int herbivoreCount, int agentCount, int attackerCount, int paralyzerCount, int leaderCount,
@@ -135,7 +135,6 @@ public class WorldGenerator {
             x = (int)(Math.random() * xrange);
             y = (int)(Math.random() * yrange);
         } while (!world.isPositionFree(x, y));
-        int[] res = {x, y};
-        return res;
+        return new int[]{x, y};
     }
 }
