@@ -2,6 +2,8 @@ package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 
+import java.util.Properties;
+
 public class WorldGenerator {
     private World world;
 
@@ -32,6 +34,22 @@ public class WorldGenerator {
         nAgentSpecials[AgentSpecial.SCAVENGER.getSpecialNumber()] = scavengerCount;
         this.hillSize = hillSize;
         world = new World(width, height);
+    }
+
+    public WorldGenerator(Properties appConfig) {
+        this(Integer.parseInt(appConfig.getProperty("worldWidth")),
+            Integer.parseInt(appConfig.getProperty("worldHeight")),
+            Integer.parseInt(appConfig.getProperty("hillCount")),
+            Integer.parseInt(appConfig.getProperty("portalCount")),
+            Integer.parseInt(appConfig.getProperty("hosts")) == 0 ? null : appConfig.getProperty("hosts").split(","),
+            Integer.parseInt(appConfig.getProperty("foodCount")),
+            Integer.parseInt(appConfig.getProperty("herbivoreCount")),
+            Integer.parseInt(appConfig.getProperty("agentCount")),
+            Integer.parseInt(appConfig.getProperty("attackerCount")),
+            Integer.parseInt(appConfig.getProperty("paralyzerCount")),
+            Integer.parseInt(appConfig.getProperty("leaderCount")),
+            Integer.parseInt(appConfig.getProperty("scavengerCount")),
+            Integer.parseInt(appConfig.getProperty("hillSize")));
     }
 
     public void clear() {

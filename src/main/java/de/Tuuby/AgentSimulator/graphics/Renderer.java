@@ -5,6 +5,7 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import de.Tuuby.AgentSimulator.input.KeyInput;
 import de.Tuuby.AgentSimulator.input.MouseInput;
+import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
 
 // Class that Initializes the OpenGL context and window and calls the display method from window
 public class Renderer {
@@ -27,6 +28,7 @@ public class Renderer {
 
     // Gets called by the de.Tuuby.AgentSimulator.main method to initialize the window and the OpenGL profile
     public static void init() {
+
         GLProfile.initSingleton();
         profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities caps = new GLCapabilities(profile);
@@ -34,6 +36,11 @@ public class Renderer {
         window = GLWindow.create(caps);
         window.setResizable(true);
         window.requestFocus();
+        if (!PropertiesLoader.getAppConfig().isEmpty()) {
+            screenWidth = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowWidth"));
+            screenHeight = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowHeight"));
+            window.setTitle(PropertiesLoader.getAppConfig().getProperty("name"));
+        }
         window.setSize(screenWidth, screenHeight);
         window.addGLEventListener(new EventListener());
         window.addMouseListener(new MouseInput());
