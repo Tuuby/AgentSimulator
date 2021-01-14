@@ -59,11 +59,8 @@ public class EventListener implements GLEventListener {
         // Calculate the height of the Window with the new AspectRatio
         Renderer.unitsTall = Renderer.getWindowHeight() / (Renderer.getWindowWidth() / Renderer.unitsWide);
 
-        // Apply an offset to the OpenGL context to match with de.Tuuby.AgentSimulator.world Coordinates
+        // Apply an offset to the OpenGL context to match with world Coordinates
         gl.glOrtho(0, Renderer.unitsWide, Renderer.unitsTall, 0, -1, 1);
-
-        // Old offset
-        //gl.glOrtho(-Renderer.unitsWide / 2, Renderer.unitsWide / 2, -Renderer.unitsTall / 2, Renderer.unitsTall / 2, -1, 1);
 
         gl.glMatrixMode(GL2.GL_MODELVIEW);
     }

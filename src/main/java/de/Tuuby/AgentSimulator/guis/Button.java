@@ -1,6 +1,14 @@
 package de.Tuuby.AgentSimulator.guis;
 
+import de.Tuuby.AgentSimulator.graphics.EventListener;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
+import de.Tuuby.AgentSimulator.graphics.Renderer;
+
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.LineMetrics;
+import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 public class Button extends GuiElement{
 
@@ -16,6 +24,7 @@ public class Button extends GuiElement{
         super(x, y, width, height);
         this.text = text;
         textColor = new float[4];
+        textColor[3] = 1;
     }
 
     public void setTextColor(float r, float g, float b, float a) {
@@ -27,6 +36,8 @@ public class Button extends GuiElement{
 
     @Override
     public void render() {
+        Rectangle2D textSize = EventListener.renderer.getBounds(text);
+
         Graphics.setRotation(0);
         if (texture != null) {
             texture.play();
@@ -36,7 +47,9 @@ public class Button extends GuiElement{
             Graphics.fillRect(getX(), getY(), getWidth(), getHeight());
         }
         Graphics.setColor(textColor[0], textColor[1], textColor[2], textColor[3]);
-        Graphics.drawText(text, getX(), getY(), getWidth(), getHeight());
+        Graphics.drawText(text, getX() - (int)textSize.getWidth() / 2,
+                Renderer.getWindowHeight() - (getY() + (int)textSize.getHeight() / 3),
+                Renderer.getWindowWidth(), Renderer.getWindowHeight());
     }
 
     public void update() {
