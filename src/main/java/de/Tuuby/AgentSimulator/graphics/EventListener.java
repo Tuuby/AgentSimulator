@@ -3,7 +3,10 @@ package de.Tuuby.AgentSimulator.graphics;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
+
+import java.awt.*;
 
 // Implementation of the GLEventListener interface
 // This acts as an EventListener for the events that get called by a OpenGL window
@@ -11,6 +14,8 @@ public class EventListener implements GLEventListener {
 
     // Public variable for the OpenGL interface that holds all the methods
     public static GL2 gl = null;
+
+    public static TextRenderer renderer;
 
     // Gets called when the EventListener gets added to an OpenGL window
     // And initializes the OpenGL context with various settings
@@ -25,6 +30,8 @@ public class EventListener implements GLEventListener {
         gl.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
 
         Graphics.setColor(1, 1, 1, 1);
+
+        renderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 36));
     }
 
     // Gets called when the window is closed

@@ -5,7 +5,7 @@ import de.Tuuby.AgentSimulator.graphics.Graphics;
 
 public abstract class GuiElement {
 
-    private Animation texture;
+    protected Animation texture;
     private int x;
     private int y;
     private int width;

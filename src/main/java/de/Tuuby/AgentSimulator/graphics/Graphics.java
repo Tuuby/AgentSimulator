@@ -1,6 +1,7 @@
 package de.Tuuby.AgentSimulator.graphics;
 
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import de.Tuuby.AgentSimulator.resource.ImageResource;
 
@@ -105,6 +106,14 @@ public class Graphics {
 
         gl.glRotatef(-rotation, 0, 0, 1);
         gl.glTranslatef(-x, -y, 0);
+    }
+
+    public static void drawText(String text, int x, int y, int width, int height) {
+        TextRenderer textRnd = EventListener.renderer;
+        textRnd.beginRendering(width, height);
+        textRnd.setColor(red, green, blue, alpha);
+        textRnd.draw(text, x, y);
+        textRnd.endRendering();
     }
 
     // Set the color Variables
