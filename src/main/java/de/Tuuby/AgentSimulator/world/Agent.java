@@ -14,7 +14,7 @@ import java.util.*;
 import static de.Tuuby.AgentSimulator.world.enums.AgentStates.*;
 
 // Class that represents an Agent and controls its decisions
-public class Agent extends MovingItem implements IAgent{
+public class Agent extends MovingObject implements IAgent{
 
     // fields for counting
     public static int cAgentNo;

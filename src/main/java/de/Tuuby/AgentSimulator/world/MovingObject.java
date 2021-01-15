@@ -1,23 +1,20 @@
 package de.Tuuby.AgentSimulator.world;
 
 // Class to represent a moving GameObject
-// TODO: maybe change name to gameobject
-public abstract class MovingItem extends GameObject {
+public abstract class MovingObject extends GameObject {
 
     // Factor to increase or decrease moved units per time unit
     protected int speed;
 
     // Constructor for the new MovingItem
-    public MovingItem(int x, int y, World w, int speed) {
+    public MovingObject(int x, int y, World w, int speed) {
         super(x, y, w);
         this.speed = speed;
     }
 
     // Constructor for the MovingItem class without speed as parameter
-    public MovingItem(int x, int y, World w) {
+    public MovingObject(int x, int y, World w) {
         super(x, y, w);
-
-        // TODO: update standard speed once the logic stands
         speed = 1;
     }
 

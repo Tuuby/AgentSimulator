@@ -6,7 +6,7 @@ import de.Tuuby.AgentSimulator.resource.ImageResource;
 
 import java.util.Vector;
 
-public class MovingFood extends MovingItem {
+public class MovingFood extends MovingObject {
 
     public static int cQuarryNo;
 
