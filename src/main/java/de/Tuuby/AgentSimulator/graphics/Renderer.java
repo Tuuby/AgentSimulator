@@ -26,7 +26,7 @@ public class Renderer {
     //public static float cameraX = 0;
     //public static float cameraY = 0;
 
-    // Gets called by the de.Tuuby.AgentSimulator.main method to initialize the window and the OpenGL profile
+    // Gets called by the main method to initialize the window and the OpenGL profile
     public static void init() {
 
         GLProfile.initSingleton();
