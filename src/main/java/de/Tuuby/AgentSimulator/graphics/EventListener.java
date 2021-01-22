@@ -50,6 +50,7 @@ public class EventListener implements GLEventListener {
     }
 
     // Gets called everytime the shape of the windows changes
+    //TODO: completely rethink how this is done as it messes hardcore with TextRendering
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
         gl = glAutoDrawable.getGL().getGL2();
 
