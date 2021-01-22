@@ -1,5 +1,6 @@
 package de.Tuuby.AgentSimulator.graphics;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
@@ -18,6 +19,22 @@ public class Graphics {
 
     // Rotation in mathematically positive direction
     private static float rotation = 0;
+
+    // Method to draw a line between to coordinates
+    public static void drawLine(float x1, float y1, float x2, float y2, float thickness) {
+        gl = EventListener.gl;
+
+        gl.glColor4f(red, green, blue, alpha);
+
+        gl.glLineWidth(thickness);
+
+        gl.glBegin(GL2.GL_LINES);
+        gl.glVertex2f(x1, y1);
+        gl.glVertex2f(x2, y2);
+        gl.glEnd();
+
+        gl.glLineWidth(1);
+    }
 
     // Method to draw a single Colored Rectangle at the position (x|y) with the dimensions width * height
     public static void fillRect(float x, float y, float width, float height) {
