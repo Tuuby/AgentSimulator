@@ -48,8 +48,8 @@ public class Button extends GuiElement{
         }
         Graphics.setColor(textColor[0], textColor[1], textColor[2], textColor[3]);
         Graphics.drawText(text, getX() - (int)textSize.getWidth() / 2,
-                Renderer.getWindowHeight() - (getY() + (int)textSize.getHeight() / 3),
-                Renderer.getWindowWidth(), Renderer.getWindowHeight());
+                (int) (Renderer.unitsTall - (getY() + (int)textSize.getHeight() / 3)),
+                (int)Renderer.unitsWide, (int)Renderer.unitsTall);
     }
 
     public void update() {

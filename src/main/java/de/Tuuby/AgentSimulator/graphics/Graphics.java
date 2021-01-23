@@ -125,14 +125,13 @@ public class Graphics {
         gl.glTranslatef(-x, -y, 0);
     }
 
-    // TODO: fix text positioning problem when reshaping the window
     public static void drawText(String text, int x, int y, int width, int height) {
         TextRenderer textRnd = EventListener.renderer;
         textRnd.beginRendering(width, height);
         textRnd.setColor(red, green, blue, alpha);
-        int screenX = (int) (x / Renderer.unitsWide * Renderer.getWindowWidth());
-        int screenY = (int) (Renderer.getWindowHeight() / Renderer.unitsTall * (Renderer.unitsTall - y));
-        textRnd.draw(text, screenX, screenY);
+        //int screenX = (int) (x / Renderer.unitsWide * Renderer.getWindowWidth());
+        //int screenY = (int) (Renderer.getWindowHeight() / Renderer.unitsTall * (Renderer.unitsTall - y));
+        textRnd.draw(text, x, y);
         textRnd.endRendering();
     }
 
