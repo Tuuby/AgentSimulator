@@ -34,6 +34,9 @@ public class WorldGenerator {
         nAgentSpecials[AgentSpecial.SCAVENGER.getSpecialNumber()] = scavengerCount;
         this.hillSize = hillSize;
         world = new World(width, height);
+        world.setFoodCount(foodCount);
+        world.setHerbivoreCount(herbivoreCount);
+        world.setAgentCount(agentCount + attackerCount + paralyzerCount + leaderCount + scavengerCount);
     }
 
     public WorldGenerator(Properties appConfig) {

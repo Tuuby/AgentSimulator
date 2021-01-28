@@ -1,10 +1,13 @@
 package de.Tuuby.AgentSimulator.world;
 
+import de.Tuuby.AgentSimulator.graphics.Graphics;
+import de.Tuuby.AgentSimulator.guis.Graph;
+
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-// Class that represents a de.Tuuby.AgentSimulator.world filled of hills and Agents
+// Class that represents a world filled of hills and Agents
 public class World {
 
     // dont know what that is tbh
@@ -15,13 +18,20 @@ public class World {
 
     // 2-dimensional array of Lists of GameObjects that can be modified while a thread is running
     private ConcurrentLinkedQueue<GameObject>[][] world;
-    //private Vector<GameObject>[][] de.Tuuby.AgentSimulator.world;
 
-    // Attributes of a world width & height are the size; time is the elapsed time in the de.Tuuby.AgentSimulator.world
+    // Attributes of a world width & height are the size; time is the elapsed time in the world
     private int width;
     private int height;
     private int wspeed;
     private long time;
+
+    private int foodCount = 0;
+    private int herbivoreCount = 0;
+    private int agentCount = 0;
+
+    private Graph foodGraph;
+    private Graph herbivoreGraph;
+    private Graph agentGraph;
 
     // Constructor that mainly initializes the 2d array
     public World(int width, int height) {
@@ -30,11 +40,17 @@ public class World {
         this.width = width;
         this.height = height;
         world = new ConcurrentLinkedQueue[width / GRIDSIZE][height / GRIDSIZE];
-        //de.Tuuby.AgentSimulator.world = new Vector[width / GRIDSIZE][height / GRIDSIZE];
+        //world = new Vector[width / GRIDSIZE][height / GRIDSIZE];
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
-                //de.Tuuby.AgentSimulator.world[i][j] = new Vector<GameObject>();
                 world[i][j] = new ConcurrentLinkedQueue<GameObject>();
+
+        foodGraph = new Graph(800, 0, 200, 100, true, "Food");
+        foodGraph.setColor(1, 0, 0, 1);
+        herbivoreGraph = new Graph(800, 100, 200, 100, true, "Herbivores");
+        herbivoreGraph.setColor(0, 1, 0, 1);
+        agentGraph = new Graph(800, 200, 200, 100, true, "Agents");
+        agentGraph.setColor(0, 0, 1, 1);
     }
 
     // Getter and Setter
@@ -54,7 +70,31 @@ public class World {
         this.wspeed = wspeed;
     }
 
-    // Method to clear the entire de.Tuuby.AgentSimulator.world of GameObjects
+    public void setFoodCount(int foodCount) {
+        this.foodCount = foodCount;
+    }
+
+    public void setHerbivoreCount(int herbivoreCount) {
+        this.herbivoreCount = herbivoreCount;
+    }
+
+    public void setAgentCount(int agentCount) {
+        this.agentCount = agentCount;
+    }
+
+    public int getFoodCount() {
+        return foodCount;
+    }
+
+    public int getHerbivoreCount() {
+        return herbivoreCount;
+    }
+
+    public int getAgentCount() {
+        return agentCount;
+    }
+
+    // Method to clear the entire world of GameObjects
     public void doClear() {
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++) {
@@ -74,16 +114,23 @@ public class World {
                 for (GameObject go : world[i][j])
                     go.update(time);
         time += TIME_UNIT;
+
+        countGameObjects();
     }
 
     public void renderAll() {
+        Graphics.setColor(0.4f, 0.75f, 0.35f, 1);
+        Graphics.fillRect(400, 400, width, height);
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
                     go.render();
+        foodGraph.render();
+        herbivoreGraph.render();
+        agentGraph.render();
     }
 
-    // Method to add an object to the array of GameObjects at the de.Tuuby.AgentSimulator.world position
+    // Method to add an object to the array of GameObjects at the world position
     public void addObject(GameObject go) {
         int cellX = Math.round(go.getX()) / GRIDSIZE;
         int cellY = Math.round(go.getY()) / GRIDSIZE;
@@ -283,5 +330,29 @@ public class World {
 
             addObject(new Food(x, y, this));
         }
+    }
+
+    private void countGameObjects() {
+        foodCount = 0;
+        herbivoreCount = 0;
+        agentCount = 0;
+
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++)
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Food)
+                        foodCount++;
+                    else if (go instanceof MovingFood)
+                        herbivoreCount++;
+                    else if (go instanceof Agent)
+                        agentCount++;
+                }
+
+        foodGraph.addValue(getFoodCount());
+        foodGraph.update();
+        herbivoreGraph.addValue(getHerbivoreCount());
+        herbivoreGraph.update();
+        agentGraph.addValue(getAgentCount());
+        agentGraph.update();
     }
 }

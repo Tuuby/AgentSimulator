@@ -25,11 +25,12 @@ public class Graph extends GuiElement{
 
     public Graph(int x, int y, int width, int height, boolean autoMax, int barWidth, String title) {
         super(x, y, width, height);
-        entryPoint = -1;
+        entryPoint = 0;
         this.autoMax = autoMax;
         values = new int[width / barWidth];
         this.barWidth = barWidth;
         this.title = title;
+        maxValue = 20;
     }
 
     public Graph(int x, int y, int width, int height, boolean autoMax, String title) {
@@ -52,7 +53,6 @@ public class Graph extends GuiElement{
 
     public void update() {
         if (autoMax) {
-            maxValue = values[0];
             for (Integer value : values) {
                 if (value > maxValue)
                     maxValue = value;

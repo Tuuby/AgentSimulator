@@ -15,11 +15,11 @@ public class Renderer {
     private static GLWindow window = null;
 
     // Variables for the window size in pixels
-    public static int screenWidth = 1200;
-    public static int screenHeight = 1200;
+    public static int screenWidth = 1000;
+    public static int screenHeight = 800;
 
     // Variables for the window size in Units
-    public static float unitsWide = 800;
+    public static float unitsWide = 1000;
     public static float unitsTall = 0;
 
     // Variables for a moving camera; probably not needed here

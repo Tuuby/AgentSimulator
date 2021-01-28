@@ -11,7 +11,7 @@ public class GraphTest {
         PropertiesLoader.loadConfig();
         Renderer.init();
 
-        Graph graph = new Graph(200, 200, 100, 100, true, 5, "Test");
+        Graph graph = new Graph(0, 200, 100, 100, true, 5, "Test");
         graph.setColor(1, 0, 0, 1);
         graph.addValue(4);
         graph.addValue(5);
