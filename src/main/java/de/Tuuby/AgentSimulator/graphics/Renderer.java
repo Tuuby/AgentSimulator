@@ -19,7 +19,7 @@ public class Renderer {
     public static int screenHeight = 800;
 
     // Variables for the window size in Units
-    public static float unitsWide = 1000;
+    public static float unitsWide = 1200;
     public static float unitsTall = 0;
 
     // Variables for a moving camera; probably not needed here

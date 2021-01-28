@@ -42,7 +42,7 @@ public class Hill extends GameObject {
 
     // Method to render the hill every frame
     public void render() {
-        Graphics.setColor(0.44f, 0.27f, 0.07f, 1);
+        Graphics.setColor(0.47f, 0.41f, 0.25f, 1);
         Graphics.fillCircle(x, y, radius);
     }
 }
