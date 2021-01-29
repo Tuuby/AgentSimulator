@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
+import de.Tuuby.AgentSimulator.graphics.StatusIconFactory;
 import de.Tuuby.AgentSimulator.resource.ImageResource;
 
 import java.util.Vector;
@@ -399,5 +400,8 @@ public class MovingFood extends MovingObject {
         animations[currentAnimation].play();
         Graphics.setRotation(0);
         Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 30, 30);
+        if (!isAlive()) {
+            Graphics.drawImage(StatusIconFactory.getStatusIcon("Dead"), x, y, 30, 30);
+        }
     }
 }
