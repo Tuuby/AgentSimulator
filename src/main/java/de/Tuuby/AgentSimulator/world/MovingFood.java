@@ -105,7 +105,7 @@ public class MovingFood extends MovingObject {
         animations = new Animation[1];
         animations[0] = new Animation();
         animations[0].frames = new ImageResource[1];
-        animations[0].frames[0] = new ImageResource("/GameObjects/MovingFood.png");
+        animations[0].frames[0] = new ImageResource("/GameObjects/MovingFood2.png");
     }
 
     public MovingFood(int initX, int initY, World w) {
@@ -398,6 +398,6 @@ public class MovingFood extends MovingObject {
     public void render() {
         animations[currentAnimation].play();
         Graphics.setRotation(0);
-        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 20, 20);
+        Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 30, 30);
     }
 }
