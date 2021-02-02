@@ -34,7 +34,8 @@ public class Renderer {
         GLCapabilities caps = new GLCapabilities(profile);
 
         window = GLWindow.create(caps);
-        window.setResizable(true);
+        window.setTitle("Agenten Simulation");
+        window.setResizable(false);
         window.requestFocus();
         if (!PropertiesLoader.getAppConfig().isEmpty()) {
             screenWidth = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowWidth"));
