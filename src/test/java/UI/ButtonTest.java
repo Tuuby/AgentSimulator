@@ -6,7 +6,6 @@ import de.Tuuby.AgentSimulator.graphics.Renderer;
 import de.Tuuby.AgentSimulator.guis.Button;
 import de.Tuuby.AgentSimulator.guis.GUIMouseListener;
 import de.Tuuby.AgentSimulator.guis.WindowManager;
-import de.Tuuby.AgentSimulator.input.MouseInput;
 import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
 
 public class ButtonTest {

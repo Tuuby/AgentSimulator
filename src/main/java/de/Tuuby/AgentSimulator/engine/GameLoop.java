@@ -22,7 +22,7 @@ public class GameLoop {
     private static final int targetFPS = 60;
     private static final int targetTime = 1000000000 / targetFPS;
 
-    // Starts the Gameloop that checks for de.Tuuby.AgentSimulator.input, then updates the World and renders the final result
+    // Starts the Gameloop that checks for input, then updates the World and renders the final result
     public static void start() {
         final Thread thread = new Thread() {
             @Override
