@@ -33,6 +33,14 @@ public class Button extends GuiElement{
             listener.onMouseButtonClick();
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     public void setTextColor(float r, float g, float b, float a) {
         textColor[0] = r;
         textColor[1] = g;

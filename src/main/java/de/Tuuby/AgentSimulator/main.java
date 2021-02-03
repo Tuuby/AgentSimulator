@@ -13,15 +13,17 @@ import java.util.Properties;
 
 public class main {
 
+    public static WorldGenerator worldGen;
+
     public static void main(String[] args) {
         PropertiesLoader.loadConfig();
         StatusIconFactory.initStatuses();
         Renderer.init();
         WindowManager.init();
         GuiFactory.buildUI();
-        WorldGenerator worldGen = new WorldGenerator(PropertiesLoader.getAppConfig());
+        worldGen = new WorldGenerator(PropertiesLoader.getAppConfig());
         worldGen.generate();
-        WorldUpdater.addWorld(worldGen.getWorld());
+        WorldUpdater.setWorld(worldGen.getWorld());
         GameLoop.start();
     }
 }

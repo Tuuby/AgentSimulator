@@ -10,6 +10,7 @@ public class GameLoop {
 
     // Variable to track if the Gameloop is running
     private static boolean running = false;
+    private static boolean onHold = false;
 
     // Variables for MAX and current updates in a single render Cycle
     private static int updates = 0;
@@ -45,7 +46,8 @@ public class GameLoop {
                     updates = 0;
 
                     while (currentTime - lastUpdateTime > targetTime) {
-                        WorldUpdater.update();
+                        if (!onHold)
+                            WorldUpdater.update();
                         lastUpdateTime += targetTime;
                         updates++;
 
@@ -85,5 +87,9 @@ public class GameLoop {
     // Method to return the targeted time for a single frame in fractions of a second i think
     public static float updateDelta() {
         return 1.0f / 1000000000 * targetTime;
+    }
+
+    public static void toggleHold() {
+        onHold = !onHold;
     }
 }

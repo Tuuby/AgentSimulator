@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.guis;
 
 import de.Tuuby.AgentSimulator.engine.GameLoop;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
+import de.Tuuby.AgentSimulator.main;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,9 @@ public class GuiFactory {
         button1.setMouseListener(new GUIMouseListener() {
             public void onMouseButtonClick() {
                 System.out.println("Reset!");
+                main.worldGen.clear();
+                main.worldGen.generate();
+                WorldUpdater.setWorld(main.worldGen.getWorld());
             }
 
             public void onMouseButtonDown() {
@@ -29,10 +33,14 @@ public class GuiFactory {
             }
         });
 
-        Button button2 = new Button(1100, 350, 200, 100, "Stop");
+        final Button button2 = new Button(1100, 350, 200, 100, "Pause");
         button2.setMouseListener(new GUIMouseListener() {
             public void onMouseButtonClick() {
-                GameLoop.stop();
+                GameLoop.toggleHold();
+                if (button2.getText().equals("Pause"))
+                    button2.setText("Resume");
+                else
+                    button2.setText("Pause");
             }
 
             public void onMouseButtonDown() {
