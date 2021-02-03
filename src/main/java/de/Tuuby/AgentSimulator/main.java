@@ -9,8 +9,6 @@ import de.Tuuby.AgentSimulator.guis.WindowManager;
 import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
 import de.Tuuby.AgentSimulator.world.WorldGenerator;
 
-import java.util.Properties;
-
 public class main {
 
     public static WorldGenerator worldGen;
