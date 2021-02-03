@@ -3,6 +3,8 @@ package de.Tuuby.AgentSimulator.input;
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
 import de.Tuuby.AgentSimulator.graphics.Renderer;
+import de.Tuuby.AgentSimulator.guis.Button;
+import de.Tuuby.AgentSimulator.guis.WindowManager;
 
 public class MouseInput implements MouseListener {
 
@@ -39,7 +41,9 @@ public class MouseInput implements MouseListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-
+        Button button = (Button) WindowManager.targetElement(e.getX(), e.getY());
+        if (button != null)
+        button.onClick();
     }
 
     public void mousePressed(MouseEvent e) {

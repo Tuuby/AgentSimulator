@@ -4,16 +4,13 @@ import de.Tuuby.AgentSimulator.graphics.EventListener;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.graphics.Renderer;
 
-import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
-import java.util.Arrays;
 
 public class Button extends GuiElement{
 
     private String text;
     private float[] textColor;
+    private GUIMouseListener listener;
 
     public Button(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -25,6 +22,15 @@ public class Button extends GuiElement{
         this.text = text;
         textColor = new float[4];
         textColor[3] = 1;
+    }
+
+    public void setMouseListener(GUIMouseListener listener) {
+        this.listener = listener;
+    }
+
+    public void onClick() {
+        if (listener != null)
+            listener.onMouseButtonClick();
     }
 
     public void setTextColor(float r, float g, float b, float a) {
