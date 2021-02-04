@@ -112,8 +112,9 @@ public class World {
 
     // Method to update all GameObjects
     public void updateAll() {
-        if (Math.random() <= 0.025f)
-            spawnRandomFood(2);
+        if (Math.random() <= 0.1f)
+            spawnRandomFood(foodSpawnCount);
+
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
@@ -347,8 +348,10 @@ public class World {
                 for (GameObject go : world[i][j]) {
                     if (go instanceof Food)
                         foodCount++;
-                    else if (go instanceof MovingFood)
-                        herbivoreCount++;
+                    else if (go instanceof MovingFood) {
+                        if (((MovingFood) go).isAlive())
+                            herbivoreCount++;
+                    }
                     else if (go instanceof Agent)
                         agentCount++;
                 }
