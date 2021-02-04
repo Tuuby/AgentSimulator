@@ -9,6 +9,7 @@ import java.util.List;
 
 public class GuiFactory {
 
+    // TODO: think about graphs getting added to this class
     public static void buildUI() {
         List<Button> buttons = new LinkedList<Button>();
         Button button1 = new Button(900, 350, 200, 100, "Reset");
