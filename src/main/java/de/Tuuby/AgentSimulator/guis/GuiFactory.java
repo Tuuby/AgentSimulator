@@ -14,7 +14,6 @@ public class GuiFactory {
         Button button1 = new Button(900, 350, 200, 100, "Reset");
         button1.setMouseListener(new GUIMouseListener() {
             public void onMouseButtonClick() {
-                System.out.println("Reset!");
                 main.worldGen.clear();
                 main.worldGen.generate();
                 WorldUpdater.setWorld(main.worldGen.getWorld());

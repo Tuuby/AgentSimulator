@@ -20,7 +20,7 @@ public class WorldGenerator {
 
     public WorldGenerator(int width, int height, int hillCount, int portalCount, String[] hosts, int foodCount,
                           int herbivoreCount, int agentCount, int attackerCount, int paralyzerCount, int leaderCount,
-                          int scavengerCount, int hillSize) {
+                          int scavengerCount, int hillSize, int foodSpawnCount) {
         nHills = hillCount;
         nPortals = portalCount;
         portalHost = hosts;
@@ -37,6 +37,7 @@ public class WorldGenerator {
         world.setFoodCount(foodCount);
         world.setHerbivoreCount(herbivoreCount);
         world.setAgentCount(agentCount + attackerCount + paralyzerCount + leaderCount + scavengerCount);
+        world.setFoodSpawnCount(foodSpawnCount);
     }
 
     public WorldGenerator(Properties appConfig) {
@@ -52,7 +53,8 @@ public class WorldGenerator {
             Integer.parseInt(appConfig.getProperty("paralyzerCount")),
             Integer.parseInt(appConfig.getProperty("leaderCount")),
             Integer.parseInt(appConfig.getProperty("scavengerCount")),
-            Integer.parseInt(appConfig.getProperty("hillSize")));
+            Integer.parseInt(appConfig.getProperty("hillSize")),
+            Integer.parseInt(appConfig.getProperty("foodSpawnAmount")));
     }
 
     public void clear() {

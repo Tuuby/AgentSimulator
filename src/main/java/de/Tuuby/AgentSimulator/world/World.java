@@ -26,6 +26,7 @@ public class World {
     private long time;
 
     private int foodCount = 0;
+    private int foodSpawnCount = 0;
     private int herbivoreCount = 0;
     private int agentCount = 0;
 
@@ -80,6 +81,10 @@ public class World {
 
     public void setAgentCount(int agentCount) {
         this.agentCount = agentCount;
+    }
+
+    public void setFoodSpawnCount(int foodSpawnCount) {
+        this.foodSpawnCount = foodSpawnCount;
     }
 
     public int getFoodCount() {
