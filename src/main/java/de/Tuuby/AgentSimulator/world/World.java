@@ -112,7 +112,7 @@ public class World {
 
     // Method to update all GameObjects
     public void updateAll() {
-        if (Math.random() <= 0.02f)
+        if (Math.random() < 0.01f)
             spawnRandomFood(foodSpawnCount);
 
         for (int j = 0; j < world[0].length; j++)
