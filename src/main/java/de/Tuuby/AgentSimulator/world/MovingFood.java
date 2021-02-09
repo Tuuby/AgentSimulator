@@ -163,7 +163,7 @@ public class MovingFood extends MovingObject {
 
             if (time > lifeTime) {
                 natural = true;
-                decreaseHealth(100);
+                decreaseHealth(100, false);
                 return;
             } else if (target != null) {
                 if (reachable(target)) {
@@ -197,7 +197,7 @@ public class MovingFood extends MovingObject {
                 }
             } else {
                 food = 0;
-                decreaseHealth(1);
+                decreaseHealth(1, false);
             }
         } else if (time - deathTime > DECAY_START) {
             energy -= ENERGY_DECAY * dt / 10;
@@ -325,16 +325,21 @@ public class MovingFood extends MovingObject {
         return health > 0;
     }
 
-    public void decreaseHealth(int dh) {
+    public void decreaseHealth(int dh, boolean extern) {
         if (health > 0) {
             health -= dh;
             if (health <= 0) {
                 if (natural) {
                     acRangeNatDeath += visibility;
                     acNatDeath++;
+                    System.out.println("This herbivore died of old age");
                 } else {
                     acRangeDeath += visibility;
                     acDeath++;
+                    if (extern)
+                        System.out.println("This herbivore got killed by an Agent");
+                    else
+                        System.out.println("This herbivore starved");
                 }
                 deathTime = lastUpdate;
                 health = 0;

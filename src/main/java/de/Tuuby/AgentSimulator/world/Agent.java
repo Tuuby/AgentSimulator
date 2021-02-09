@@ -531,7 +531,7 @@ public class Agent extends MovingObject implements IAgent{
         if (special == AgentSpecial.ATTACKER) {
             moveToTarget(target, dt);
             if (reachable(target) && target.isAlive()) {
-                target.decreaseHealth(10);
+                target.decreaseHealth(10, true);
                 if (!target.isAlive())
                     paralysesOrKills++;
             }
