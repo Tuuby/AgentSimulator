@@ -1,8 +1,6 @@
 package de.Tuuby.AgentSimulator.engine;
 
-import com.jogamp.newt.event.KeyEvent;
 import de.Tuuby.AgentSimulator.guis.GuiElement;
-import de.Tuuby.AgentSimulator.input.KeyInput;
 import de.Tuuby.AgentSimulator.world.World;
 
 import java.util.Vector;

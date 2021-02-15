@@ -3,6 +3,7 @@ package de.Tuuby.AgentSimulator.world;
 import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.graphics.StatusIconFactory;
+import de.Tuuby.AgentSimulator.guis.ProgressBar;
 import de.Tuuby.AgentSimulator.resource.ImageResource;
 
 import java.util.Vector;
@@ -26,7 +27,7 @@ public class MovingFood extends MovingObject {
     public static int ENERGY_MIN = 20000;
     public static int ENERGY_MAX = 28000;
     public static int SPEED_MIN = 60;
-    public static int SPEED_MAX = 86;
+    public static int SPEED_MAX = 85;
     public static int VISIB_MIN = 200;
     public static int VISIB_MAX = 400;
     public static int REPROD_TIME_MIN = 7000;
@@ -62,6 +63,9 @@ public class MovingFood extends MovingObject {
 
     private Food target = null;
     private Vector<GameObject> environment;
+
+    private ProgressBar hungerBar;
+    private ProgressBar healthBar;
 
     private static Class foodClass;
     private static Class agentClass;
@@ -107,6 +111,8 @@ public class MovingFood extends MovingObject {
         animations[0] = new Animation();
         animations[0].frames = new ImageResource[1];
         animations[0].frames[0] = new ImageResource("/GameObjects/MovingFood2.png");
+        hungerBar = new ProgressBar(initX - 15, initY - 30, 30, 5, 100000);
+        healthBar = new ProgressBar(initX - 15, initY - 35, 30, 5, maxHealth);
     }
 
     public MovingFood(int initX, int initY, World w) {
@@ -138,11 +144,14 @@ public class MovingFood extends MovingObject {
             return;
 
         lastUpdate = time;
+
         if (isAlive()) {
             food -= dt / 5;
+
             if (speedInc > 0) {
                 orgSpeed += dt;
                 speedInc -= dt;
+
                 if (speedInc <= 0) {
                     orgSpeed += speedInc;
                     speedInc = 0;
@@ -204,6 +213,8 @@ public class MovingFood extends MovingObject {
             if (energy < 0)
                 world.removeObject(this);
         }
+
+        //System.out.println(getStat());
     }
 
     private GameObject getObject(Class t) {
@@ -281,8 +292,9 @@ public class MovingFood extends MovingObject {
             if (target != null) {
                 environment.remove(target);
                 target = null;
-            } else
+            } else {
                 setHomeDir();
+            }
         } else
             food -= dist;
     }
@@ -411,6 +423,16 @@ public class MovingFood extends MovingObject {
     }
 
     public void renderDebug() {
+        healthBar.setColor(1, 0, 0, 1);
+        healthBar.setX(x - 15);
+        healthBar.setY(y - 35);
+        healthBar.setCurrentValue(health);
+        healthBar.render();
 
+        hungerBar.setColor(0, 1, 0, 1);
+        hungerBar.setX(x - 15);
+        hungerBar.setY(y - 30);
+        hungerBar.setCurrentValue(food);
+        hungerBar.render();
     }
 }
