@@ -409,4 +409,8 @@ public class MovingFood extends MovingObject {
             Graphics.drawImage(StatusIconFactory.getStatusIcon("Dead"), x, y, 30, 30);
         }
     }
+
+    public void renderDebug() {
+
+    }
 }

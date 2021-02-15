@@ -126,4 +126,8 @@ public class Portal extends GameObject {
     public void render() {
 
     }
+
+    public void renderDebug() {
+
+    }
 }

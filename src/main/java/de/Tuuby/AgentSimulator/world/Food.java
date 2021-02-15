@@ -56,4 +56,8 @@ public class Food extends GameObject {
         Graphics.setRotation(0);
         Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 20, 20);
     }
+
+    public void renderDebug() {
+
+    }
 }

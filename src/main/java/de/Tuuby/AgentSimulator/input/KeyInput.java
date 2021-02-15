@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.input;
 
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
+import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 
 // Class to catch KeyInput events and pass them to the application
 public class KeyInput implements KeyListener {
@@ -20,6 +21,9 @@ public class KeyInput implements KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
         if (0 == (KeyEvent.AUTOREPEAT_MASK & keyEvent.getModifiers())) {
             keys[keyEvent.getKeyCode()] = false;
+
+            if (keyEvent.getKeyCode() == KeyEvent.VK_F3)
+                WorldUpdater.toggleDebug();
         }
     }
 

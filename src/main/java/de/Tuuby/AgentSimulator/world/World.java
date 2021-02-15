@@ -136,6 +136,13 @@ public class World {
         agentGraph.render();
     }
 
+    public void renderDebug() {
+        for (int j = 0; j < world[0].length; j++)
+            for (int i = 0; i < world.length; i++)
+                for (GameObject go : world[i][j])
+                    go.renderDebug();
+    }
+
     // Method to add an object to the array of GameObjects at the world position
     public void addObject(GameObject go) {
         int cellX = Math.round(go.getX()) / GRIDSIZE;

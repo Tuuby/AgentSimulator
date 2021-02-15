@@ -40,7 +40,7 @@ public abstract class GameObject {
         this.world = world;
     }
 
-    // Getter for the coordinates, and Getter and Setter for the de.Tuuby.AgentSimulator.world
+    // Getter for the coordinates, and Getter and Setter for the world
     public int getX() {
         return x;
     }
@@ -83,6 +83,8 @@ public abstract class GameObject {
 
     // Method to draw the GameObject each render cycle
     public abstract void render();
+
+    public abstract void renderDebug();
 
     public void thisRemovedFromWorld() {}
 

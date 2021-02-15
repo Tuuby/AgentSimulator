@@ -55,4 +55,8 @@ public class TestGO extends GameObject {
         Graphics.drawImage(animations[currentAnimation].getImage(), x, y, width, height);
         Graphics.setRotation(0);
     }
+
+    public void renderDebug() {
+
+    }
 }

@@ -241,6 +241,10 @@ public class Agent extends MovingObject implements IAgent{
         Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 30, 30);
     }
 
+    public void renderDebug() {
+
+    }
+
     // Getter and Setter for various attributes
     public void setName(String name) {
         this.name = name;

@@ -45,4 +45,8 @@ public class Hill extends GameObject {
         Graphics.setColor(0.47f, 0.41f, 0.25f, 1);
         Graphics.fillCircle(x, y, radius);
     }
+
+    public void renderDebug() {
+
+    }
 }
