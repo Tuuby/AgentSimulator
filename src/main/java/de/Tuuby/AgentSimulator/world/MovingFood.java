@@ -300,7 +300,7 @@ public class MovingFood extends MovingObject {
     }
 
     private void setReprodTime() {
-        reprodTime = lastUpdate = randomAttrib(REPROD_TIME_MIN, REPROD_TIME_MAX);
+        reprodTime = lastUpdate + randomAttrib(REPROD_TIME_MIN, REPROD_TIME_MAX);
     }
 
     private void setHomeDir() {
