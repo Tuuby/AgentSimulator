@@ -280,18 +280,18 @@ public class Agent extends MovingObject implements IAgent{
     }
 
     // Method to set the MovingFood object as targetTuHunt if the agent is currently able to hunt
-    public boolean setTarget(MovingFood target, int amount) {
+    public boolean setTarget(MovingFood target, Integer amount) {
         if (currentState == REPRODUCING2)
             return false;
 
-        if (currentState != REPRODUCING2 && (currentState != EATING || targetToHunt == target || targetIsBetter(target))) {
+        if (amount != null && currentState != REPRODUCING2 && (currentState != EATING || targetToHunt == target || targetIsBetter(target))) {
             currentState = EATING;
             targetToHunt = target;
             //notifyState(special, currentState);
             amountToEat = amount;
             updateSuccess(amountToEat);
             return true;
-        } else if (currentState != REPRODUCING2 && stamina > staminaMax / 4) {
+        } else if (amount == null && currentState != REPRODUCING2 && stamina > staminaMax / 4) {
             currentState = HUNTING;
             targetToHunt = target;
             startHuntTime = lastUpdate;
@@ -440,7 +440,7 @@ public class Agent extends MovingObject implements IAgent{
                         currentState = AgentStates.SEARCHING_AGENT;
                         //notifyState(special, currentState);
                     } else {
-                        target = findTarget(false, true);
+                        target = findTarget(false, false);
                         if (target != null) {
                             if (komm.groupSufficient()) {
                                 currentState = HUNTING;
@@ -460,7 +460,7 @@ public class Agent extends MovingObject implements IAgent{
                         }
                     }
                 }
-                break;
+                //break;
             case SEARCHING_AGENT:
                 if (time - lastEnvironUpdate > ENVIRON_UPDATE_PERIOD)
                     return AgentActions.LOOK;
