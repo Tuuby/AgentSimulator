@@ -32,8 +32,8 @@ public class DNA {
     public static int REPROD_MIN = 100;
     public static int REPROD_MAX = 500;
 
-    public static int VISIBILITY_MIN = 470;
-    public static int VISIBILITY_MAX = 700;
+    public static int VISIBILITY_MIN = 188;
+    public static int VISIBILITY_MAX = 280;
 
     public static int SPEED_MIN = 40;
     public static int SPEED_MAX = 70;

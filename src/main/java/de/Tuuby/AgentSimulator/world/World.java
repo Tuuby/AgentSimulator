@@ -3,8 +3,7 @@ package de.Tuuby.AgentSimulator.world;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.guis.Graph;
 
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 // Class that represents a world filled of hills and Agents
@@ -14,7 +13,7 @@ public class World {
     public final static int TIME_UNIT = 10;
 
     // Variable for the size of a single grid cell
-    private final static int GRIDSIZE = 200;
+    private final static int GRIDSIZE = 80;
 
     // 2-dimensional array of Lists of GameObjects that can be modified while a thread is running
     private ConcurrentLinkedQueue<GameObject>[][] world;
@@ -126,7 +125,7 @@ public class World {
 
     public void renderAll() {
         Graphics.setColor(0.4f, 0.75f, 0.35f, 1);
-        Graphics.fillRect(400, 400, width, height);
+        Graphics.fillRect(width / 2.0f, height / 2.0f, width, height);
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
@@ -145,16 +144,16 @@ public class World {
 
     // Method to add an object to the array of GameObjects at the world position
     public void addObject(GameObject go) {
-        int cellX = Math.round(go.getX()) / GRIDSIZE;
-        int cellY = Math.round(go.getY()) / GRIDSIZE;
+        int cellX = go.getX() / GRIDSIZE;
+        int cellY = go.getY() / GRIDSIZE;
 
         world[cellX][cellY].offer(go);
     }
 
     // Method to remove an object from the array of Gameobjects and notify the other objects about it
     public void removeObject(GameObject go) {
-        int cellX = Math.round(go.getX()) / GRIDSIZE;
-        int cellY = Math.round(go.getY()) / GRIDSIZE;
+        int cellX = go.getX() / GRIDSIZE;
+        int cellY = go.getY() / GRIDSIZE;
 
         world[cellX][cellY].remove(go);
         go.thisRemovedFromWorld();
@@ -201,7 +200,7 @@ public class World {
             for (int i = cellX - neighb; i <=  cellX + neighb; i++) {
                 int cx = (i + world.length) % world.length;
                 int cy = (j + world[0].length) % world[0].length;
-                for (GameObject gameObject : world[cx][cy]) {
+                for (GameObject gameObject : world[cy][cx]) {
                     float dx = gameObject.getX() - x;
                     float dy = gameObject.getY() - y;
                     if (dx * dx + dy * dy <= r2)
@@ -243,12 +242,12 @@ public class World {
 
     // Method to get the X coordinate of the cell, the Gameobject is in
     public int getCellX(GameObject gameObject) {
-        return Math.round(gameObject.getX()) / GRIDSIZE;
+        return gameObject.getX() / GRIDSIZE;
     }
 
     // Method to get the Y coordinate of the cell, the GameObject is in
     public int getCellY(GameObject gameObject) {
-        return Math.round(gameObject.getY()) / GRIDSIZE;
+        return gameObject.getY() / GRIDSIZE;
     }
 
     // Method to check if a GameObject from around the cell extends to the coordinates
@@ -275,18 +274,18 @@ public class World {
         int newX = (x + width + dx) % width;
         int newY = (y + width + dy) % height;
 
-        if (isPositionFree(Math.round(newX), Math.round(newY))) {
+        if (isPositionFree(newX, newY)) {
             int cellX = x / GRIDSIZE;
             int cellY = y / GRIDSIZE;
 
             go.moveTo(newX, newY);
 
-            int ncellX = Math.round(newX) / GRIDSIZE;
-            int ncellY = Math.round(newY) / GRIDSIZE;
+            int ncellX = newX / GRIDSIZE;
+            int ncellY = newY / GRIDSIZE;
 
             if (ncellX != cellX || ncellY != cellY) {
                 if (!world[cellX][cellY].contains(go))
-                    System.out.println("Serious de.Tuuby.AgentSimulator.world error!");
+                    System.out.println("Serious world error!");
 
                 world[cellX][cellY].remove(go);
                 world[ncellX][ncellY].add(go);
@@ -297,7 +296,7 @@ public class World {
     }
 
     // Method to get the most efficient direction for a target position
-    public float getD1(int a, int b) {
+    public int getD1(int a, int b) {
         int dx = b - a;
         if (dx > width / 2)
             dx -= width;
@@ -309,22 +308,22 @@ public class World {
 
     // Method to calculate the distance between two GameObjects
     // + 0.5f was used in integer Number Space to round up; can be discarded here
-    public float distance(GameObject go0, GameObject go1) {
-        float dx = getD1(go0.getX(), go1.getX());
-        float dy = getD1(go0.getY(), go1.getY());
+    public int distance(GameObject go0, GameObject go1) {
+        int dx = getD1(go0.getX(), go1.getX());
+        int dy = getD1(go0.getY(), go1.getY());
 
-        return (float)Math.sqrt(dx * dx + dy * dy) + 0.5f;
+        return (int)(Math.sqrt(dx * dx + dy * dy) + 0.5f);
     }
 
     // Method to calculate the distance between two coordinates
-    public float distance(float dx, float dy) {
-        return (float)Math.sqrt(dx * dx + dy * dy) + 0.5f;
+    public int distance(int dx, int dy) {
+        return (int)(Math.sqrt(dx * dx + dy * dy) + 0.5f);
     }
 
     // Method to check if a GameObject is visible from another one
     public boolean visible(GameObject go, GameObject target, int visibility) {
-        float dx = target.getX() - go.getX();
-        float dy = target.getY() - go.getY();
+        int dx = target.getX() - go.getX();
+        int dy = target.getY() - go.getY();
 
         return  distance(dx, dy) <= visibility;
     }

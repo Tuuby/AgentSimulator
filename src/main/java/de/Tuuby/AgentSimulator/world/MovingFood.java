@@ -28,8 +28,8 @@ public class MovingFood extends MovingObject {
     public static int ENERGY_MAX = 28000;
     public static int SPEED_MIN = 60;
     public static int SPEED_MAX = 85;
-    public static int VISIB_MIN = 200;
-    public static int VISIB_MAX = 400;
+    public static int VISIB_MIN = 80;
+    public static int VISIB_MAX = 160;
     public static int REPROD_TIME_MIN = 7000;
     public static int REPROD_TIME_MAX = 10000;
     public static int LIFE_TIME_MIN = 22500;
@@ -105,7 +105,7 @@ public class MovingFood extends MovingObject {
         lastEnvironUpdate = lastUpdate - ENVIRON_UPDATE_PERIOD - 1;
         lastRegeneration = lastUpdate;
         reprodTime = lastUpdate + randomAttrib(REPROD_TIME_MIN, REPROD_TIME_MAX) / 2;
-        lifeTime = lastUpdate = randomAttrib(LIFE_TIME_MIN, LIFE_TIME_MAX);
+        lifeTime = lastUpdate + randomAttrib(LIFE_TIME_MIN, LIFE_TIME_MAX);
         cQuarryNo++;
         animations = new Animation[1];
         animations[0] = new Animation();
