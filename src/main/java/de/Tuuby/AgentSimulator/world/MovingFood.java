@@ -111,8 +111,8 @@ public class MovingFood extends MovingObject {
         animations[0] = new Animation();
         animations[0].frames = new ImageResource[1];
         animations[0].frames[0] = new ImageResource("/GameObjects/MovingFood2.png");
-        hungerBar = new ProgressBar(initX - 15, initY - 30, 30, 5, 100000);
-        healthBar = new ProgressBar(initX - 15, initY - 35, 30, 5, maxHealth);
+        hungerBar = new ProgressBar(initX - 15, initY - 30, 30, 2, 100000);
+        healthBar = new ProgressBar(initX - 15, initY - 32, 30, 2, maxHealth);
     }
 
     public MovingFood(int initX, int initY, World w) {
@@ -425,7 +425,7 @@ public class MovingFood extends MovingObject {
     public void renderDebug() {
         healthBar.setColor(1, 0, 0, 1);
         healthBar.setX(x - 15);
-        healthBar.setY(y - 35);
+        healthBar.setY(y - 32);
         healthBar.setCurrentValue(health);
         healthBar.render();
 
