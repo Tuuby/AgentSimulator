@@ -317,7 +317,7 @@ public class MovingFood extends MovingObject {
             homeDY += 50;
     }
 
-    private void objectRemovedFromWorld(GameObject go) {
+    public void gameObjectRemovedFromWorld(GameObject go) {
         if (environment != null)
             environment.remove(go);
 
