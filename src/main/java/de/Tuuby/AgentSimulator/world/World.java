@@ -159,8 +159,8 @@ public class World {
         go.thisRemovedFromWorld();
 
         for (int j = 0; j < world[0].length; j++)
-            for (ConcurrentLinkedQueue<GameObject>[] tile : world)
-                for (GameObject gameObject : tile[j])
+            for (int i = 0; i < world.length; i++)
+                for (GameObject gameObject : world[i][j])
                     gameObject.gameObjectRemovedFromWorld(go);
     }
 

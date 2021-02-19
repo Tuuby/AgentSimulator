@@ -244,6 +244,12 @@ public class Agent extends MovingObject implements IAgent{
             Graphics.setColor(1, 0, 0, 1);
             Graphics.drawLine(x, y, targetToHunt.getX(), targetToHunt.getY(), 1);
         }
+
+        for (IAgent ipartner : komm.partners) {
+            Agent partner = (Agent)ipartner;
+            Graphics.setColor(0, 0, 1, 1);
+            Graphics.drawLine(x, y, partner.getX(), partner.getY(), 1);
+        }
     }
 
     public void renderDebug() {
@@ -664,8 +670,9 @@ public class Agent extends MovingObject implements IAgent{
         }
     }
 
-    // Method that gets called when this agent is removed from the de.Tuuby.AgentSimulator.world
-    public void objectRemovedFromWorld(GameObject gameObject) {
+    // Method that gets called when this agent is removed from the world
+    @Override
+    public void gameObjectRemovedFromWorld(GameObject gameObject) {
         environment.remove(gameObject);
         if ((currentState == HUNTING || currentState == EATING) && targetToHunt == gameObject) {
             targetToHunt = null;
