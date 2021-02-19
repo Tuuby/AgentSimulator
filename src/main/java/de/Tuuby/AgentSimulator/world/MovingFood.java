@@ -1,5 +1,6 @@
 package de.Tuuby.AgentSimulator.world;
 
+import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.graphics.StatusIconFactory;
@@ -344,13 +345,15 @@ public class MovingFood extends MovingObject {
                 if (natural) {
                     acRangeNatDeath += visibility;
                     acNatDeath++;
-                    System.out.println("This herbivore died of old age");
+                    if (WorldUpdater.debugMode) {
+                        System.out.println("This herbivore died of old age");
+                    }
                 } else {
                     acRangeDeath += visibility;
                     acDeath++;
-                    if (extern)
+                    if (extern && WorldUpdater.debugMode)
                         System.out.println("This herbivore got killed by an Agent");
-                    else
+                    else if (WorldUpdater.debugMode)
                         System.out.println("This herbivore starved");
                 }
                 deathTime = lastUpdate;
@@ -383,6 +386,10 @@ public class MovingFood extends MovingObject {
             orgSpeed = -PARALYZE_TIME;
             reprodTime += PARALYZE_TIME;
             lastRegeneration += PARALYZE_TIME;
+
+            if (WorldUpdater.debugMode) {
+                System.out.println("A MovingFood has been paralyzed!");
+            }
         }
     }
 
