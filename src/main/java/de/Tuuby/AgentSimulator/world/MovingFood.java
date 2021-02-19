@@ -441,5 +441,10 @@ public class MovingFood extends MovingObject {
         hungerBar.setY(y - 30);
         hungerBar.setCurrentValue(food);
         hungerBar.render();
+
+        if (isParalyzed()) {
+            Graphics.setColor(1, 0.68f, 0.27f, 1);
+            Graphics.fillRect(x, y, 30, 30);
+        }
     }
 }
