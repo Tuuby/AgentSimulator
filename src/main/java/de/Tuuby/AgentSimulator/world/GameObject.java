@@ -2,21 +2,18 @@ package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.graphics.Animation;
 
-import java.util.Arrays;
-
 // Abstract class for all GameObjects
 public abstract class GameObject {
 
-    // Coordinates for the in de.Tuuby.AgentSimulator.world position
+    protected static long nextID = 0;
+    protected long uniqueID;
+
+    // Coordinates for the in world position
     protected int x;
     protected int y;
 
-    // The de.Tuuby.AgentSimulator.world the GameObject is on, as any GameObject can only be on one de.Tuuby.AgentSimulator.world
+    // The world the GameObject is on, as any GameObject can only be on one world
     protected World world;
-
-    // Dimensions for the in de.Tuuby.AgentSimulator.world size; Not ever GameObject has a width and a height
-    //public float width;
-    //public float height;
 
     // Orientation of the GameObject in degrees; mathematically positive direction
     public float rotation = 0;
@@ -27,10 +24,7 @@ public abstract class GameObject {
 
     // Default constructor
     public GameObject() {
-        x = 0;
-        y = 0;
-        world = null;
-        rotation = 0;
+        this(0, 0, null);
     }
 
     // Constructor with the most attributes
@@ -38,6 +32,8 @@ public abstract class GameObject {
         this.x = x;
         this.y = y;
         this.world = world;
+        rotation = 0;
+        uniqueID = nextID++;
     }
 
     // Getter for the coordinates, and Getter and Setter for the world
@@ -57,6 +53,10 @@ public abstract class GameObject {
         this.world = world;
     }
 
+    public long getUniqueID() {
+        return uniqueID;
+    }
+
     // Method to check if the GameObject extends to a specific coordination
     public abstract boolean extendsTo(int dx, int dy);
 
@@ -65,16 +65,13 @@ public abstract class GameObject {
         y = yabs;
     }
 
-    // Method to output the GameObject as a String
     @Override
     public String toString() {
         return "GameObject{" +
-                "x=" + x +
+                "uniqueID=" + uniqueID +
+                ", x=" + x +
                 ", y=" + y +
-                ", de.Tuuby.AgentSimulator.world=" + world +
-                ", rotation=" + rotation +
-                ", animations=" + Arrays.toString(animations) +
-                ", currentAnimation=" + currentAnimation +
+                ", world=" + world +
                 '}';
     }
 

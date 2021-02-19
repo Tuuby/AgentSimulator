@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.engine.JMTRemnants.Performative;
 import de.Tuuby.AgentSimulator.engine.KQML;
+import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.resource.ImageResource;
@@ -547,6 +548,10 @@ public class Agent extends MovingObject implements IAgent{
                 target.decreaseHealth(10, true);
                 if (!target.isAlive())
                     paralysesOrKills++;
+
+                if (WorldUpdater.debugMode) {
+                    System.out.println("Agent " + uniqueID + ": damaged a herbivore");
+                }
             }
         } else if (special == AgentSpecial.PARALYZER) {
             moveToTarget(target, dt);
@@ -555,6 +560,10 @@ public class Agent extends MovingObject implements IAgent{
                     paralysesOrKills++;
 
                 target.paralyze();
+
+                if (WorldUpdater.debugMode) {
+                    System.out.println("Agent " + uniqueID + ": has paralyzed herbivore " + target.getUniqueID());
+                }
             }
         } else if (special == AgentSpecial.LEADER) {
             if (!target.isAlive()) {

@@ -346,15 +346,15 @@ public class MovingFood extends MovingObject {
                     acRangeNatDeath += visibility;
                     acNatDeath++;
                     if (WorldUpdater.debugMode) {
-                        System.out.println("This herbivore died of old age");
+                        System.out.println("Herbivore " + uniqueID + ": died of old age");
                     }
                 } else {
                     acRangeDeath += visibility;
                     acDeath++;
                     if (extern && WorldUpdater.debugMode)
-                        System.out.println("This herbivore got killed by an Agent");
+                        System.out.println("Herbivore " + uniqueID + ": got killed by an Agent");
                     else if (WorldUpdater.debugMode)
-                        System.out.println("This herbivore starved");
+                        System.out.println("Herbivore " + uniqueID + ": starved");
                 }
                 deathTime = lastUpdate;
                 health = 0;
@@ -386,10 +386,6 @@ public class MovingFood extends MovingObject {
             orgSpeed = -PARALYZE_TIME;
             reprodTime += PARALYZE_TIME;
             lastRegeneration += PARALYZE_TIME;
-
-            if (WorldUpdater.debugMode) {
-                System.out.println("A MovingFood has been paralyzed!");
-            }
         }
     }
 
@@ -421,6 +417,11 @@ public class MovingFood extends MovingObject {
     }
 
     public void render() {
+        if (isParalyzed() && WorldUpdater.debugMode) {
+            Graphics.setColor(1, 0.68f, 0.27f, 1);
+            Graphics.fillRect(x, y, 30, 30);
+        }
+
         animations[currentAnimation].play();
         Graphics.setRotation(0);
         Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 30, 30);
@@ -441,10 +442,5 @@ public class MovingFood extends MovingObject {
         hungerBar.setY(y - 30);
         hungerBar.setCurrentValue(food);
         hungerBar.render();
-
-        if (isParalyzed()) {
-            Graphics.setColor(1, 0.68f, 0.27f, 1);
-            Graphics.fillRect(x, y, 30, 30);
-        }
     }
 }
