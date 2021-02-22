@@ -103,7 +103,7 @@ public class Agent extends MovingObject implements IAgent{
     private GameObject blocked;
     private long blockTime;
 
-    // Field to track of the chosen direction was successfull
+    // Field to track of the chosen direction was successful
     private int successDir = 0;
 
     // Field for the name of the agent
@@ -116,7 +116,7 @@ public class Agent extends MovingObject implements IAgent{
         AgentKomm.initRun();
     }
 
-    // Constructor to make a new Agent at a specific position, in a specific de.Tuuby.AgentSimulator.world, with a specific dna object and an initial food value
+    // Constructor to make a new Agent at a specific position, in a specific world, with a specific dna object and an initial food value
     public Agent(int x, int y, World w, DNA iDna, int ifood) {
         super(x, y, w);
         age = 0;
@@ -201,6 +201,7 @@ public class Agent extends MovingObject implements IAgent{
     // Method to update the Agent in relation to the passed time
     public void update(long time) {
         int dt = (int)(time - lastUpdate);
+        boolean starving = false;
 
         if (dt == 0)
             return;
@@ -226,12 +227,19 @@ public class Agent extends MovingObject implements IAgent{
         if (action != AgentActions.NONE)
             doAction(action, dt);
 
-        if (--food < 0)
+        if (--food < 0) {
             health--;
+            starving = true;
+        }
 
         if (health <= 0) {
             world.removeObject(this);
             komm.death();
+            if (WorldUpdater.debugMode && starving) {
+                System.out.println("Agent " + uniqueID + ": died of starving");
+            } else if (WorldUpdater.debugMode) {
+                System.out.println("Agent " + uniqueID + ": died od old age");
+            }
         }
     }
 
@@ -550,7 +558,7 @@ public class Agent extends MovingObject implements IAgent{
                     paralysesOrKills++;
 
                 if (WorldUpdater.debugMode) {
-                    System.out.println("Agent " + uniqueID + ": damaged a herbivore");
+                    System.out.println("Agent " + uniqueID + ": has damaged herbivore " + target.getUniqueID());
                 }
             }
         } else if (special == AgentSpecial.PARALYZER) {
