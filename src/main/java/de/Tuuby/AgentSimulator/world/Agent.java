@@ -236,9 +236,9 @@ public class Agent extends MovingObject implements IAgent{
             world.removeObject(this);
             komm.death();
             if (WorldUpdater.debugMode && starving) {
-                System.out.println("Agent " + uniqueID + ": died of starving");
+                System.out.println("Agent " + uniqueID + ": starved");
             } else if (WorldUpdater.debugMode) {
-                System.out.println("Agent " + uniqueID + ": died od old age");
+                System.out.println("Agent " + uniqueID + ": died of old age");
             }
         }
     }
