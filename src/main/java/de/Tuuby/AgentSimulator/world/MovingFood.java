@@ -214,8 +214,6 @@ public class MovingFood extends MovingObject {
             if (energy < 0)
                 world.removeObject(this);
         }
-
-        //System.out.println(getStat());
     }
 
     private GameObject getObject(Class t) {

@@ -794,7 +794,7 @@ public class Agent extends MovingObject implements IAgent{
 
     // Method to move to a specific direction
     private void move(int dx, int dy, int dt) {
-        float dist = updatePosition(dx, dy, dt);
+        int dist = updatePosition(dx, dy, dt);
         if (dist == 0) {
             if (successDir == 0) {
                 dist = updatePosition(-dy, dx, dt);
