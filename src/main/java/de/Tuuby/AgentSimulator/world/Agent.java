@@ -261,6 +261,11 @@ public class Agent extends MovingObject implements IAgent{
             Graphics.setColor(0, 0, 1, 1);
             Graphics.drawLine(x, y, partner.getX(), partner.getY(), 1);
         }
+
+        if (reproductionPartner != null) {
+            Graphics.setColor(1, 1, 0, 1);
+            Graphics.drawLine(x, y, reproductionPartner.getX(), reproductionPartner.getY(), 1);
+        }
     }
 
     // Getter and Setter for various attributes
@@ -365,12 +370,16 @@ public class Agent extends MovingObject implements IAgent{
         if (nAgent > CROWD_SIZE)
             p += CROWD_PENALTY * (nAgent * nAgent * nAgent);
 
-        return currentState != REPRODUCING2 &&
-                (currentState == AgentStates.REPRODUCING ||
-                stamina > 2 * staminaMax / 5 &&
-                (dna.male || food > dna.foodSaturation) &&
-                lastUpdate - lastReproductionTime > REPROD_PERIOD &&
-                Math.random() * p < reproductInstinct);
+        boolean stateNotReproducing2 = currentState != REPRODUCING2;
+        boolean stateIsReproducing = currentState == REPRODUCING;
+        boolean enoughStamina = stamina > 2 * staminaMax / 5;
+        boolean foodIsSaturated = dna.male || food > dna.foodSaturation;
+        boolean lastReprodLongAgo = lastUpdate - lastReproductionTime > REPROD_PERIOD;
+        boolean instinctIsHighEnough = Math.random() * p < reproductInstinct;
+
+        boolean result = stateNotReproducing2 &&
+                (stateIsReproducing || enoughStamina && foodIsSaturated && lastReprodLongAgo && instinctIsHighEnough);
+        return result;
     }
 
     // Method to choose the next important need
