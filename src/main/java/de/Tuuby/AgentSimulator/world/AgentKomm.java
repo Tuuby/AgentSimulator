@@ -113,7 +113,7 @@ public class AgentKomm {
     // Method to tell the Agents in partners how much food can be expected from the target
     public void notifyFoodAmount(GameObject target, int energy) {
         Performative performative = new Performative("achieve", target);
-        performative.put(":amount", energy);
+        performative.put(":amount", new Integer(energy));
         KQML.multicast(thisAgent, partners, performative);
     }
 
@@ -176,6 +176,56 @@ public class AgentKomm {
         handleJoinRequests();
     }
 
+    // Method to remove an Agent from the group
+    public void partnerWithdraw(Agent agent) {
+        if (leader == thisAgent && partners.contains(agent)) {
+            AgentStates state = thisAgent.getState();
+            partners.remove(agent);
+            //thisAgent.notifyGroupState();
+            cancellations++;
+            if (state == AgentStates.HUNTING && !groupSufficient())
+                thisAgent.setState(AgentStates.SEARCHING_AGENT);
+            else if (state == AgentStates.EATING)
+                thisAgent.setFoodAmount();
+        } else if (agent == leader) {
+            leader = null;
+            partners = new Vector<IAgent>();
+            //thisAgent.notifyGroupState();
+            cancellations++;
+        }
+
+        if (reprodOffered.contains(agent))
+            reprodOffered.remove(agent);
+
+        if (gotReprodOfferFrom.contains(agent))
+            gotReprodOfferFrom.remove(agent);
+
+        if (acceptReprodOffers == agent)
+            acceptReprodOffers = null;
+
+        if (potentialReprodPartners.contains(agent)) {
+            potentialReprodPartners.remove(agent);
+            reproduceRequests = new Vector<Performative>();
+        }
+    }
+
+    // Method to check if the group has enough different Specialities
+    public boolean groupSufficient() {
+        if (leader == thisAgent) {
+            int attacker = 0;
+            int paralyzer = 0;
+            for (IAgent agent : partners) {
+                Agent p = (Agent)agent;
+                if (p.getSpecial() == AgentSpecial.ATTACKER)
+                    attacker++;
+                else if (p.getSpecial() == AgentSpecial.PARALYZER)
+                    paralyzer++;
+            }
+            return attacker >= 1 && paralyzer >= 1;
+        }
+        return false;
+    }
+
     // Method to handle a specific request from a specific sender
     private Performative handleRequest(Agent sender, Performative perf) {
         String type = perf.getType();
@@ -206,11 +256,9 @@ public class AgentKomm {
         } else if(type.equals("achieve")) {
             if(sender == leader || partners.contains(sender)) {
                 Integer amount = (Integer)perf.get(":amount");
-                if (amount != null) {
-                    MovingFood target = (MovingFood) content;
-                    if (!thisAgent.setTarget(target, amount))
-                        return perf;
-                }
+                MovingFood target = (MovingFood) content;
+                if (!thisAgent.setTarget(target, amount))
+                    return perf;
             } else
                 KQML.perform(thisAgent, sender, new Performative("sorry", perf));
         } else if(type.equals("advertise")) {
@@ -333,56 +381,6 @@ public class AgentKomm {
             }
         }
         return null;
-    }
-
-    // Method to remove an Agent from the group
-    public void partnerWithdraw(Agent agent) {
-        if (leader == thisAgent && partners.contains(agent)) {
-            AgentStates state = thisAgent.getState();
-            partners.remove(agent);
-            //thisAgent.notifyGroupState();
-            cancellations++;
-            if (state == AgentStates.HUNTING && !groupSufficient())
-                thisAgent.setState(AgentStates.SEARCHING_AGENT);
-            else if (state == AgentStates.EATING)
-                thisAgent.setFoodAmount();
-        } else if (agent == leader) {
-            leader = null;
-            partners = new Vector<IAgent>();
-            //thisAgent.notifyGroupState();
-            cancellations++;
-        }
-
-        if (reprodOffered.contains(agent))
-            reprodOffered.remove(agent);
-
-        if (gotReprodOfferFrom.contains(agent))
-            gotReprodOfferFrom.remove(agent);
-
-        if (acceptReprodOffers == agent)
-            acceptReprodOffers = null;
-
-        if (potentialReprodPartners.contains(agent)) {
-            potentialReprodPartners.remove(agent);
-            reproduceRequests = new Vector<Performative>();
-        }
-    }
-
-    // Method to check if the group has enough different Specialities
-    public boolean groupSufficient() {
-        if (leader == thisAgent) {
-            int attacker = 0;
-            int paralyzer = 0;
-            for (IAgent agent : partners) {
-                Agent p = (Agent)agent;
-                if (p.getSpecial() == AgentSpecial.ATTACKER)
-                    attacker++;
-                else if (p.getSpecial() == AgentSpecial.PARALYZER)
-                    paralyzer++;
-            }
-            return attacker >= 1 && paralyzer >= 1;
-        }
-        return false;
     }
 
     // Method to handle the join Requests
