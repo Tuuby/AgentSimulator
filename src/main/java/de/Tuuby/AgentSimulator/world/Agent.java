@@ -236,9 +236,9 @@ public class Agent extends MovingObject implements IAgent{
             world.removeObject(this);
             komm.death();
             if (WorldUpdater.debugMode && starving) {
-                System.out.println("Agent " + uniqueID + ": starved");
+                System.out.println("Agent " + uniqueID + "gen " + dna.generationNo + ": starved");
             } else if (WorldUpdater.debugMode) {
-                System.out.println("Agent " + uniqueID + ": died of old age");
+                System.out.println("Agent " + uniqueID + "gen " + dna.generationNo + ": died of old age");
             }
         }
     }
@@ -251,7 +251,7 @@ public class Agent extends MovingObject implements IAgent{
     }
 
     public void renderDebug() {
-        if (targetToHunt != null) {
+        if (targetToHunt != null && (currentState == HUNTING || currentState == EATING)) {
             Graphics.setColor(1, 0, 0, 1);
             Graphics.drawLine(x, y, targetToHunt.getX(), targetToHunt.getY(), 1);
         }
@@ -698,10 +698,12 @@ public class Agent extends MovingObject implements IAgent{
     @Override
     public void gameObjectRemovedFromWorld(GameObject gameObject) {
         environment.remove(gameObject);
-        if ((currentState == HUNTING || currentState == EATING) && targetToHunt == gameObject) {
+        if (/*(currentState == HUNTING || currentState == EATING) && */targetToHunt == gameObject) {
             targetToHunt = null;
-            currentNeed = AgentActions.NONE;
-            currentState = AgentStates.NONE;
+            if (currentState == HUNTING || currentState == EATING) {
+                currentNeed = AgentActions.NONE;
+                currentState = AgentStates.NONE;
+            }
         } else if (gameObject instanceof Agent) {
             komm.partnerWithdraw((Agent)gameObject);
             if (currentState == REPRODUCING2 && reproductionPartner == gameObject) {
