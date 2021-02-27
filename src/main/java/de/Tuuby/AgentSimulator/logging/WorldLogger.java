@@ -2,6 +2,9 @@ package de.Tuuby.AgentSimulator.logging;
 
 import javafx.util.Pair;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class WorldLogger implements ILogger {
@@ -28,7 +31,19 @@ public class WorldLogger implements ILogger {
     }
 
     public void writeToFile() {
+        File logFile = new File("World " + worldId + ".txt");
+        try {
+            logFile.createNewFile();
 
+            FileWriter writer = new FileWriter(logFile);
+            for (Pair<Long, String> logEntry : logEntries) {
+                writer.write("WorldAge " + logEntry.getKey() + ": " + logEntry.getValue());
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeToConsole() {
