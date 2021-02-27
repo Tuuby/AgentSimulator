@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.engine;
 
 import de.Tuuby.AgentSimulator.graphics.Renderer;
 import de.Tuuby.AgentSimulator.input.KeyInput;
+import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 
 import java.awt.event.KeyEvent;
 
@@ -39,6 +40,7 @@ public class GameLoop {
                 while (running) {
                     if (KeyInput.getKey(KeyEvent.VK_ESCAPE)) {
                         GameLoop.stop();
+                        LoggingHandler.saveAndExit();
                         Renderer.stop();
                     }
                     long currentTime = System.nanoTime();
