@@ -5,10 +5,12 @@ import de.Tuuby.AgentSimulator.engine.KQML;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
+import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.resource.ImageResource;
 import de.Tuuby.AgentSimulator.world.enums.AgentActions;
 import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 import de.Tuuby.AgentSimulator.world.enums.AgentStates;
+import sun.rmi.runtime.Log;
 
 import java.util.*;
 
@@ -136,6 +138,8 @@ public class Agent extends MovingObject implements IAgent{
         initAgent(null);
         cAgentNo++;
 
+        LoggingHandler.addAgent(uniqueID);
+
         animations = new Animation[4];
         for (int i = 0; i < animations.length; i++) {
             animations[i] = new Animation();
@@ -232,13 +236,15 @@ public class Agent extends MovingObject implements IAgent{
             starving = true;
         }
 
+        LoggingHandler.logAgentStat(uniqueID, getStat(), world.getTime());
+
         if (health <= 0) {
             world.removeObject(this);
             komm.death();
-            if (WorldUpdater.debugMode && starving) {
-                System.out.println("Agent " + uniqueID + "gen " + dna.generationNo + ": starved");
-            } else if (WorldUpdater.debugMode) {
-                System.out.println("Agent " + uniqueID + "gen " + dna.generationNo + ": died of old age");
+            if (starving) {
+                LoggingHandler.agentDeath(this, "starving");
+            } else {
+                LoggingHandler.agentDeath(this, "old age");
             }
         }
     }
@@ -528,6 +534,8 @@ public class Agent extends MovingObject implements IAgent{
             case REPRODUCE:	reproduce(dt); break;
             case TRANSPORT:	transport(dt); break;
         }
+
+        LoggingHandler.logAgentAction(uniqueID, action.toString(), world.getTime());
     }
 
     // Method to sleep for the specified time or until the stamina is Full
