@@ -534,8 +534,6 @@ public class Agent extends MovingObject implements IAgent{
             case REPRODUCE:	reproduce(dt); break;
             case TRANSPORT:	transport(dt); break;
         }
-
-        LoggingHandler.logAgentAction(uniqueID, action.toString(), world.getTime());
     }
 
     // Method to sleep for the specified time or until the stamina is Full
@@ -880,13 +878,14 @@ public class Agent extends MovingObject implements IAgent{
                         "\nGeschwindigkeit: " + speed +
                         "\nSichtweite: " + visibility +
                         "\nFortpflanzungstrieb: " + reproductInstinct +
-                        "\nSpezialfähigkeit: " + special +
+                        "\nSpezialfähigkeit: " + special.name() +
                         "\nErfolg: " + averageSuccess +
-                        "\nStatus: " + currentState + "  Bedürfnis: " + currentNeed +
+                        "\nStatus: " + currentState.name() + "  Bedürfnis: " + currentNeed.name() +
                         "\nEntfernung Ziel: " + dist +
                         "\nGruppenführer: " + (komm.leader != null ? komm.leader.toString() : "---") +
                         "\nPartner: " + komm.partners +
-                        "\n\nUmgebung: " + environment;
+                        "\n";
+                        //"\n\nUmgebung: " + environment;
     }
 
 
