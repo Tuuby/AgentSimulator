@@ -37,7 +37,7 @@ public class WorldLogger implements ILogger {
 
             FileWriter writer = new FileWriter(logFile);
             for (Pair<Long, String> logEntry : logEntries) {
-                writer.write("WorldAge " + logEntry.getKey() + ": " + logEntry.getValue());
+                writer.write("WorldAge " + logEntry.getKey() + ": " + logEntry.getValue() + "\n");
             }
 
             writer.close();
