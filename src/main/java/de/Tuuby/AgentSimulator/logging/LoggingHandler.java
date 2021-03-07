@@ -2,12 +2,26 @@ package de.Tuuby.AgentSimulator.logging;
 
 import de.Tuuby.AgentSimulator.world.Agent;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 public class LoggingHandler {
 
+    static String folderName;
     private static HashMap<Long, ILogger> agentStatLogs = new HashMap<Long, ILogger>();
     private static HashMap<Long, ILogger> worldLogger = new HashMap<Long, ILogger>();
+
+    public static void init() {
+        Date now = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss");
+        String time = dateFormat.format(now);
+        folderName = "logs/simulation" + time;
+        System.out.println(folderName);
+        File folder = new File(folderName);
+        System.out.println(folder.mkdirs());
+    }
 
     public static void addAgent(long agentId) {
         agentStatLogs.put(agentId, new AgentLogger("Stats", agentId));
