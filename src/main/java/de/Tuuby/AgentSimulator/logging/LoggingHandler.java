@@ -18,9 +18,8 @@ public class LoggingHandler {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd_HH-mm-ss");
         String time = dateFormat.format(now);
         folderName = "logs/simulation" + time;
-        System.out.println(folderName);
         File folder = new File(folderName);
-        System.out.println(folder.mkdirs());
+        folder.mkdirs();
     }
 
     public static void addAgent(long agentId) {

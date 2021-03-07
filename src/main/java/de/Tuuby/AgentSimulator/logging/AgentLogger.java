@@ -33,7 +33,7 @@ public class AgentLogger implements ILogger {
     }
 
     public void writeToFile() {
-        File logFile = new File(name + agentId + ".txt");
+        File logFile = new File(LoggingHandler.folderName, name + agentId + ".txt");
         try {
             logFile.createNewFile();
 

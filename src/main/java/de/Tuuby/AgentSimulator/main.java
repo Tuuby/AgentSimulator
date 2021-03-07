@@ -6,6 +6,7 @@ import de.Tuuby.AgentSimulator.graphics.Renderer;
 import de.Tuuby.AgentSimulator.graphics.StatusIconFactory;
 import de.Tuuby.AgentSimulator.guis.GuiFactory;
 import de.Tuuby.AgentSimulator.guis.WindowManager;
+import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
 import de.Tuuby.AgentSimulator.world.WorldGenerator;
 
@@ -14,6 +15,7 @@ public class main {
     public static WorldGenerator worldGen;
 
     public static void main(String[] args) {
+        LoggingHandler.init();
         PropertiesLoader.loadConfig();
         StatusIconFactory.initStatuses();
         Renderer.init();

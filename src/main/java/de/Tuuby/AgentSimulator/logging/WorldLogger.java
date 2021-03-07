@@ -31,7 +31,7 @@ public class WorldLogger implements ILogger {
     }
 
     public void writeToFile() {
-        File logFile = new File("World " + worldId + ".txt");
+        File logFile = new File(LoggingHandler.folderName, "World " + worldId + ".txt");
         try {
             logFile.createNewFile();
 
