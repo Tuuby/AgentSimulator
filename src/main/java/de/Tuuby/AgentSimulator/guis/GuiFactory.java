@@ -63,5 +63,7 @@ public class GuiFactory {
             WorldUpdater.addGUI(button);
             WindowManager.register(button);
         }
+
+        WorldUpdater.addGUI(LegendFactory.initLegend());
     }
 }

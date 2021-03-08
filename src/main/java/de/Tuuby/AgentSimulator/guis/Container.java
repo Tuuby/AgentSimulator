@@ -1,5 +1,7 @@
 package de.Tuuby.AgentSimulator.guis;
 
+import de.Tuuby.AgentSimulator.graphics.Graphics;
+
 import java.util.ArrayList;
 
 public class Container extends GuiElement{
@@ -41,13 +43,21 @@ public class Container extends GuiElement{
 
     @Override
     public void render() {
-        super.render();
+        Graphics.setColor(0.6f, 0.67f, 0.57f, 1);
+        Graphics.fillRect(x, y, width, height);
+
+        Graphics.setColor(1, 1, 1, 1);
+        Graphics.drawLine(getX() - getWidth() / 2.f, getY() - getHeight() / 2.f, getX() + getWidth() / 2.f, getY() - getHeight() / 2.f, 1);
+        Graphics.drawLine(getX() - getWidth() / 2.f, getY() - getHeight() / 2.f, getX() - getWidth() / 2.f, getY() + getHeight() / 2.f, 1);
+        Graphics.drawLine(getX() - getWidth() / 2.f, getY() + getHeight() / 2.f, getX() + getWidth() / 2.f, getY() + getHeight() / 2.f, 1);
+        Graphics.drawLine(getX() + getWidth() / 2.f, getY() - getHeight() / 2.f, getX() + getWidth() / 2.f, getY() + getHeight() / 2.f, 1);
+
         for (GuiElement element : contents) {
             element.render();
         }
     }
 
     public void update() {
-
+        // nothing to update
     }
 }
