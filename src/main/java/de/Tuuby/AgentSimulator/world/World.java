@@ -29,6 +29,7 @@ public class World {
     private int herbivoreCount = 0;
     private int agentCount = 0;
 
+    //TODO: should move these to the GuiFactory
     private Graph foodGraph;
     private Graph herbivoreGraph;
     private Graph agentGraph;
