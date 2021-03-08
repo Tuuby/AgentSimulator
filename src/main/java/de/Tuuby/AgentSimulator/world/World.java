@@ -45,11 +45,11 @@ public class World {
             for (int i = 0; i < world.length; i++)
                 world[i][j] = new ConcurrentLinkedQueue<GameObject>();
 
-        foodGraph = new Graph(800, 0, 400, 100, true, "Food");
+        foodGraph = new Graph(800, 0, 400, 100, true, "Nahrung");
         foodGraph.setColor(1, 0, 0, 1);
-        herbivoreGraph = new Graph(800, 100, 400, 100, true, "Herbivores");
-        herbivoreGraph.setColor(0, 1, 0, 1);
-        agentGraph = new Graph(800, 200, 400, 100, true, "Agents");
+        herbivoreGraph = new Graph(800, 100, 400, 100, true, "Pflanzenfresser");
+        herbivoreGraph.setColor(0.13f, 0.68f, 0.09f, 1);
+        agentGraph = new Graph(800, 200, 400, 100, true, "Fleischfresser");
         agentGraph.setColor(0, 0, 1, 1);
     }
 
