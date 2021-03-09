@@ -10,6 +10,8 @@ import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
 import de.Tuuby.AgentSimulator.world.WorldGenerator;
 
+import javax.swing.*;
+
 public class main {
 
     public static WorldGenerator worldGen;

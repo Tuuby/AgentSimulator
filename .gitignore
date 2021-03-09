@@ -120,3 +120,6 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,maven
 AgentSimulator.iml
+
+# Exclude logs as they can get really bulky
+logs/
