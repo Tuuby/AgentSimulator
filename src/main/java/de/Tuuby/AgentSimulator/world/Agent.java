@@ -572,9 +572,8 @@ public class Agent extends MovingObject implements IAgent{
                 if (!target.isAlive())
                     paralysesOrKills++;
 
-                if (WorldUpdater.debugMode) {
-                    System.out.println("Agent " + uniqueID + ": has damaged herbivore " + target.getUniqueID());
-                }
+                LoggingHandler.logWorldEvent(0, "Agent " + uniqueID + ": has damaged herbivore " + target.getUniqueID(), world.getTime());
+
             }
         } else if (special == AgentSpecial.PARALYZER) {
             moveToTarget(target, dt);
@@ -583,10 +582,8 @@ public class Agent extends MovingObject implements IAgent{
                     paralysesOrKills++;
 
                 target.paralyze();
+                LoggingHandler.logWorldEvent(0, "Agent " + uniqueID + ": has paralyzed herbivore " + target.getUniqueID(), world.getTime());
 
-                if (WorldUpdater.debugMode) {
-                    System.out.println("Agent " + uniqueID + ": has paralyzed herbivore " + target.getUniqueID());
-                }
             }
         } else if (special == AgentSpecial.LEADER) {
             if (!target.isAlive()) {

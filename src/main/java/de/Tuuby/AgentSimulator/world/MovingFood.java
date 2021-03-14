@@ -5,6 +5,7 @@ import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.graphics.StatusIconFactory;
 import de.Tuuby.AgentSimulator.guis.ProgressBar;
+import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.resource.ImageResource;
 
 import java.util.Vector;
@@ -343,16 +344,14 @@ public class MovingFood extends MovingObject {
                 if (natural) {
                     acRangeNatDeath += visibility;
                     acNatDeath++;
-                    if (WorldUpdater.debugMode) {
-                        System.out.println("Herbivore " + uniqueID + ": died of old age");
-                    }
+                    LoggingHandler.logWorldEvent(0, "Herbivore " + uniqueID + ": died of old age", world.getTime());
                 } else {
                     acRangeDeath += visibility;
                     acDeath++;
-                    if (extern && WorldUpdater.debugMode)
-                        System.out.println("Herbivore " + uniqueID + ": got killed by an Agent");
-                    else if (WorldUpdater.debugMode)
-                        System.out.println("Herbivore " + uniqueID + ": starved");
+                    if (extern)
+                        LoggingHandler.logWorldEvent(0, "Herbivore " + uniqueID + ": got killed by an Agent", world.getTime());
+                    else
+                        LoggingHandler.logWorldEvent(0, "Herbivore " + uniqueID + ": starved", world.getTime());
                 }
                 deathTime = lastUpdate;
                 health = 0;
