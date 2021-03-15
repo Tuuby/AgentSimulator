@@ -1,6 +1,6 @@
 package de.Tuuby.AgentSimulator.world;
 
-import de.Tuuby.AgentSimulator.engine.JMTRemnants.Performative;
+import de.Tuuby.AgentSimulator.engine.Performative;
 import de.Tuuby.AgentSimulator.engine.KQML;
 import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 import de.Tuuby.AgentSimulator.world.enums.AgentStates;

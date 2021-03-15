@@ -1,8 +1,7 @@
 package de.Tuuby.AgentSimulator.world;
 
-import de.Tuuby.AgentSimulator.engine.JMTRemnants.Performative;
+import de.Tuuby.AgentSimulator.engine.Performative;
 import de.Tuuby.AgentSimulator.engine.KQML;
-import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.graphics.Animation;
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
@@ -10,7 +9,6 @@ import de.Tuuby.AgentSimulator.resource.ImageResource;
 import de.Tuuby.AgentSimulator.world.enums.AgentActions;
 import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 import de.Tuuby.AgentSimulator.world.enums.AgentStates;
-import sun.rmi.runtime.Log;
 
 import java.util.*;
 

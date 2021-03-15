@@ -1,6 +1,5 @@
 package de.Tuuby.AgentSimulator.engine;
 
-import de.Tuuby.AgentSimulator.engine.JMTRemnants.Performative;
 import de.Tuuby.AgentSimulator.world.IAgent;
 
 import java.net.InetAddress;

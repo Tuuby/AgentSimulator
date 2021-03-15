@@ -1,4 +1,6 @@
-package de.Tuuby.AgentSimulator.engine.JMTRemnants;
+package de.Tuuby.AgentSimulator.engine;
+
+import de.Tuuby.AgentSimulator.engine.JMTRemnants.ScriptObject;
 
 import java.util.Enumeration;
 import java.util.Vector;
