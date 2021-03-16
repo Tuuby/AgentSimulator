@@ -17,7 +17,7 @@ public class ImageLoader {
         images = new LinkedList<ImageResource>();
     }
 
-    // Method to load all images from a de.Tuuby.AgentSimulator.resource folder into the list images
+    // Method to load all images from a resource folder into the list of images
     public void load(String folder) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         URL url = loader.getResource(folder);
