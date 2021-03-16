@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.guis;
 
 import de.Tuuby.AgentSimulator.engine.GameLoop;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
+import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.main;
 
 import java.util.LinkedList;
@@ -16,6 +17,8 @@ public class GuiFactory {
         button1.setMouseListener(new GUIMouseListener() {
             public void onMouseButtonClick() {
                 main.worldGen.clear();
+                LoggingHandler.saveAndExit();
+                LoggingHandler.init();
                 main.worldGen.generate();
                 WorldUpdater.setWorld(main.worldGen.getWorld());
             }
