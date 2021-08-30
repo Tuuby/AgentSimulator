@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.engine;
 
 import de.Tuuby.AgentSimulator.graphics.Renderer;
 import de.Tuuby.AgentSimulator.input.KeyInput;
+import de.Tuuby.AgentSimulator.input.KeyInputSwing;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 
 import java.awt.event.KeyEvent;
@@ -38,7 +39,7 @@ public class GameLoop {
                 long lastFpsCheck = System.nanoTime();
 
                 while (running) {
-                    if (KeyInput.getKey(KeyEvent.VK_ESCAPE)) {
+                    if (KeyInputSwing.getKey(KeyEvent.VK_ESCAPE)) {
                         GameLoop.stop();
                         LoggingHandler.saveAndExit();
                         Renderer.stop();
