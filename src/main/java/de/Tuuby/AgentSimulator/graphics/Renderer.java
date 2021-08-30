@@ -3,16 +3,22 @@ package de.Tuuby.AgentSimulator.graphics;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
 import de.Tuuby.AgentSimulator.input.KeyInput;
 import de.Tuuby.AgentSimulator.input.MouseInput;
 import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
+
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 // Class that Initializes the OpenGL context and window and calls the display method from window
 public class Renderer {
 
     // Variables for the OpenGL profile and window
     private static GLProfile profile = null;
-    private static GLWindow window = null;
+    private static GLCanvas glCanvas = null;
+    private static JFrame mainFrame = null;
 
     // Variables for the window size in pixels
     public static int screenWidth = 1000;
@@ -22,10 +28,6 @@ public class Renderer {
     public static float unitsWide = 1200;
     public static float unitsTall = 0;
 
-    // Variables for a moving camera; probably not needed here
-    //public static float cameraX = 0;
-    //public static float cameraY = 0;
-
     // Gets called by the main method to initialize the window and the OpenGL profile
     public static void init() {
 
@@ -33,36 +35,48 @@ public class Renderer {
         profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities caps = new GLCapabilities(profile);
 
-        window = GLWindow.create(caps);
-        window.setTitle("Agenten Simulation");
-        window.setResizable(false);
-        window.requestFocus();
+        glCanvas = new GLCanvas(caps);
+        glCanvas.addGLEventListener(new EventListener());
+
+        mainFrame = new JFrame("Agenten Simulation");
+        mainFrame.setResizable(false);
+        mainFrame.requestFocus();
         if (!PropertiesLoader.getAppConfig().isEmpty()) {
             screenWidth = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowWidth"));
             screenHeight = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowHeight"));
-            window.setTitle(PropertiesLoader.getAppConfig().getProperty("name"));
+            mainFrame.setTitle(PropertiesLoader.getAppConfig().getProperty("name"));
         }
-        window.setSize(screenWidth, screenHeight);
-        window.addGLEventListener(new EventListener());
-        window.addMouseListener(new MouseInput());
-        window.addKeyListener(new KeyInput());
-        window.setVisible(true);
+
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                mainFrame.dispose();
+                System.exit(0);
+            }
+        });
+
+        mainFrame.setSize(screenWidth, screenHeight);
+        // TODO: figure out if this is needed still
+        //glCanvas.addMouseListener();
+        //glCanvas.addKeyListener();
+        mainFrame.getContentPane().add(glCanvas);
+        mainFrame.setVisible(true);
     }
 
     // Gets called by the GameLoop to draw the next frame
     public static void render() {
-        if (window == null)
+        if (glCanvas == null)
             return;
 
-        window.display();
+        glCanvas.display();
     }
 
     public static int getWindowHeight() {
-        return window.getHeight();
+        return mainFrame.getHeight();
     }
 
     public static int getWindowWidth() {
-        return window.getWidth();
+        return mainFrame.getWidth();
     }
 
     public static GLProfile getProfile() {
@@ -70,6 +84,6 @@ public class Renderer {
     }
 
     public static void stop() {
-        window.destroy();
+        mainFrame.dispatchEvent(new WindowEvent(mainFrame, WindowEvent.WINDOW_CLOSING));
     }
 }
