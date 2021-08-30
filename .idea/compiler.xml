@@ -9,5 +9,8 @@
         <module name="AgentSimulator" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="AgentSimulator" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>
