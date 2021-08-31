@@ -11,7 +11,8 @@ public class LoggingHandler {
 
     static String folderName;
     private static HashMap<Long, ILogger> agentStatLogs = new HashMap<Long, ILogger>();
-    private static HashMap<Long, ILogger> worldLogger = new HashMap<Long, ILogger>();
+    private static HashMap<Long, ILogger> worldLoggers = new HashMap<Long, ILogger>();
+    private static HashMap<Long, ILogger> populationLoggers = new HashMap<Long, ILogger>();
 
     public static void init() {
         Date now = new Date();
@@ -26,8 +27,9 @@ public class LoggingHandler {
         agentStatLogs.put(agentId, new AgentLogger("Stats", agentId));
     }
 
-    public static void addWorld(long worldId, ILogger logger) {
-        worldLogger.put(worldId, logger);
+    public static void addWorld(long worldId, ILogger worldLogger, ILogger popLogger) {
+        worldLoggers.put(worldId, worldLogger);
+        populationLoggers.put(worldId, popLogger);
     }
 
     public static void logAgentStat(long agentId, String stat, long worldAge) {
@@ -35,7 +37,11 @@ public class LoggingHandler {
     }
 
     public static void logWorldEvent(long worldId, String info, long worldAge) {
-        worldLogger.get(worldId).log(info, worldAge);
+        worldLoggers.get(worldId).log(info, worldAge);
+    }
+
+    public static void logPopulationStats(long worldId, String data, long worldAge) {
+        populationLoggers.get(worldId).log(data, worldAge);
     }
 
     public static void agentDeath(Agent agent, String reason) {
@@ -52,7 +58,11 @@ public class LoggingHandler {
             logger.writeToFile();
         }
 
-        for (ILogger logger : worldLogger.values()) {
+        for (ILogger logger : worldLoggers.values()) {
+            logger.writeToFile();
+        }
+
+        for (ILogger logger : populationLoggers.values()) {
             logger.writeToFile();
         }
     }

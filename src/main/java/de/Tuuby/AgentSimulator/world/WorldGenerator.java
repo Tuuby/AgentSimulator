@@ -1,6 +1,7 @@
 package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
+import de.Tuuby.AgentSimulator.logging.PopulationLogger;
 import de.Tuuby.AgentSimulator.logging.WorldLogger;
 import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 
@@ -67,7 +68,7 @@ public class WorldGenerator {
         Agent.initRun();
         MovingFood.initRun();
         Portal.initRun();
-        LoggingHandler.addWorld(0, new WorldLogger(0));
+        LoggingHandler.addWorld(0, new WorldLogger(0), new PopulationLogger(0));
         int i;
         int xsize = world.getWidth();
         int ysize = world.getHeight();

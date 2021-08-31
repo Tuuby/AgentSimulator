@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.guis.Graph;
+import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -350,5 +351,11 @@ public class World {
                 }
             }
         }
+
+        StringBuilder data = new StringBuilder("Populations: ");
+        data.append("Food: ").append(foodCounter);
+        data.append("Herbivores: ").append(herbivoreCounter);
+        data.append("Carnivores: ").append(agentCounter);
+        LoggingHandler.logPopulationStats(0, data.toString(), time);
     }
 }

@@ -5,12 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class WorldLogger implements ILogger {
+public class PopulationLogger implements ILogger {
 
     private final long worldId;
     private final ArrayList<LogEntry> logEntries;
 
-    public WorldLogger(long worldId) {
+    public PopulationLogger(long worldId) {
         this.worldId = worldId;
         logEntries = new ArrayList<LogEntry>();
     }
@@ -29,16 +29,17 @@ public class WorldLogger implements ILogger {
     }
 
     public void writeToFile() {
-        File logFile = new File(LoggingHandler.folderName, "World " + worldId + ".txt");
+        File logFile =  new File(LoggingHandler.folderName, "Population_World " + worldId + ".txt");
         try {
-            logFile.createNewFile();
-
-            FileWriter writer = new FileWriter(logFile);
-            for (LogEntry logEntry : logEntries) {
-                writer.write("WorldAge " + logEntry.getKey() + ": " + logEntry.getValue() + "\n");
+            if (logFile.createNewFile()) {
+                FileWriter writer = new FileWriter(logFile);
+                for (LogEntry logEntry : logEntries) {
+                    writer.write("WorldAge " + logEntry.getKey() + ": " + logEntry.getValue() + "\n");
+                }
+                writer.close();
+            } else {
+                System.out.println("Couldn't create file");
             }
-
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
