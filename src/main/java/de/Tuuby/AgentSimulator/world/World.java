@@ -121,7 +121,6 @@ public class World {
         time += TIME_UNIT;
 
         countGameObjects();
-        System.out.println(time);
     }
 
     public void renderAll() {
