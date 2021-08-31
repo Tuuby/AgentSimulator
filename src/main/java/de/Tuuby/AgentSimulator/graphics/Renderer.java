@@ -4,6 +4,7 @@ import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
+import de.Tuuby.AgentSimulator.guis.SwingManager;
 import de.Tuuby.AgentSimulator.input.KeyInput;
 import de.Tuuby.AgentSimulator.input.KeyInputSwing;
 import de.Tuuby.AgentSimulator.input.MouseInput;
@@ -60,7 +61,7 @@ public class Renderer {
         // TODO: figure out if this is needed still
         //glCanvas.addMouseListener();
         mainFrame.addKeyListener(new KeyInputSwing());
-        mainFrame.getContentPane().add(glCanvas);
+        SwingManager.build(mainFrame, glCanvas, PropertiesLoader.getAppConfig());
         mainFrame.setVisible(true);
     }
 
