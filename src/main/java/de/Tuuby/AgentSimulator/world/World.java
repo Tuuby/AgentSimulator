@@ -24,15 +24,11 @@ public class World {
     private int wspeed;
     private long time;
 
-    private int foodCount = 0;
     private int foodSpawnCount = 0;
-    private int herbivoreCount = 0;
-    private int agentCount = 0;
 
-    //TODO: should move these to the GuiFactory
-    private Graph foodGraph;
-    private Graph herbivoreGraph;
-    private Graph agentGraph;
+    private int foodCounter;
+    private int herbivoreCounter;
+    private int agentCounter;
 
     // Constructor that mainly initializes the 2d array
     public World(int width, int height) {
@@ -45,13 +41,6 @@ public class World {
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 world[i][j] = new ConcurrentLinkedQueue<GameObject>();
-
-        foodGraph = new Graph(800, 0, 400, 100, true, "Nahrung");
-        foodGraph.setColor(1, 0, 0, 1);
-        herbivoreGraph = new Graph(800, 100, 400, 100, true, "Pflanzenfresser");
-        herbivoreGraph.setColor(0.13f, 0.68f, 0.09f, 1);
-        agentGraph = new Graph(800, 200, 400, 100, true, "Fleischfresser");
-        agentGraph.setColor(0, 0, 1, 1);
     }
 
     // Getter and Setter
@@ -72,15 +61,15 @@ public class World {
     }
 
     public void setFoodCount(int foodCount) {
-        this.foodCount = foodCount;
+        this.foodCounter = foodCount;
     }
 
     public void setHerbivoreCount(int herbivoreCount) {
-        this.herbivoreCount = herbivoreCount;
+        this.herbivoreCounter = herbivoreCount;
     }
 
     public void setAgentCount(int agentCount) {
-        this.agentCount = agentCount;
+        this.agentCounter = agentCount;
     }
 
     public void setFoodSpawnCount(int foodSpawnCount) {
@@ -88,15 +77,15 @@ public class World {
     }
 
     public int getFoodCount() {
-        return foodCount;
+        return foodCounter;
     }
 
     public int getHerbivoreCount() {
-        return herbivoreCount;
+        return herbivoreCounter;
     }
 
     public int getAgentCount() {
-        return agentCount;
+        return agentCounter;
     }
 
     // Method to clear the entire world of GameObjects
@@ -132,9 +121,6 @@ public class World {
             for (int i = 0; i < world.length; i++)
                 for (GameObject go : world[i][j])
                     go.render();
-        foodGraph.render();
-        herbivoreGraph.render();
-        agentGraph.render();
     }
 
     public void renderDebug() {
@@ -347,28 +333,22 @@ public class World {
     }
 
     private void countGameObjects() {
-        foodCount = 0;
-        herbivoreCount = 0;
-        agentCount = 0;
+        foodCounter = 0;
+        herbivoreCounter = 0;
+        agentCounter = 0;
 
-        for (int j = 0; j < world[0].length; j++)
-            for (int i = 0; i < world.length; i++)
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
                 for (GameObject go : world[i][j]) {
                     if (go instanceof Food)
-                        foodCount++;
+                        foodCounter++;
                     else if (go instanceof MovingFood) {
                         if (((MovingFood) go).isAlive())
-                            herbivoreCount++;
-                    }
-                    else if (go instanceof Agent)
-                        agentCount++;
+                            herbivoreCounter++;
+                    } else if (go instanceof Agent)
+                        agentCounter++;
                 }
-
-        foodGraph.addValue(getFoodCount());
-        foodGraph.update();
-        herbivoreGraph.addValue(getHerbivoreCount());
-        herbivoreGraph.update();
-        agentGraph.addValue(getAgentCount());
-        agentGraph.update();
+            }
+        }
     }
 }

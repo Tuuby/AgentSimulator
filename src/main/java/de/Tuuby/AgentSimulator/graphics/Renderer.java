@@ -27,7 +27,7 @@ public class Renderer {
     public static int screenHeight = 800;
 
     // Variables for the window size in Units
-    public static float unitsWide = 1200;
+    public static float unitsWide = 800;
     public static float unitsTall = 0;
 
     // Gets called by the main method to initialize the window and the OpenGL profile

@@ -57,7 +57,7 @@ public class EventListener implements GLEventListener {
         gl.glLoadIdentity();
 
         // Calculate the height of the Window with the new AspectRatio
-        Renderer.unitsTall = Renderer.getWindowHeight() / (Renderer.getWindowWidth() / Renderer.unitsWide);
+        Renderer.unitsTall = Renderer.getWindowHeight() / ((Renderer.getWindowWidth() - 300) / Renderer.unitsWide);
 
         // Apply an offset to the OpenGL context to match with world Coordinates
         gl.glOrtho(0, Renderer.unitsWide, Renderer.unitsTall, 0, -1, 1);
