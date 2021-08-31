@@ -2,6 +2,7 @@ package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.graphics.Graphics;
 import de.Tuuby.AgentSimulator.guis.Graph;
+import de.Tuuby.AgentSimulator.guis.SwingManager;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 
 import java.util.*;
@@ -31,6 +32,10 @@ public class World {
     private int herbivoreCounter;
     private int agentCounter;
 
+    private Queue<Double> foodPopValues;
+    private Queue<Double> herbivorePopValues;
+    private Queue<Double> agentPopValues;
+
     // Constructor that mainly initializes the 2d array
     public World(int width, int height) {
         time = 0;
@@ -42,6 +47,10 @@ public class World {
         for (int j = 0; j < world[0].length; j++)
             for (int i = 0; i < world.length; i++)
                 world[i][j] = new ConcurrentLinkedQueue<GameObject>();
+
+        foodPopValues = new ConcurrentLinkedQueue<Double>();
+        herbivorePopValues = new ConcurrentLinkedQueue<Double>();
+        agentPopValues = new ConcurrentLinkedQueue<Double>();
     }
 
     // Getter and Setter
@@ -112,7 +121,7 @@ public class World {
         time += TIME_UNIT;
 
         countGameObjects();
-        //System.out.println(time);
+        System.out.println(time);
     }
 
     public void renderAll() {
@@ -352,10 +361,49 @@ public class World {
             }
         }
 
-        StringBuilder data = new StringBuilder("Populations: ");
-        data.append("Food: ").append(foodCounter);
-        data.append("Herbivores: ").append(herbivoreCounter);
-        data.append("Carnivores: ").append(agentCounter);
-        LoggingHandler.logPopulationStats(0, data.toString(), time);
+        foodPopValues.offer((double) foodCounter);
+        if (foodPopValues.size() > 60) {
+            foodPopValues.poll();
+        }
+        Double[] tempFoodData = new Double[foodPopValues.size()];
+        foodPopValues.toArray(tempFoodData);
+        double[] foodData = convertArray(tempFoodData);
+
+        herbivorePopValues.offer((double) herbivoreCounter);
+        if (herbivorePopValues.size() > 60) {
+            herbivorePopValues.poll();
+        }
+        Double[] tempHerbData = new Double[herbivorePopValues.size()];
+        herbivorePopValues.toArray(tempHerbData);
+        double[] herbData = convertArray(tempHerbData);
+
+
+        agentPopValues.offer((double) agentCounter);
+        if (agentPopValues.size() > 60) {
+            agentPopValues.poll();
+        }
+        Double[] tempAgentData = new Double[agentPopValues.size()];
+        agentPopValues.toArray(tempAgentData);
+        double[] agentData = convertArray(tempAgentData);
+
+        double[] worldAgeData = new double[foodPopValues.size()];
+        for (int i = 0; i < worldAgeData.length; i++) {
+            worldAgeData[i] = (double) (time + ((i - worldAgeData.length) * 10L));
+        }
+
+        SwingManager.updatePopulation(worldAgeData, foodData, herbData, agentData);
+
+        String data = "Populations: " + "Food: " + foodCounter +
+                "Herbivores: " + herbivoreCounter +
+                "Carnivores: " + agentCounter;
+        LoggingHandler.logPopulationStats(0, data, time);
+    }
+
+    private double[] convertArray(Double[] inputArray) {
+        double[] doubleArray = new double[inputArray.length];
+        for (int i = 0; i < inputArray.length; i++) {
+            doubleArray[i] = (double) inputArray[i];
+        }
+        return doubleArray;
     }
 }

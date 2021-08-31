@@ -14,6 +14,7 @@ import java.util.Properties;
 public class SwingManager {
 
     public static XYChart populationChart;
+    public static JPanel chartPanel;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -42,11 +43,16 @@ public class SwingManager {
                 .build();
         populationChart.getStyler().setLegendPosition(Styler.LegendPosition.InsideS);
         populationChart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
-        populationChart.addSeries("Food", new double[] { 0 }, new double[] { Double.parseDouble(properties.getProperty("foodCount")) });
-        populationChart.addSeries("Herbivores", new double[] { 0 }, new double[] { Double.parseDouble(properties.getProperty("herbivoreCount")) });
-        populationChart.addSeries("Carnivores", new double[] { 0 }, new double[] { Double.parseDouble(properties.getProperty("agentCount")) });
+        populationChart.getStyler().setMarkerSize(0);
 
-        JPanel chartPanel = new XChartPanel<XYChart>(populationChart);
+        XYSeries foodSeries = populationChart.addSeries("Food", new double[] { 0 }, new double[] { Double.parseDouble(properties.getProperty("foodCount")) });
+        foodSeries.setLineWidth(5);
+        XYSeries herbSeries = populationChart.addSeries("Herbivores", new double[] { 0 }, new double[] { Double.parseDouble(properties.getProperty("herbivoreCount")) });
+        herbSeries.setLineWidth(5);
+        XYSeries agentSeries = populationChart.addSeries("Carnivores", new double[] { 0 }, new double[] { Double.parseDouble(properties.getProperty("agentCount")) });
+        agentSeries.setLineWidth(5);
+
+        chartPanel = new XChartPanel<XYChart>(populationChart);
         worldPanel.add(chartPanel);
 
         // Create Labels for information
@@ -67,7 +73,11 @@ public class SwingManager {
         mainFrame.getContentPane().add(mainPanel);
     }
 
-    public static void updatePopulation(double[][] populationCount) {
+    public static void updatePopulation(double[] worldAgeData, double[] foodData, double[] herbData, double[] agentData) {
+        populationChart.updateXYSeries("Food", worldAgeData, foodData, null);
+        populationChart.updateXYSeries("Herbivores", worldAgeData, herbData, null);
+        populationChart.updateXYSeries("Carnivores", worldAgeData, agentData, null);
 
+        chartPanel.repaint();
     }
 }
