@@ -95,4 +95,8 @@ public class GameLoop {
     public static void toggleHold() {
         onHold = !onHold;
     }
+
+    public static boolean getHold() {
+        return onHold;
+    }
 }
