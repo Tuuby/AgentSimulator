@@ -5,6 +5,7 @@ import de.Tuuby.AgentSimulator.engine.GameLoop;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.main;
+import de.Tuuby.AgentSimulator.world.World;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -14,12 +15,25 @@ import org.knowm.xchart.style.Styler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
 import java.util.Properties;
 
 public class SwingManager {
 
     public static XYChart populationChart;
     public static JPanel chartPanel;
+
+    private static JLabel SubtitleLabelWorld;
+    private static JLabel InfoLabelWorldSize;
+    private static JLabel InfoLabelHillNumber;
+    private static JLabel SubtitleLabelFood;
+    private static JLabel InfoLabelFoodNumber;
+    private static JLabel InfoLabelNutriValue;
+    private static JLabel SubtitleLablePopulation;
+    private static JLabel InfoLabelHerbivoreNumber;
+    private static JLabel InfoLabelAgentNumber;
+    private static JLabel SubtitleLabelParameters;
+    private static JLabel InfoLabelFoodGrowthRate;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -64,47 +78,58 @@ public class SwingManager {
         worldPanel.add(chartPanel);
 
         // Create Labels for information
-        JLabel SubtitleLabelWorld = new JLabel("World");
+        SubtitleLabelWorld = new JLabel("World");
+        SubtitleLabelWorld.setAlignmentX(Component.CENTER_ALIGNMENT);
         SubtitleLabelWorld.setFont(titleFont);
         worldPanel.add(SubtitleLabelWorld);
 
-        JLabel InfoLabelWorldSize = new JLabel("Size: " + properties.getProperty("worldWidth") + " x " + properties.getProperty("worldHeight"));
+        InfoLabelWorldSize = new JLabel("Size: " + properties.getProperty("worldWidth") + " x " + properties.getProperty("worldHeight"));
+        InfoLabelWorldSize.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelWorldSize.setFont(infoFont);
         worldPanel.add(InfoLabelWorldSize);
 
-        JLabel InfoLabelHillNumber = new JLabel("# Hills: " + properties.getProperty("hillCount"));
+        InfoLabelHillNumber = new JLabel("# Hills: " + properties.getProperty("hillCount"));
+        InfoLabelHillNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelHillNumber.setFont(infoFont);
         worldPanel.add(InfoLabelHillNumber);
 
-        JLabel SubtitleLabelFood = new JLabel("Food");
+        SubtitleLabelFood = new JLabel("Food");
+        SubtitleLabelFood.setAlignmentX(Component.CENTER_ALIGNMENT);
         SubtitleLabelFood.setFont(titleFont);
         worldPanel.add(SubtitleLabelFood);
 
-        JLabel InfoLabelFoodNumber = new JLabel("# Food: " + properties.getProperty("foodCount"));
+        InfoLabelFoodNumber = new JLabel("# Food: " + properties.getProperty("foodCount"));
+        InfoLabelFoodNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelFoodNumber.setFont(infoFont);
         worldPanel.add(InfoLabelFoodNumber);
 
-        JLabel InfoLabelNutriValue = new JLabel("Nutrit. Value per Object: 12.000 - 15.000");
+        InfoLabelNutriValue = new JLabel("Avg. Nutrit. Value: 12.000 - 15.000");
+        InfoLabelNutriValue.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelNutriValue.setFont(infoFont);
         worldPanel.add(InfoLabelNutriValue);
 
-        JLabel SubtitleLablePopulation = new JLabel("Population");
+        SubtitleLablePopulation = new JLabel("Population");
+        SubtitleLablePopulation.setAlignmentX(Component.CENTER_ALIGNMENT);
         SubtitleLablePopulation.setFont(titleFont);
         worldPanel.add(SubtitleLablePopulation);
 
-        JLabel InfoLabelHerbivoreNumber = new JLabel("# Herbivores: " + properties.getProperty("herbivoreCount"));
+        InfoLabelHerbivoreNumber = new JLabel("# Herbivores: " + properties.getProperty("herbivoreCount"));
+        InfoLabelHerbivoreNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelHerbivoreNumber.setFont(infoFont);
         worldPanel.add(InfoLabelHerbivoreNumber);
 
-        JLabel InfoLabelAgentNumber = new JLabel("# Agents: " + properties.getProperty("agentCount"));
+        InfoLabelAgentNumber = new JLabel("# Agents: " + properties.getProperty("agentCount"));
+        InfoLabelAgentNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelAgentNumber.setFont(infoFont);
         worldPanel.add(InfoLabelAgentNumber);
 
-        JLabel SubtitleLabelParameters = new JLabel("Parameter");
+        SubtitleLabelParameters = new JLabel("Parameter");
+        SubtitleLabelParameters.setAlignmentX(Component.CENTER_ALIGNMENT);
         SubtitleLabelParameters.setFont(titleFont);
         worldPanel.add(SubtitleLabelParameters);
 
-        JLabel InfoLabelFoodGrowthRate = new JLabel("Food Growth Rate: " + properties.getProperty("foodSpawnAmount"));
+        InfoLabelFoodGrowthRate = new JLabel("Food Growth Rate: " + properties.getProperty("foodSpawnAmount"));
+        InfoLabelFoodGrowthRate.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelFoodGrowthRate.setFont(infoFont);
         worldPanel.add(InfoLabelFoodGrowthRate);
 
@@ -151,5 +176,11 @@ public class SwingManager {
         populationChart.updateXYSeries("Carnivores", worldAgeData, agentData, null);
 
         chartPanel.repaint();
+    }
+
+    public static void updateLabels(World world) {
+        DecimalFormat df2 = new DecimalFormat("###");
+        String avgEnergy = df2.format(world.getAvgEnergy());
+        InfoLabelNutriValue.setText("Avg. Nutrit. Value: " + avgEnergy + "\t");
     }
 }

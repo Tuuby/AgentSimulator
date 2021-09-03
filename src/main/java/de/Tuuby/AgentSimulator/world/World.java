@@ -36,6 +36,8 @@ public class World {
     private Queue<Double> herbivorePopValues;
     private Queue<Double> agentPopValues;
 
+    double avgEnergy;
+
     // Constructor that mainly initializes the 2d array
     public World(int width, int height) {
         time = 0;
@@ -98,6 +100,10 @@ public class World {
         return agentCounter;
     }
 
+    public double getAvgEnergy() {
+        return avgEnergy;
+    }
+
     // Method to clear the entire world of GameObjects
     public void doClear() {
         for (int j = 0; j < world[0].length; j++)
@@ -125,6 +131,7 @@ public class World {
         time += TIME_UNIT;
 
         countGameObjects();
+        calculateAverageEnergy();
     }
 
     public void renderAll() {
@@ -395,11 +402,29 @@ public class World {
         }
 
         SwingManager.updatePopulation(worldAgeData, foodData, herbData, agentData);
+        SwingManager.updateLabels(this);
 
         String data = "Populations: " + "Food: " + foodCounter +
                 "Herbivores: " + herbivoreCounter +
                 "Carnivores: " + agentCounter;
         LoggingHandler.logPopulationStats(0, data, time);
+    }
+
+    private void calculateAverageEnergy() {
+        avgEnergy = 0;
+        int energySum = 0;
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Food) {
+                        energySum += ((Food) go).getEnergy();
+                    }
+                }
+            }
+        }
+
+        avgEnergy = energySum * 1.0 / herbivoreCounter;
     }
 
     private double[] convertArray(Double[] inputArray) {
