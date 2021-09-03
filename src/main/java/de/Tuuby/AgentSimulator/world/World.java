@@ -107,6 +107,10 @@ public class World {
                 world[i][j].clear();
             }
         time = 0;
+
+        foodPopValues = new ConcurrentLinkedQueue<Double>();
+        herbivorePopValues = new ConcurrentLinkedQueue<Double>();
+        agentPopValues = new ConcurrentLinkedQueue<Double>();
     }
 
     // Method to update all GameObjects
