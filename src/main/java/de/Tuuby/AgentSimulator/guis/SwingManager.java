@@ -36,7 +36,13 @@ public class SwingManager {
     private static JLabel InfoLabelAgentNumber;
     private static JLabel SubtitleLabelParameters;
     private static JLabel InfoLabelFoodGrowthRate;
+    private static JLabel InfoLabelHillSize;
+    private static JLabel InfoLabelHillCount;
+
     private static JSpinner ParameterGrowthRateSpinner;
+    private static JSpinner ParameterHillSizeSpinner;
+    private static JSpinner ParameterHillCountSpinner;
+
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -142,6 +148,31 @@ public class SwingManager {
         ParameterGrowthRateSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
         worldPanel.add(ParameterGrowthRateSpinner);
 
+        InfoLabelHillSize = new JLabel("Hill size");
+        InfoLabelHillSize.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHillSize.setFont(infoFont);
+        worldPanel.add(InfoLabelHillSize);
+
+        SpinnerModel hillSizeModel = new SpinnerNumberModel(Integer.parseInt(properties.getProperty("hillSize")), 0, 50, 1);
+        ParameterHillSizeSpinner = new JSpinner(hillSizeModel);
+        ParameterHillSizeSpinner.setMaximumSize(new Dimension(50, 50));
+        ParameterHillSizeSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
+        worldPanel.add(ParameterHillSizeSpinner);
+
+        InfoLabelHillCount = new JLabel("Hill count");
+        InfoLabelHillCount.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHillCount.setFont(infoFont);
+        worldPanel.add(InfoLabelHillCount);
+
+        SpinnerModel hillCountModel = new SpinnerNumberModel(Integer.parseInt(properties.getProperty("hillCount")), 0, 50, 1);
+        ParameterHillCountSpinner = new JSpinner(hillCountModel);
+        ParameterHillCountSpinner.setMaximumSize(new Dimension(50, 50));
+        ParameterHillCountSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
+        worldPanel.add(ParameterHillCountSpinner);
+
+        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        worldPanel.add(separator);
+
         JPanel ButtonPanel = new JPanel();
         ButtonPanel.setLayout(new BoxLayout(ButtonPanel, BoxLayout.X_AXIS));
 
@@ -204,6 +235,8 @@ public class SwingManager {
 
     private static void writeParametersToConfig(Properties properties) {
         properties.setProperty("foodSpawnAmount", ParameterGrowthRateSpinner.getValue().toString());
+        properties.setProperty("hillSize", ParameterHillSizeSpinner.getValue().toString());
+        properties.setProperty("hillCount", ParameterHillCountSpinner.getValue().toString());
         PropertiesManager.writeProperties(properties);
     }
 }
