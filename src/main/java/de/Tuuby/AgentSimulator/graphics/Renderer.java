@@ -1,14 +1,11 @@
 package de.Tuuby.AgentSimulator.graphics;
 
-import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
 import de.Tuuby.AgentSimulator.guis.SwingManager;
-import de.Tuuby.AgentSimulator.input.KeyInput;
 import de.Tuuby.AgentSimulator.input.KeyInputSwing;
-import de.Tuuby.AgentSimulator.input.MouseInput;
-import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
+import de.Tuuby.AgentSimulator.resource.PropertiesManager;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -43,10 +40,10 @@ public class Renderer {
         mainFrame = new JFrame("Agenten Simulation");
         mainFrame.setResizable(false);
         mainFrame.requestFocus();
-        if (!PropertiesLoader.getAppConfig().isEmpty()) {
-            screenWidth = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowWidth"));
-            screenHeight = Integer.parseInt(PropertiesLoader.getAppConfig().getProperty("windowHeight"));
-            mainFrame.setTitle(PropertiesLoader.getAppConfig().getProperty("name"));
+        if (!PropertiesManager.getAppConfig().isEmpty()) {
+            screenWidth = Integer.parseInt(PropertiesManager.getAppConfig().getProperty("windowWidth"));
+            screenHeight = Integer.parseInt(PropertiesManager.getAppConfig().getProperty("windowHeight"));
+            mainFrame.setTitle(PropertiesManager.getAppConfig().getProperty("name"));
         }
 
         mainFrame.addWindowListener(new WindowAdapter() {
@@ -61,7 +58,7 @@ public class Renderer {
         // TODO: figure out if this is needed still
         //glCanvas.addMouseListener();
         mainFrame.addKeyListener(new KeyInputSwing());
-        SwingManager.build(mainFrame, glCanvas, PropertiesLoader.getAppConfig());
+        SwingManager.build(mainFrame, glCanvas, PropertiesManager.getAppConfig());
         mainFrame.setVisible(true);
     }
 

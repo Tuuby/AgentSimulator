@@ -4,11 +4,11 @@ import de.Tuuby.AgentSimulator.engine.GameLoop;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.graphics.Renderer;
 import de.Tuuby.AgentSimulator.guis.Graph;
-import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
+import de.Tuuby.AgentSimulator.resource.PropertiesManager;
 
 public class GraphTest {
     public static void main(String[] args) {
-        PropertiesLoader.loadConfig();
+        PropertiesManager.loadConfig();
         Renderer.init();
 
         Graph graph = new Graph(0, 200, 100, 100, true, 5, "Test");

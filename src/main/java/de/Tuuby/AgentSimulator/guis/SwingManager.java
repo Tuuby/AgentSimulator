@@ -5,6 +5,7 @@ import de.Tuuby.AgentSimulator.engine.GameLoop;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.main;
+import de.Tuuby.AgentSimulator.resource.PropertiesManager;
 import de.Tuuby.AgentSimulator.world.World;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
@@ -15,6 +16,7 @@ import org.knowm.xchart.style.Styler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.lang.reflect.Parameter;
 import java.text.DecimalFormat;
 import java.util.Properties;
 
@@ -34,6 +36,7 @@ public class SwingManager {
     private static JLabel InfoLabelAgentNumber;
     private static JLabel SubtitleLabelParameters;
     private static JLabel InfoLabelFoodGrowthRate;
+    private static JSpinner ParameterGrowthRateSpinner;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -128,10 +131,16 @@ public class SwingManager {
         SubtitleLabelParameters.setFont(titleFont);
         worldPanel.add(SubtitleLabelParameters);
 
-        InfoLabelFoodGrowthRate = new JLabel("Food Growth Rate: " + properties.getProperty("foodSpawnAmount"));
+        InfoLabelFoodGrowthRate = new JLabel("Food Growth Rate");
         InfoLabelFoodGrowthRate.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelFoodGrowthRate.setFont(infoFont);
         worldPanel.add(InfoLabelFoodGrowthRate);
+
+        SpinnerModel growthModel = new SpinnerNumberModel(Integer.parseInt(properties.getProperty("foodSpawnAmount")), 0, 20, 1);
+        ParameterGrowthRateSpinner = new JSpinner(growthModel);
+        ParameterGrowthRateSpinner.setMaximumSize(new Dimension(50, 50));
+        ParameterGrowthRateSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
+        worldPanel.add(ParameterGrowthRateSpinner);
 
         JPanel ButtonPanel = new JPanel();
         ButtonPanel.setLayout(new BoxLayout(ButtonPanel, BoxLayout.X_AXIS));
@@ -163,6 +172,15 @@ public class SwingManager {
         });
         ButtonPanel.add(RestartButton);
 
+        JButton SaveConfigButton = new JButton("Save Config");
+        SaveConfigButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                writeParametersToConfig(properties);
+            }
+        });
+        ButtonPanel.add(SaveConfigButton);
+
         worldPanel.add(ButtonPanel);
 
         tabbedPane.add("World", worldPanel);
@@ -182,5 +200,10 @@ public class SwingManager {
         DecimalFormat df2 = new DecimalFormat("###");
         String avgEnergy = df2.format(world.getAvgEnergy());
         InfoLabelNutriValue.setText("Avg. Nutrit. Value: " + avgEnergy + "\t");
+    }
+
+    private static void writeParametersToConfig(Properties properties) {
+        properties.setProperty("foodSpawnAmount", ParameterGrowthRateSpinner.getValue().toString());
+        PropertiesManager.writeProperties(properties);
     }
 }

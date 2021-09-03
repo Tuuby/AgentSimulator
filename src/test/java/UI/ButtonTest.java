@@ -6,11 +6,11 @@ import de.Tuuby.AgentSimulator.graphics.Renderer;
 import de.Tuuby.AgentSimulator.guis.Button;
 import de.Tuuby.AgentSimulator.guis.GUIMouseListener;
 import de.Tuuby.AgentSimulator.guis.WindowManager;
-import de.Tuuby.AgentSimulator.resource.PropertiesLoader;
+import de.Tuuby.AgentSimulator.resource.PropertiesManager;
 
 public class ButtonTest {
     public static void main(String[] args) {
-        PropertiesLoader.loadConfig();
+        PropertiesManager.loadConfig();
         Renderer.init();
         WindowManager.init();
         Button kevin = new Button(400, 400, 200, 200, "Button");
