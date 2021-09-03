@@ -16,12 +16,12 @@ import org.knowm.xchart.style.Styler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.lang.reflect.Parameter;
 import java.text.DecimalFormat;
 import java.util.Properties;
 
 public class SwingManager {
 
+    // World tab swing elements
     public static XYChart populationChart;
     public static JPanel chartPanel;
 
@@ -43,6 +43,8 @@ public class SwingManager {
     private static JSpinner ParameterHillSizeSpinner;
     private static JSpinner ParameterHillCountSpinner;
 
+    // Population tab swing elements
+    private static JLabel SubtitleLabelHerbivores;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -214,7 +216,20 @@ public class SwingManager {
 
         worldPanel.add(ButtonPanel);
 
+        // Create the second tab for the Tab Panel
+        // "Population"-Tab
+
+        JPanel populationPanel = new JPanel();
+        populationPanel.setLayout(new BoxLayout(populationPanel, BoxLayout.Y_AXIS));
+
+        SubtitleLabelHerbivores = new JLabel("Herbivores");
+        SubtitleLabelHerbivores.setAlignmentX(Component.CENTER_ALIGNMENT);
+        SubtitleLabelHerbivores.setFont(titleFont);
+        populationPanel.add(SubtitleLabelHerbivores);
+
+        // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
+        tabbedPane.add("Population", populationPanel);
         mainPanel.add(tabbedPane, BorderLayout.EAST);
         mainFrame.getContentPane().add(mainPanel);
     }
@@ -231,6 +246,9 @@ public class SwingManager {
         DecimalFormat df2 = new DecimalFormat("###");
         String avgEnergy = df2.format(world.getAvgEnergy());
         InfoLabelNutriValue.setText("Avg. Nutrit. Value: " + avgEnergy + "\t");
+        InfoLabelFoodNumber.setText("# Food: " + world.getFoodCount());
+        InfoLabelHerbivoreNumber.setText("# Herbivore: " + world.getHerbivoreCount());
+        InfoLabelAgentNumber.setText("# Agent: " + world.getAgentCount());
     }
 
     private static void writeParametersToConfig(Properties properties) {
