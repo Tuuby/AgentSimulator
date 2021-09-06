@@ -244,7 +244,7 @@ public class SwingManager {
 
     public static void updateLabels(World world) {
         DecimalFormat df2 = new DecimalFormat("###");
-        String avgEnergy = df2.format(world.getAvgEnergy());
+        String avgEnergy = df2.format(world.getAvgHerbEnergy());
         InfoLabelNutriValue.setText("Avg. Nutrit. Value: " + avgEnergy + "\t");
         InfoLabelFoodNumber.setText("# Food: " + world.getFoodCount());
         InfoLabelHerbivoreNumber.setText("# Herbivore: " + world.getHerbivoreCount());

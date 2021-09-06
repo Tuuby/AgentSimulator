@@ -371,6 +371,10 @@ public class MovingFood extends MovingObject {
         return energy;
     }
 
+    public int getVisibility() {
+        return visibility;
+    }
+
     public void removeEnergy(int de) {
         energy -= de;
         if (energy <= 0)

@@ -306,6 +306,18 @@ public class Agent extends MovingObject implements IAgent{
         return targetToHunt;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public int getStamina() {
+        return stamina;
+    }
+
+    public int getFood() {
+        return food;
+    }
+
     // Method to set the MovingFood object as targetTuHunt if the agent is currently able to hunt
     public boolean setTarget(MovingFood target, Integer amount) {
         if (currentState == REPRODUCING2)

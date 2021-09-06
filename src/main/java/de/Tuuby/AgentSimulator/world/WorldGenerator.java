@@ -10,7 +10,7 @@ import java.util.Properties;
 public class WorldGenerator {
     private final World world;
 
-    private final int nHills;
+    public final int nHills;
     private final int nPortals;
     private final int nFoodElems;
     private final int nHerbivores;
@@ -36,7 +36,7 @@ public class WorldGenerator {
         nAgentSpecials[AgentSpecial.LEADER.getSpecialNumber()] = leaderCount;
         nAgentSpecials[AgentSpecial.SCAVENGER.getSpecialNumber()] = scavengerCount;
         this.hillSize = hillSize;
-        world = new World(width, height);
+        world = new World(width, height, this);
         world.setFoodCount(foodCount);
         world.setHerbivoreCount(herbivoreCount);
         world.setAgentCount(agentCount + attackerCount + paralyzerCount + leaderCount + scavengerCount);

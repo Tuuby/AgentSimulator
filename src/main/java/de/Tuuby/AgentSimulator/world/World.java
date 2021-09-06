@@ -1,9 +1,10 @@
 package de.Tuuby.AgentSimulator.world;
 
 import de.Tuuby.AgentSimulator.graphics.Graphics;
-import de.Tuuby.AgentSimulator.guis.Graph;
 import de.Tuuby.AgentSimulator.guis.SwingManager;
+import de.Tuuby.AgentSimulator.logging.DataSet;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
+import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -36,10 +37,47 @@ public class World {
     private Queue<Double> herbivorePopValues;
     private Queue<Double> agentPopValues;
 
-    double avgEnergy;
+    private int paralyzedHerbivoreCounter;
+    private int deadHerbivoreCounter;
+    private int totalHerbivores;
+    private int femaleAgentCounter;
+    private int attackerCounter;
+    private int paralyzerCounter;
+    private int leaderCounter;
+    private int inGroupCounter;
+    private int totalAgents;
+
+    private double avgHerbEnergy;
+    private int maxHerbEnergy;
+    private double avgFoodEnergy;
+    private int maxFoodEnergy;
+    private double avgHerbSpeed;
+    private int maxHerbSpeed;
+    private double avgAgentSpeed;
+    private int maxAgentSpeed;
+    private double avgHerbVisionRange;
+    private int maxHerbVisionRange;
+    private double avgGeneration;
+    private int maxGeneration;
+    private double avgAge;
+    private int maxAge;
+    public double avgAgentVisionRange;
+    public int maxAgentVisionRange;
+    public double avgAgentStamina;
+    public int maxAgentStamina;
+    public double avgAgentMaxStamina;
+    public int maxAgentMaxStamina;
+    public double avgAgentFood;
+    public int maxAgentFood;
+    public double avgAgentFoodCapacity;
+    public int maxAgentFoodCapacity;
+
+    private DataSet infoData;
+
+    private WorldGenerator generator;
 
     // Constructor that mainly initializes the 2d array
-    public World(int width, int height) {
+    public World(int width, int height, WorldGenerator generator) {
         time = 0;
         wspeed = 5;
         this.width = width;
@@ -53,6 +91,11 @@ public class World {
         foodPopValues = new ConcurrentLinkedQueue<Double>();
         herbivorePopValues = new ConcurrentLinkedQueue<Double>();
         agentPopValues = new ConcurrentLinkedQueue<Double>();
+
+        totalHerbivores = 0;
+
+        infoData = new DataSet();
+        this.generator = generator;
     }
 
     // Getter and Setter
@@ -100,8 +143,8 @@ public class World {
         return agentCounter;
     }
 
-    public double getAvgEnergy() {
-        return avgEnergy;
+    public double getAvgHerbEnergy() {
+        return avgHerbEnergy;
     }
 
     // Method to clear the entire world of GameObjects
@@ -131,7 +174,7 @@ public class World {
         time += TIME_UNIT;
 
         countGameObjects();
-        calculateAverageEnergy();
+        calculateEnergy();
     }
 
     public void renderAll() {
@@ -156,6 +199,11 @@ public class World {
         int cellY = go.getY() / GRIDSIZE;
 
         world[cellX][cellY].offer(go);
+        if (go instanceof MovingFood) {
+            totalHerbivores++;
+        } else if (go instanceof Agent) {
+            totalAgents++;
+        }
     }
 
     // Method to remove an object from the array of Gameobjects and notify the other objects about it
@@ -356,6 +404,12 @@ public class World {
         foodCounter = 0;
         herbivoreCounter = 0;
         agentCounter = 0;
+        paralyzedHerbivoreCounter = 0;
+        deadHerbivoreCounter = 0;
+        femaleAgentCounter = 0;
+        attackerCounter = 0;
+        paralyzerCounter = 0;
+        leaderCounter = 0;
 
         for (int j = 0; j < world[0].length; j++) {
             for (int i = 0; i < world.length; i++) {
@@ -363,10 +417,30 @@ public class World {
                     if (go instanceof Food)
                         foodCounter++;
                     else if (go instanceof MovingFood) {
-                        if (((MovingFood) go).isAlive())
+                        if (((MovingFood) go).isAlive()) {
                             herbivoreCounter++;
-                    } else if (go instanceof Agent)
+                        } else {
+                            deadHerbivoreCounter++;
+                        }
+                        if (((MovingFood) go).isParalyzed())
+                            paralyzedHerbivoreCounter++;
+                    } else if (go instanceof Agent) {
+                        Agent agent = (Agent)go;
                         agentCounter++;
+                        if (!agent.getDna().male) {
+                            femaleAgentCounter++;
+                        }
+                        if (agent.getSpecial() == AgentSpecial.ATTACKER) {
+                            attackerCounter++;
+                        } else if (agent.getSpecial() == AgentSpecial.PARALYZER) {
+                            paralyzerCounter++;
+                        } else {
+                            leaderCounter++;
+                        }
+                        if (!agent.getKomm().partners.isEmpty()) {
+                            inGroupCounter++;
+                        }
+                    }
                 }
             }
         }
@@ -410,21 +484,192 @@ public class World {
         LoggingHandler.logPopulationStats(0, data, time);
     }
 
-    private void calculateAverageEnergy() {
-        avgEnergy = 0;
-        int energySum = 0;
+    private void calculateEnergy() {
+        avgHerbEnergy = 0;
+        maxHerbEnergy = 0;
+        int herbEnergySum = 0;
+        avgFoodEnergy = 0;
+        maxFoodEnergy = 0;
+        int foodEnergySum = 0;
 
         for (int j = 0; j < world[0].length; j++) {
             for (int i = 0; i < world.length; i++) {
                 for (GameObject go : world[i][j]) {
+                    if (go instanceof MovingFood) {
+                        int energy = ((MovingFood) go).getEnergy();
+                        herbEnergySum += energy;
+                        if (energy > maxHerbEnergy) {
+                            maxHerbEnergy = energy;
+                        }
+                    }
                     if (go instanceof Food) {
-                        energySum += ((Food) go).getEnergy();
+                        int energy = ((Food) go).getEnergy();
+                        foodEnergySum += energy;
+                        if (energy > maxFoodEnergy) {
+                            maxFoodEnergy = energy;
+                        }
                     }
                 }
             }
         }
 
-        avgEnergy = energySum * 1.0 / herbivoreCounter;
+        avgFoodEnergy = foodEnergySum * 1.0 / foodCounter;
+        avgHerbEnergy = herbEnergySum * 1.0 / herbivoreCounter;
+    }
+
+    private void calculateFood() {
+        avgAgentFood = 0;
+        maxAgentFood = 0;
+        int agentFoodSum = 0;
+        avgAgentFoodCapacity = 0;
+        maxAgentFoodCapacity = 0;
+        int agentFoodCapacitySum = 0;
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Agent) {
+                        int food = ((Agent) go).getFood();
+                        int foodCap = ((Agent) go).getDna().foodCapacity;
+                        agentFoodSum += food;
+                        agentFoodCapacitySum += foodCap;
+                        if (food > maxAgentFood) {
+                            maxAgentFood = food;
+                        }
+                        if (foodCap > maxAgentFoodCapacity) {
+                            maxAgentFoodCapacity = foodCap;
+                        }
+                    }
+                }
+            }
+        }
+
+        avgAgentFood = agentFoodSum * 1.0 / agentCounter;
+        avgAgentFoodCapacity = agentFoodCapacitySum * 1.0 / agentCounter;
+    }
+
+    private void calculateSpeeds() {
+        avgHerbSpeed = 0;
+        maxHerbSpeed = 0;
+        int herbSpeedSum = 0;
+        avgAgentSpeed = 0;
+        maxAgentSpeed = 0;
+        int agentSpeedSum = 0;
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof MovingFood) {
+                        int speed = ((MovingFood) go).getSpeed();
+                        herbSpeedSum += speed;
+                        if (speed > maxHerbSpeed)
+                            maxHerbSpeed = speed;
+                    } else if (go instanceof Agent) {
+                        int speed = ((Agent) go).getSpeed();
+                        agentSpeedSum += speed;
+                        if (speed > maxAgentSpeed) {
+                            maxAgentSpeed = speed;
+                        }
+                    }
+                }
+            }
+        }
+
+        avgHerbSpeed = herbSpeedSum * 1.0 / herbivoreCounter;
+        avgAgentSpeed = agentSpeedSum * 1.0 / agentCounter;
+    }
+
+    private void calculateVisions() {
+        avgHerbVisionRange = 0;
+        maxHerbVisionRange = 0;
+        int herbVisionSum = 0;
+        avgAgentVisionRange = 0;
+        maxAgentVisionRange = 0;
+        int agentVisionSum = 0;
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof MovingFood) {
+                        int vision = ((MovingFood) go).getVisibility();
+                        herbVisionSum += vision;
+                        if (vision > maxHerbVisionRange) {
+                            maxHerbVisionRange = vision;
+                        }
+                    } else if (go instanceof Agent) {
+                        int vision = ((Agent) go).getDna().visibility;
+                        agentVisionSum += vision;
+                        if (vision > maxAgentVisionRange) {
+                            maxAgentVisionRange = vision;
+                        }
+                    }
+                }
+            }
+        }
+        avgHerbVisionRange = herbVisionSum * 1.0 / herbivoreCounter;
+        avgAgentVisionRange = agentVisionSum * 1.0  / agentCounter;
+    }
+
+    private void calculateGenerations() {
+        avgGeneration = 0;
+        maxGeneration = 0;
+        int genSum = 0;
+        avgAge = 0;
+        maxAge = 0;
+        int ageSum = 0;
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Agent) {
+                        int gen = ((Agent) go).getDna().generationNo;
+                        int age = ((Agent) go).getAge();
+                        genSum += gen;
+                        ageSum += age;
+                        if (gen > maxGeneration) {
+                            maxGeneration = gen;
+                        }
+                        if (age > maxAge) {
+                            maxAge = age;
+                        }
+                    }
+                }
+            }
+        }
+
+        avgGeneration = genSum * 1.0 / agentCounter;
+        avgAge = ageSum * 1.0 / agentCounter;
+    }
+
+    private void calculateStamina() {
+        avgAgentStamina = 0;
+        maxAgentStamina = 0;
+        int agentStaminaSum = 0;
+        avgAgentMaxStamina = 0;
+        maxAgentMaxStamina = 0;
+        int agentMaxStaminaSum = 0;
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Agent) {
+                        int stamina = ((Agent) go).getStamina();
+                        int maxStamina = ((Agent) go).getDna().stamina;
+                        agentStaminaSum += stamina;
+                        agentMaxStaminaSum += maxStamina;
+                        if (stamina > maxAgentStamina) {
+                            maxAgentStamina = stamina;
+                        }
+                        if (maxStamina > maxAgentMaxStamina) {
+                            maxAgentMaxStamina = maxStamina;
+                        }
+                    }
+                }
+            }
+        }
+
+        avgAgentStamina = agentStaminaSum * 1.0 / agentCounter;
+        avgAgentMaxStamina = agentMaxStaminaSum * 1.0 / agentCounter;
     }
 
     private double[] convertArray(Double[] inputArray) {
@@ -433,5 +678,49 @@ public class World {
             doubleArray[i] = (double) inputArray[i];
         }
         return doubleArray;
+    }
+
+    // TODO: dont hold all values twice; integrate infoData into all calculating methods
+    private void updateDataSet() {
+        infoData.worldAge = time;
+        infoData.numberHills = generator.nHills;
+        infoData.numberFood = foodCounter;
+        infoData.avgNutriValue = avgHerbEnergy;
+        infoData.numberHerbivore = herbivoreCounter;
+        infoData.numberAgent = agentCounter;
+        infoData.numberParalysedHerbivores = paralyzedHerbivoreCounter;
+        infoData.numberDeadHerbivores = deadHerbivoreCounter;
+        infoData.numberHerbivoresAlltime = totalHerbivores;
+        infoData.avgHerbEnergy = avgHerbEnergy;
+        infoData.maxHerbEnergy = maxHerbEnergy;
+        infoData.avgFoodEnergy = avgFoodEnergy;
+        infoData.maxFoodEnergy = maxFoodEnergy;
+        infoData.avgHerbSpeed = avgHerbSpeed;
+        infoData.maxHerbSpeed = maxHerbSpeed;
+        infoData.avgHerbVisionRange = avgHerbVisionRange;
+        infoData.maxHerbVisionRange = maxHerbVisionRange;
+        infoData.numberFemaleAgent = femaleAgentCounter;
+        infoData.numberMaleAgent = agentCounter - femaleAgentCounter;
+        infoData.numberAttacker = attackerCounter;
+        infoData.numberParalyzer = paralyzerCounter;
+        infoData.numberLeader = leaderCounter;
+        infoData.numberAgentsInGroup = inGroupCounter;
+        infoData.numberAgentAlltime = totalAgents;
+        infoData.avgGeneration = avgGeneration;
+        infoData.maxGeneration = maxGeneration;
+        infoData.avgAge = avgAge;
+        infoData.maxAge = maxAge;
+        infoData.avgAgentSpeed = avgAgentSpeed;
+        infoData.maxAgentSpeed = maxAgentSpeed;
+        infoData.avgAgentVisionRange = avgAgentVisionRange;
+        infoData.maxAgentVisionRange = maxAgentVisionRange;
+        infoData.avgAgentStamina = avgAgentStamina;
+        infoData.maxAgentStamina = maxAgentStamina;
+        infoData.avgAgentMaxStamina = avgAgentMaxStamina;
+        infoData.maxAgentMaxStamina = maxAgentMaxStamina;
+        infoData.avgAgentFood = avgAgentFood;
+        infoData.maxAgentFood = maxAgentFood;
+        infoData.avgAgentFoodCapacity = avgAgentFoodCapacity;
+        infoData.maxAgentFoodCapacity = maxAgentFoodCapacity;
     }
 }
