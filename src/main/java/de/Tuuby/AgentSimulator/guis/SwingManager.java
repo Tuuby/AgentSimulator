@@ -3,16 +3,17 @@ package de.Tuuby.AgentSimulator.guis;
 import com.jogamp.opengl.awt.GLCanvas;
 import de.Tuuby.AgentSimulator.engine.GameLoop;
 import de.Tuuby.AgentSimulator.engine.WorldUpdater;
+import de.Tuuby.AgentSimulator.logging.DataSet;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.main;
 import de.Tuuby.AgentSimulator.resource.PropertiesManager;
-import de.Tuuby.AgentSimulator.world.World;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.Styler;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,26 +26,34 @@ public class SwingManager {
     public static XYChart populationChart;
     public static JPanel chartPanel;
 
-    private static JLabel SubtitleLabelWorld;
-    private static JLabel InfoLabelWorldSize;
-    private static JLabel InfoLabelHillNumber;
-    private static JLabel SubtitleLabelFood;
     private static JLabel InfoLabelFoodNumber;
     private static JLabel InfoLabelNutriValue;
-    private static JLabel SubtitleLablePopulation;
     private static JLabel InfoLabelHerbivoreNumber;
     private static JLabel InfoLabelAgentNumber;
-    private static JLabel SubtitleLabelParameters;
-    private static JLabel InfoLabelFoodGrowthRate;
-    private static JLabel InfoLabelHillSize;
-    private static JLabel InfoLabelHillCount;
 
     private static JSpinner ParameterGrowthRateSpinner;
     private static JSpinner ParameterHillSizeSpinner;
     private static JSpinner ParameterHillCountSpinner;
 
     // Population tab swing elements
-    private static JLabel SubtitleLabelHerbivores;
+    private static JLabel InfoLabelHerbivoreNumber2;
+    private static JLabel InfoLabelParalyzedHerbs;
+    private static JLabel InfoLabelDeadHerbs;
+    private static JLabel InfoLabelAllTimeHerbs;
+
+    private static JLabel InfoLabelHerbEnergy;
+    private static JLabel InfoLabelHerbFood;
+    private static JLabel InfoLabelHerbSpeed;
+    private static JLabel InfoLabelHerbVision;
+
+    private static JLabel InfoLabelAgentsCurrent;
+    private static JLabel InfoLabelAgentsFemales;
+    private static JLabel InfoLabelAgentsMales;
+    private static JLabel InfoLabelAgentsAttackers;
+    private static JLabel InfoLabelAgentsParalyzers;
+    private static JLabel InfoLabelAgentsLeaders;
+    private static JLabel InfoLabelAgentsInGroup;
+    private static JLabel InfoLabelAgentsAlltime;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -89,25 +98,25 @@ public class SwingManager {
         worldPanel.add(chartPanel);
 
         // Create Labels for information
-        SubtitleLabelWorld = new JLabel("World");
-        SubtitleLabelWorld.setAlignmentX(Component.CENTER_ALIGNMENT);
-        SubtitleLabelWorld.setFont(titleFont);
-        worldPanel.add(SubtitleLabelWorld);
+        JLabel subtitleLabelWorld = new JLabel("World");
+        subtitleLabelWorld.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelWorld.setFont(titleFont);
+        worldPanel.add(subtitleLabelWorld);
 
-        InfoLabelWorldSize = new JLabel("Size: " + properties.getProperty("worldWidth") + " x " + properties.getProperty("worldHeight"));
-        InfoLabelWorldSize.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InfoLabelWorldSize.setFont(infoFont);
-        worldPanel.add(InfoLabelWorldSize);
+        JLabel infoLabelWorldSize = new JLabel("Size: " + properties.getProperty("worldWidth") + " x " + properties.getProperty("worldHeight"));
+        infoLabelWorldSize.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoLabelWorldSize.setFont(infoFont);
+        worldPanel.add(infoLabelWorldSize);
 
-        InfoLabelHillNumber = new JLabel("# Hills: " + properties.getProperty("hillCount"));
-        InfoLabelHillNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InfoLabelHillNumber.setFont(infoFont);
-        worldPanel.add(InfoLabelHillNumber);
+        JLabel infoLabelHillNumber = new JLabel("# Hills: " + properties.getProperty("hillCount"));
+        infoLabelHillNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoLabelHillNumber.setFont(infoFont);
+        worldPanel.add(infoLabelHillNumber);
 
-        SubtitleLabelFood = new JLabel("Food");
-        SubtitleLabelFood.setAlignmentX(Component.CENTER_ALIGNMENT);
-        SubtitleLabelFood.setFont(titleFont);
-        worldPanel.add(SubtitleLabelFood);
+        JLabel subtitleLabelFood = new JLabel("Food");
+        subtitleLabelFood.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelFood.setFont(titleFont);
+        worldPanel.add(subtitleLabelFood);
 
         InfoLabelFoodNumber = new JLabel("# Food: " + properties.getProperty("foodCount"));
         InfoLabelFoodNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -119,10 +128,10 @@ public class SwingManager {
         InfoLabelNutriValue.setFont(infoFont);
         worldPanel.add(InfoLabelNutriValue);
 
-        SubtitleLablePopulation = new JLabel("Population");
-        SubtitleLablePopulation.setAlignmentX(Component.CENTER_ALIGNMENT);
-        SubtitleLablePopulation.setFont(titleFont);
-        worldPanel.add(SubtitleLablePopulation);
+        JLabel subtitleLablePopulation = new JLabel("Population");
+        subtitleLablePopulation.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLablePopulation.setFont(titleFont);
+        worldPanel.add(subtitleLablePopulation);
 
         InfoLabelHerbivoreNumber = new JLabel("# Herbivores: " + properties.getProperty("herbivoreCount"));
         InfoLabelHerbivoreNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -134,15 +143,15 @@ public class SwingManager {
         InfoLabelAgentNumber.setFont(infoFont);
         worldPanel.add(InfoLabelAgentNumber);
 
-        SubtitleLabelParameters = new JLabel("Parameter");
-        SubtitleLabelParameters.setAlignmentX(Component.CENTER_ALIGNMENT);
-        SubtitleLabelParameters.setFont(titleFont);
-        worldPanel.add(SubtitleLabelParameters);
+        JLabel subtitleLabelParameters = new JLabel("Parameter");
+        subtitleLabelParameters.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelParameters.setFont(titleFont);
+        worldPanel.add(subtitleLabelParameters);
 
-        InfoLabelFoodGrowthRate = new JLabel("Food Growth Rate");
-        InfoLabelFoodGrowthRate.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InfoLabelFoodGrowthRate.setFont(infoFont);
-        worldPanel.add(InfoLabelFoodGrowthRate);
+        JLabel infoLabelFoodGrowthRate = new JLabel("Food Growth Rate");
+        infoLabelFoodGrowthRate.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoLabelFoodGrowthRate.setFont(infoFont);
+        worldPanel.add(infoLabelFoodGrowthRate);
 
         SpinnerModel growthModel = new SpinnerNumberModel(Integer.parseInt(properties.getProperty("foodSpawnAmount")), 0, 20, 1);
         ParameterGrowthRateSpinner = new JSpinner(growthModel);
@@ -150,10 +159,10 @@ public class SwingManager {
         ParameterGrowthRateSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
         worldPanel.add(ParameterGrowthRateSpinner);
 
-        InfoLabelHillSize = new JLabel("Hill size");
-        InfoLabelHillSize.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InfoLabelHillSize.setFont(infoFont);
-        worldPanel.add(InfoLabelHillSize);
+        JLabel infoLabelHillSize = new JLabel("Hill size");
+        infoLabelHillSize.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoLabelHillSize.setFont(infoFont);
+        worldPanel.add(infoLabelHillSize);
 
         SpinnerModel hillSizeModel = new SpinnerNumberModel(Integer.parseInt(properties.getProperty("hillSize")), 0, 50, 1);
         ParameterHillSizeSpinner = new JSpinner(hillSizeModel);
@@ -161,10 +170,10 @@ public class SwingManager {
         ParameterHillSizeSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
         worldPanel.add(ParameterHillSizeSpinner);
 
-        InfoLabelHillCount = new JLabel("Hill count");
-        InfoLabelHillCount.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InfoLabelHillCount.setFont(infoFont);
-        worldPanel.add(InfoLabelHillCount);
+        JLabel infoLabelHillCount = new JLabel("Hill count");
+        infoLabelHillCount.setAlignmentX(Component.CENTER_ALIGNMENT);
+        infoLabelHillCount.setFont(infoFont);
+        worldPanel.add(infoLabelHillCount);
 
         SpinnerModel hillCountModel = new SpinnerNumberModel(Integer.parseInt(properties.getProperty("hillCount")), 0, 50, 1);
         ParameterHillCountSpinner = new JSpinner(hillCountModel);
@@ -218,14 +227,111 @@ public class SwingManager {
 
         // Create the second tab for the Tab Panel
         // "Population"-Tab
-
         JPanel populationPanel = new JPanel();
         populationPanel.setLayout(new BoxLayout(populationPanel, BoxLayout.Y_AXIS));
 
-        SubtitleLabelHerbivores = new JLabel("Herbivores");
-        SubtitleLabelHerbivores.setAlignmentX(Component.CENTER_ALIGNMENT);
-        SubtitleLabelHerbivores.setFont(titleFont);
-        populationPanel.add(SubtitleLabelHerbivores);
+        JLabel subtitleLabelHerbivores = new JLabel("Herbivores");
+        subtitleLabelHerbivores.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelHerbivores.setFont(titleFont);
+        populationPanel.add(subtitleLabelHerbivores);
+
+        InfoLabelHerbivoreNumber2 = new JLabel("Current: " + properties.getProperty("herbivoreCount"));
+        InfoLabelHerbivoreNumber2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHerbivoreNumber2.setFont(infoFont);
+        populationPanel.add(InfoLabelHerbivoreNumber2);
+
+        InfoLabelParalyzedHerbs = new JLabel("Paralyzed:");
+        InfoLabelParalyzedHerbs.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelParalyzedHerbs.setFont(infoFont);
+        populationPanel.add(InfoLabelParalyzedHerbs);
+
+        InfoLabelDeadHerbs = new JLabel("Dead:");
+        InfoLabelDeadHerbs.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDeadHerbs.setFont(infoFont);
+        populationPanel.add(InfoLabelDeadHerbs);
+
+        InfoLabelAllTimeHerbs = new JLabel("All-time:");
+        InfoLabelAllTimeHerbs.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAllTimeHerbs.setFont(infoFont);
+        populationPanel.add(InfoLabelAllTimeHerbs);
+
+        //JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
+        //populationPanel.add(separator2);
+
+        JLabel subtitleLabelHerbAttributes = new JLabel("Herbivore Attributes    Avg / Max");
+        subtitleLabelHerbAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelHerbAttributes.setFont(titleFont);
+        populationPanel.add(subtitleLabelHerbAttributes);
+
+        InfoLabelHerbEnergy = new JLabel("Energy:");
+        InfoLabelHerbEnergy.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHerbEnergy.setFont(infoFont);
+        populationPanel.add(InfoLabelHerbEnergy);
+
+        InfoLabelHerbFood = new JLabel("Food:");
+        InfoLabelHerbFood.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHerbFood.setFont(infoFont);
+        populationPanel.add(InfoLabelHerbFood);
+
+        InfoLabelHerbSpeed = new JLabel("Speed:");
+        InfoLabelHerbSpeed.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHerbSpeed.setFont(infoFont);
+        populationPanel.add(InfoLabelHerbSpeed);
+
+        InfoLabelHerbVision = new JLabel("Vision:");
+        InfoLabelHerbVision.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelHerbVision.setFont(infoFont);
+        populationPanel.add(InfoLabelHerbVision);
+
+        JLabel subtitleLabelAgentStats = new JLabel("Agents");
+        subtitleLabelAgentStats.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelAgentStats.setFont(titleFont);
+        populationPanel.add(subtitleLabelAgentStats);
+
+        InfoLabelAgentsCurrent = new JLabel("Current:");
+        InfoLabelAgentsCurrent.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsCurrent.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsCurrent);
+
+        InfoLabelAgentsFemales = new JLabel("Females:");
+        InfoLabelAgentsFemales.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsFemales.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsFemales);
+
+        InfoLabelAgentsMales = new JLabel("Males:");
+        InfoLabelAgentsMales.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsMales.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsMales);
+
+        InfoLabelAgentsAttackers = new JLabel("Attackers:");
+        InfoLabelAgentsAttackers.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsAttackers.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsAttackers);
+
+        InfoLabelAgentsParalyzers = new JLabel("Paralyzers:");
+        InfoLabelAgentsParalyzers.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsParalyzers.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsParalyzers);
+
+        InfoLabelAgentsLeaders = new JLabel("Leaders:");
+        InfoLabelAgentsLeaders.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsLeaders.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsLeaders);
+
+        InfoLabelAgentsInGroup = new JLabel("In a Group:");
+        InfoLabelAgentsInGroup.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsInGroup.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsInGroup);
+
+        InfoLabelAgentsAlltime = new JLabel("All-Time:");
+        InfoLabelAgentsAlltime.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentsAlltime.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentsAlltime);
+
+        JLabel subtitleLabelAgentAttributes = new JLabel("Agent Attributes");
+        subtitleLabelAgentAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelAgentAttributes.setFont(titleFont);
+        populationPanel.add(subtitleLabelAgentAttributes);
 
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
@@ -242,13 +348,29 @@ public class SwingManager {
         chartPanel.repaint();
     }
 
-    public static void updateLabels(World world) {
+    public static void updateLabels(DataSet infoData) {
         DecimalFormat df2 = new DecimalFormat("###");
-        String avgEnergy = df2.format(world.getAvgHerbEnergy());
+        String avgEnergy = df2.format(infoData.avgHerbEnergy);
         InfoLabelNutriValue.setText("Avg. Nutrit. Value: " + avgEnergy + "\t");
-        InfoLabelFoodNumber.setText("# Food: " + world.getFoodCount());
-        InfoLabelHerbivoreNumber.setText("# Herbivore: " + world.getHerbivoreCount());
-        InfoLabelAgentNumber.setText("# Agent: " + world.getAgentCount());
+        InfoLabelFoodNumber.setText("# Food: " + infoData.numberFood);
+        InfoLabelHerbivoreNumber.setText("# Herbivore: " + infoData.numberHerbivore);
+        InfoLabelAgentNumber.setText("# Agent: " + infoData.numberAgent);
+        InfoLabelHerbivoreNumber2.setText("Current: " + infoData.numberHerbivore);
+        InfoLabelParalyzedHerbs.setText("Paralyzed: " + infoData.numberParalysedHerbivores);
+        InfoLabelDeadHerbs.setText("Dead: " + infoData.numberDeadHerbivores);
+        InfoLabelAllTimeHerbs.setText("All-time: " + infoData.numberHerbivoresAlltime);
+        InfoLabelHerbEnergy.setText("Energy: " + avgEnergy + "/" + infoData.maxHerbEnergy);
+        InfoLabelHerbFood.setText("Food: " + df2.format(infoData.avgHerbFood) + "/" + infoData.maxHerbFood);
+        InfoLabelHerbSpeed.setText("Speed: " + df2.format(infoData.avgHerbSpeed) + "/" + infoData.maxHerbSpeed);
+        InfoLabelHerbVision.setText("Vision: " + df2.format(infoData.avgHerbVisionRange) + "/" + infoData.maxHerbVisionRange);
+        InfoLabelAgentsCurrent.setText("Current: " + infoData.numberAgent);
+        InfoLabelAgentsFemales.setText("Females: " + infoData.numberFemaleAgent);
+        InfoLabelAgentsMales.setText("Males: " + infoData.numberMaleAgent);
+        InfoLabelAgentsAttackers.setText("Attackers: " + infoData.numberAttacker);
+        InfoLabelAgentsParalyzers.setText("Paralyzers: " + infoData.numberParalyzer);
+        InfoLabelAgentsLeaders.setText("Leaders: " + infoData.numberLeader);
+        InfoLabelAgentsInGroup.setText("In a Group: " + infoData.numberAgentsInGroup);
+        InfoLabelAgentsAlltime.setText("All-Time: " + infoData.numberAgentAlltime);
     }
 
     private static void writeParametersToConfig(Properties properties) {

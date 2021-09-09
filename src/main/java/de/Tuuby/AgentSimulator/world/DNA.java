@@ -120,6 +120,7 @@ public class DNA {
     public DNA(DNA dna1, DNA dna2) {
         int prevGenNo = Math.max(dna1.generationNo, dna2.generationNo);
         generationNo = prevGenNo + 1;
+        male = Math.random() < PROBABILITY_MALE;
 
         highAge = (dna1.highAge + dna2.highAge) / 2;
         prevHighAge = ((dna1.prevHighAge + dna2.prevHighAge) * prevGenNo / 2 + highAge) / generationNo;

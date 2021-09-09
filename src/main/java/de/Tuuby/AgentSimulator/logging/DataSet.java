@@ -21,8 +21,8 @@ public class DataSet {
 
     public double avgHerbEnergy;
     public int maxHerbEnergy;
-    public double avgFoodEnergy;
-    public int maxFoodEnergy;
+    public double avgHerbFood;
+    public int maxHerbFood;
     public double avgHerbSpeed;
     public int maxHerbSpeed;
     public double avgHerbVisionRange;

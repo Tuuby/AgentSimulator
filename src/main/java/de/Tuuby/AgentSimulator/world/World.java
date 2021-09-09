@@ -49,8 +49,8 @@ public class World {
 
     private double avgHerbEnergy;
     private int maxHerbEnergy;
-    private double avgFoodEnergy;
-    private int maxFoodEnergy;
+    private double avgHerbFood;
+    private int maxHerbFood;
     private double avgHerbSpeed;
     private int maxHerbSpeed;
     private double avgAgentSpeed;
@@ -174,7 +174,8 @@ public class World {
         time += TIME_UNIT;
 
         countGameObjects();
-        calculateEnergy();
+        calculateData();
+
     }
 
     public void renderAll() {
@@ -410,6 +411,7 @@ public class World {
         attackerCounter = 0;
         paralyzerCounter = 0;
         leaderCounter = 0;
+        inGroupCounter = 0;
 
         for (int j = 0; j < world[0].length; j++) {
             for (int i = 0; i < world.length; i++) {
@@ -437,7 +439,7 @@ public class World {
                         } else {
                             leaderCounter++;
                         }
-                        if (!agent.getKomm().partners.isEmpty()) {
+                        if (agent.getKomm().partners.size() > 1) {
                             inGroupCounter++;
                         }
                     }
@@ -476,7 +478,7 @@ public class World {
         }
 
         SwingManager.updatePopulation(worldAgeData, foodData, herbData, agentData);
-        SwingManager.updateLabels(this);
+        SwingManager.updateLabels(infoData);
 
         String data = "Populations: " + "Food: " + foodCounter +
                 "Herbivores: " + herbivoreCounter +
@@ -484,13 +486,22 @@ public class World {
         LoggingHandler.logPopulationStats(0, data, time);
     }
 
+    public void calculateData() {
+        calculateFood();
+        calculateSpeeds();
+        calculateVisions();
+        calculateGenerations();
+        calculateStamina();
+        calculateEnergy();
+
+        updateDataSet();
+    }
+
     private void calculateEnergy() {
         avgHerbEnergy = 0;
         maxHerbEnergy = 0;
         int herbEnergySum = 0;
-        avgFoodEnergy = 0;
-        maxFoodEnergy = 0;
-        int foodEnergySum = 0;
+
 
         for (int j = 0; j < world[0].length; j++) {
             for (int i = 0; i < world.length; i++) {
@@ -502,18 +513,10 @@ public class World {
                             maxHerbEnergy = energy;
                         }
                     }
-                    if (go instanceof Food) {
-                        int energy = ((Food) go).getEnergy();
-                        foodEnergySum += energy;
-                        if (energy > maxFoodEnergy) {
-                            maxFoodEnergy = energy;
-                        }
-                    }
                 }
             }
         }
 
-        avgFoodEnergy = foodEnergySum * 1.0 / foodCounter;
         avgHerbEnergy = herbEnergySum * 1.0 / herbivoreCounter;
     }
 
@@ -524,6 +527,9 @@ public class World {
         avgAgentFoodCapacity = 0;
         maxAgentFoodCapacity = 0;
         int agentFoodCapacitySum = 0;
+        avgHerbFood = 0;
+        maxHerbFood = 0;
+        int herbFoodSum = 0;
 
         for (int j = 0; j < world[0].length; j++) {
             for (int i = 0; i < world.length; i++) {
@@ -539,6 +545,12 @@ public class World {
                         if (foodCap > maxAgentFoodCapacity) {
                             maxAgentFoodCapacity = foodCap;
                         }
+                    } else if (go instanceof MovingFood) {
+                        int food = ((MovingFood) go).getFood();
+                        herbFoodSum += food;
+                        if (food > maxHerbFood) {
+                            maxHerbFood = food;
+                        }
                     }
                 }
             }
@@ -546,6 +558,7 @@ public class World {
 
         avgAgentFood = agentFoodSum * 1.0 / agentCounter;
         avgAgentFoodCapacity = agentFoodCapacitySum * 1.0 / agentCounter;
+        avgHerbFood = herbFoodSum * 1.0 / herbivoreCounter;
     }
 
     private void calculateSpeeds() {
@@ -693,8 +706,8 @@ public class World {
         infoData.numberHerbivoresAlltime = totalHerbivores;
         infoData.avgHerbEnergy = avgHerbEnergy;
         infoData.maxHerbEnergy = maxHerbEnergy;
-        infoData.avgFoodEnergy = avgFoodEnergy;
-        infoData.maxFoodEnergy = maxFoodEnergy;
+        infoData.avgHerbFood = avgHerbFood;
+        infoData.maxHerbFood = maxHerbFood;
         infoData.avgHerbSpeed = avgHerbSpeed;
         infoData.maxHerbSpeed = maxHerbSpeed;
         infoData.avgHerbVisionRange = avgHerbVisionRange;
