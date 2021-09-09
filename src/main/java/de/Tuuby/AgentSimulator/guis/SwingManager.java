@@ -7,6 +7,7 @@ import de.Tuuby.AgentSimulator.logging.DataSet;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.main;
 import de.Tuuby.AgentSimulator.resource.PropertiesManager;
+import de.Tuuby.AgentSimulator.world.WorldGenerator;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -216,6 +217,8 @@ public class SwingManager {
             public void actionPerformed(ActionEvent e) {
                 main.worldGen.clear();
                 LoggingHandler.saveAndExit();
+                PropertiesManager.loadConfig();
+                main.worldGen = new WorldGenerator(PropertiesManager.getAppConfig());
                 LoggingHandler.init();
                 main.worldGen.generate();
                 WorldUpdater.setWorld(main.worldGen.getWorld());
@@ -232,7 +235,7 @@ public class SwingManager {
         });
         ButtonPanel.add(SaveConfigButton);
 
-        JButton DebugButton = new JButton("Debug Info");
+        JButton DebugButton = new JButton("Debug");
         DebugButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
