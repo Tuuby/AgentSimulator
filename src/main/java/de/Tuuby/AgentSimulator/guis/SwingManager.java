@@ -55,6 +55,15 @@ public class SwingManager {
     private static JLabel InfoLabelAgentsInGroup;
     private static JLabel InfoLabelAgentsAlltime;
 
+    private static JLabel InfoLabelAgentGeneration;
+    private static JLabel InfoLabelAgentAge;
+    private static JLabel InfoLabelAgentSpeed;
+    private static JLabel InfoLabelAgentVision;
+    private static JLabel InfoLabelAgentStamina;
+    private static JLabel InfoLabelAgentMaxStamina;
+    private static JLabel InfoLabelAgentFood;
+    private static JLabel InfoLabelAgentFoodCap;
+
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
         Font titleFont = new Font("SansSerif", Font.BOLD, 16);
@@ -255,8 +264,8 @@ public class SwingManager {
         InfoLabelAllTimeHerbs.setFont(infoFont);
         populationPanel.add(InfoLabelAllTimeHerbs);
 
-        //JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
-        //populationPanel.add(separator2);
+        JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
+        populationPanel.add(separator2);
 
         JLabel subtitleLabelHerbAttributes = new JLabel("Herbivore Attributes    Avg / Max");
         subtitleLabelHerbAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -282,6 +291,9 @@ public class SwingManager {
         InfoLabelHerbVision.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelHerbVision.setFont(infoFont);
         populationPanel.add(InfoLabelHerbVision);
+
+        JSeparator separator3 = new JSeparator(SwingConstants.HORIZONTAL);
+        populationPanel.add(separator3);
 
         JLabel subtitleLabelAgentStats = new JLabel("Agents");
         subtitleLabelAgentStats.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -328,10 +340,56 @@ public class SwingManager {
         InfoLabelAgentsAlltime.setFont(infoFont);
         populationPanel.add(InfoLabelAgentsAlltime);
 
-        JLabel subtitleLabelAgentAttributes = new JLabel("Agent Attributes");
+        JSeparator separator4 = new JSeparator(JSeparator.HORIZONTAL);
+        populationPanel.add(separator4);
+
+        JLabel subtitleLabelAgentAttributes = new JLabel("Agent Attributes    Avg/Max");
         subtitleLabelAgentAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitleLabelAgentAttributes.setFont(titleFont);
         populationPanel.add(subtitleLabelAgentAttributes);
+
+        InfoLabelAgentGeneration = new JLabel("Generaion No.:");
+        InfoLabelAgentGeneration.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentGeneration.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentGeneration);
+
+        InfoLabelAgentAge = new JLabel("Age:");
+        InfoLabelAgentAge.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentAge.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentAge);
+
+        InfoLabelAgentSpeed = new JLabel("Speed:");
+        InfoLabelAgentSpeed.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentSpeed.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentSpeed);
+
+        InfoLabelAgentVision = new JLabel("Vision Rage:");
+        InfoLabelAgentVision.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentVision.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentVision);
+
+        InfoLabelAgentStamina = new JLabel("Stamina:");
+        InfoLabelAgentStamina.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentStamina.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentStamina);
+
+        InfoLabelAgentMaxStamina = new JLabel("Max. Stamina");
+        InfoLabelAgentMaxStamina.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentMaxStamina.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentMaxStamina);
+
+        InfoLabelAgentFood = new JLabel("Food:");
+        InfoLabelAgentFood.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentFood.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentFood);
+
+        InfoLabelAgentFoodCap = new JLabel("Food Capacity:");
+        InfoLabelAgentFoodCap.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentFoodCap.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentFoodCap);
+
+        JSeparator separator5 = new JSeparator(JSeparator.HORIZONTAL);
+        populationPanel.add(separator5);
 
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
@@ -349,8 +407,9 @@ public class SwingManager {
     }
 
     public static void updateLabels(DataSet infoData) {
-        DecimalFormat df2 = new DecimalFormat("###");
-        String avgEnergy = df2.format(infoData.avgHerbEnergy);
+        DecimalFormat df0 = new DecimalFormat("###");
+        DecimalFormat df2 = new DecimalFormat("###.##");
+        String avgEnergy = df0.format(infoData.avgHerbEnergy);
         InfoLabelNutriValue.setText("Avg. Nutrit. Value: " + avgEnergy + "\t");
         InfoLabelFoodNumber.setText("# Food: " + infoData.numberFood);
         InfoLabelHerbivoreNumber.setText("# Herbivore: " + infoData.numberHerbivore);
@@ -360,9 +419,9 @@ public class SwingManager {
         InfoLabelDeadHerbs.setText("Dead: " + infoData.numberDeadHerbivores);
         InfoLabelAllTimeHerbs.setText("All-time: " + infoData.numberHerbivoresAlltime);
         InfoLabelHerbEnergy.setText("Energy: " + avgEnergy + "/" + infoData.maxHerbEnergy);
-        InfoLabelHerbFood.setText("Food: " + df2.format(infoData.avgHerbFood) + "/" + infoData.maxHerbFood);
-        InfoLabelHerbSpeed.setText("Speed: " + df2.format(infoData.avgHerbSpeed) + "/" + infoData.maxHerbSpeed);
-        InfoLabelHerbVision.setText("Vision: " + df2.format(infoData.avgHerbVisionRange) + "/" + infoData.maxHerbVisionRange);
+        InfoLabelHerbFood.setText("Food: " + df0.format(infoData.avgHerbFood) + "/" + infoData.maxHerbFood);
+        InfoLabelHerbSpeed.setText("Speed: " + df0.format(infoData.avgHerbSpeed) + "/" + infoData.maxHerbSpeed);
+        InfoLabelHerbVision.setText("Vision: " + df0.format(infoData.avgHerbVisionRange) + "/" + infoData.maxHerbVisionRange);
         InfoLabelAgentsCurrent.setText("Current: " + infoData.numberAgent);
         InfoLabelAgentsFemales.setText("Females: " + infoData.numberFemaleAgent);
         InfoLabelAgentsMales.setText("Males: " + infoData.numberMaleAgent);
@@ -371,6 +430,14 @@ public class SwingManager {
         InfoLabelAgentsLeaders.setText("Leaders: " + infoData.numberLeader);
         InfoLabelAgentsInGroup.setText("In a Group: " + infoData.numberAgentsInGroup);
         InfoLabelAgentsAlltime.setText("All-Time: " + infoData.numberAgentAlltime);
+        InfoLabelAgentGeneration.setText("Generation No.: " + df0.format(infoData.avgGeneration) + "/" + infoData.maxGeneration);
+        InfoLabelAgentAge.setText("Age: " + df2.format(infoData.avgAge) + "/" + infoData.maxAge);
+        InfoLabelAgentSpeed.setText("Speed: " + df0.format(infoData.avgAgentSpeed) + "/" + infoData.maxAgentSpeed);
+        InfoLabelAgentVision.setText("Vision: " + df0.format(infoData.avgAgentVisionRange) + "/" + infoData.maxAgentVisionRange);
+        InfoLabelAgentStamina.setText("Stamina: " + df0.format(infoData.avgAgentStamina) + "/" + infoData.maxAgentStamina);
+        InfoLabelAgentMaxStamina.setText("Max. Stamina: " + df0.format(infoData.avgAgentMaxStamina) + "/" + infoData.maxAgentMaxStamina);
+        InfoLabelAgentFood.setText("Food: " + df0.format(infoData.avgAgentFood) + "/" + infoData.maxAgentFood);
+        InfoLabelAgentFoodCap.setText("Food Cap.: " + df0.format(infoData.avgAgentFoodCapacity) + "/" + infoData.maxAgentFoodCapacity);
     }
 
     private static void writeParametersToConfig(Properties properties) {
