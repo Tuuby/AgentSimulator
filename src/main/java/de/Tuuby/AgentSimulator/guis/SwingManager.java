@@ -232,6 +232,15 @@ public class SwingManager {
         });
         ButtonPanel.add(SaveConfigButton);
 
+        JButton DebugButton = new JButton("Debug Info");
+        DebugButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                WorldUpdater.toggleDebug();
+            }
+        });
+        ButtonPanel.add(DebugButton);
+
         worldPanel.add(ButtonPanel);
 
         // Create the second tab for the Tab Panel
