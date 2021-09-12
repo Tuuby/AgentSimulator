@@ -323,9 +323,6 @@ public class SwingManager {
         InfoLabelAllTimeHerbs.setFont(infoFont);
         populationPanel.add(InfoLabelAllTimeHerbs);
 
-        JSeparator separator2 = new JSeparator(SwingConstants.HORIZONTAL);
-        populationPanel.add(separator2);
-
         JLabel subtitleLabelHerbAttributes = new JLabel("Herbivore Attributes    Avg / Max");
         subtitleLabelHerbAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitleLabelHerbAttributes.setFont(titleFont);
@@ -350,9 +347,6 @@ public class SwingManager {
         InfoLabelHerbVision.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelHerbVision.setFont(infoFont);
         populationPanel.add(InfoLabelHerbVision);
-
-        JSeparator separator3 = new JSeparator(SwingConstants.HORIZONTAL);
-        populationPanel.add(separator3);
 
         JLabel subtitleLabelAgentStats = new JLabel("Agents");
         subtitleLabelAgentStats.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -398,9 +392,6 @@ public class SwingManager {
         InfoLabelAgentsAlltime.setAlignmentX(Component.CENTER_ALIGNMENT);
         InfoLabelAgentsAlltime.setFont(infoFont);
         populationPanel.add(InfoLabelAgentsAlltime);
-
-        JSeparator separator4 = new JSeparator(JSeparator.HORIZONTAL);
-        populationPanel.add(separator4);
 
         JLabel subtitleLabelAgentAttributes = new JLabel("Agent Attributes    Avg/Max");
         subtitleLabelAgentAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
