@@ -106,6 +106,12 @@ public class SwingManager {
     private static JLabel InfoLabelAncestorFood;
     private static JLabel InfoLabelAncestorReprod;
 
+    private static JLabel InfoLabelGroupLeader;
+    private static JLabel InfoLabelGroupMembers;
+    private static JLabel InfoLabelGroupAttackers;
+    private static JLabel InfoLabelGroupParalyzers;
+    private static JLabel InfoLabelGroupAverageFood;
+
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
         Font titleFont = new Font("SansSerif", Font.BOLD, 16);
@@ -657,6 +663,36 @@ public class SwingManager {
         InfoLabelAncestorReprod.setFont(infoFont);
         detailedPanel.add(InfoLabelAncestorReprod);
 
+        JLabel subtitleLabelGroupStats = new JLabel("Group Statistics");
+        subtitleLabelGroupStats.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelGroupStats.setFont(titleFont);
+        detailedPanel.add(subtitleLabelGroupStats);
+
+        InfoLabelGroupLeader = new JLabel("Leader No:");
+        InfoLabelGroupLeader.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupLeader.setFont(infoFont);
+        detailedPanel.add(InfoLabelGroupLeader);
+
+        InfoLabelGroupMembers = new JLabel("Group Members:");
+        InfoLabelGroupMembers.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupMembers.setFont(infoFont);
+        detailedPanel.add(InfoLabelGroupMembers);
+
+        InfoLabelGroupAttackers = new JLabel("# Attackers:");
+        InfoLabelGroupAttackers.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupAttackers.setFont(infoFont);
+        detailedPanel.add(InfoLabelGroupAttackers);
+
+        InfoLabelGroupParalyzers = new JLabel("# Paralyzers");
+        InfoLabelGroupParalyzers.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupParalyzers.setFont(infoFont);
+        detailedPanel.add(InfoLabelGroupParalyzers);
+
+        InfoLabelGroupAverageFood = new JLabel("Average Food:");
+        InfoLabelGroupAverageFood.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupAverageFood.setFont(infoFont);
+        detailedPanel.add(InfoLabelGroupAverageFood);
+
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
         tabbedPane.add("Population", populationPanel);
@@ -734,6 +770,15 @@ public class SwingManager {
             InfoLabelAncestorStamina.setText("Stamina: " + infoData.selectedAgent.getDna().prevStamina);
             InfoLabelAncestorFood.setText("Food Capacity: " + infoData.selectedAgent.getDna().prevFoodCap);
             InfoLabelAncestorReprod.setText("Reproductive Instinct: " + infoData.selectedAgent.getDna().prevReprod);
+            InfoLabelGroupLeader.setText("Leader No: " + infoData.selectedAgent.getKomm().getLeader());
+            InfoLabelGroupMembers.setText("Group Members: " + infoData.selectedAgent.getKomm().getPartners().toString());
+            InfoLabelGroupAttackers.setText("# Attackers: ");
+            InfoLabelGroupParalyzers.setText("# Paralyzers: ");
+            if (infoData.selectedAgent.getKomm().getPartners().size() > 0) {
+                InfoLabelGroupAverageFood.setText("Average Food: " + df0.format(infoData.selectedAgent.getSuccess() / infoData.selectedAgent.getKomm().getPartners().size()));
+            } else {
+                InfoLabelGroupAverageFood.setText("Average Food: " + infoData.selectedAgent.getSuccess());
+            }
         } else {
             InfoLabelDetailedGender.setText("Gender");
             InfoLabelDetailedSpecial.setText("Special");
@@ -753,6 +798,11 @@ public class SwingManager {
             InfoLabelAncestorStamina.setText("Stamina: ");
             InfoLabelAncestorFood.setText("Food Capacity: ");
             InfoLabelAncestorReprod.setText("Reproductive Instinct: ");
+            InfoLabelGroupLeader.setText("Leader No: ");
+            InfoLabelGroupMembers.setText("Group Members: ");
+            InfoLabelGroupAttackers.setText("# Attackers: ");
+            InfoLabelGroupParalyzers.setText("# Paralyzers: ");
+            InfoLabelGroupAverageFood.setText("Average Food: ");
         }
     }
 

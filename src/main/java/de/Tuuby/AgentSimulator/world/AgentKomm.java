@@ -73,6 +73,14 @@ public class AgentKomm {
         potentialReprodPartners = new Vector<Agent>();
     }
 
+    public Agent getLeader() {
+        return leader;
+    }
+
+    public Vector<IAgent> getPartners() {
+        return partners;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
