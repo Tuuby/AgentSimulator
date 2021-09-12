@@ -72,6 +72,11 @@ public class World {
     public double avgAgentFoodCapacity;
     public int maxAgentFoodCapacity;
 
+    public int maxGroupMembers;
+    public double avgGroupMembers;
+    public int maxGroupSuccess;
+    public double avgGroupSuccess;
+
     private DataSet infoData;
 
     private WorldGenerator generator;
@@ -493,6 +498,7 @@ public class World {
         calculateGenerations();
         calculateStamina();
         calculateEnergy();
+        calculateGroups();
 
         updateDataSet();
     }
@@ -685,6 +691,45 @@ public class World {
         avgAgentMaxStamina = agentMaxStaminaSum * 1.0 / agentCounter;
     }
 
+    // Average calculation is very flawed, needs an efficient way of only counting each group once
+    private void calculateGroups() {
+        avgGroupMembers = 0;
+        maxGroupMembers = 0;
+        int groupMemberSum = 0;
+        avgGroupSuccess = 0;
+        maxGroupSuccess = 0;
+        int groupSuccessSum = 0;
+        List<AgentKomm> checkedGroups = new ArrayList<>();
+
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Agent) {
+                        if (((Agent) go).inGroup()) {
+                            AgentKomm group = ((Agent) go).getKomm();
+                            if (!checkedGroups.contains(group)) {
+                                int members = group.partners.size();
+                                int success = ((Agent) go).getSuccess();
+                                groupMemberSum += members;
+                                groupSuccessSum += success;
+                                if (members > maxGroupMembers) {
+                                    maxGroupMembers = members;
+                                }
+                                if (success > maxGroupSuccess) {
+                                    maxGroupSuccess = success;
+                                }
+                                checkedGroups.add(group);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        avgGroupMembers = groupMemberSum * 1.0 / (AgentKomm.cGroups - AgentKomm.cGroupsDissolved);
+        avgGroupSuccess = groupSuccessSum * 1.0 / (AgentKomm.cGroups - AgentKomm.cGroupsDissolved);
+    }
+
     private double[] convertArray(Double[] inputArray) {
         double[] doubleArray = new double[inputArray.length];
         for (int i = 0; i < inputArray.length; i++) {
@@ -740,5 +785,11 @@ public class World {
         infoData.numberGroupsAlltime = AgentKomm.cGroups;
         infoData.numberGroups = AgentKomm.cGroups - AgentKomm.cGroupsDissolved;
         infoData.numberGroupsDissolved = AgentKomm.cGroupsDissolved;
+        infoData.maxNumberGroupMembers = AgentKomm.cMaxMembers;
+        infoData.avgNumberGroupMembers = AgentKomm.cMembers / (double) AgentKomm.cGroups;
+        infoData.maxNumberActiveGroupMembers = maxGroupMembers;
+        infoData.avgNumberActiveGroupMembers = avgGroupMembers;
+        infoData.maxGroupSuccess = maxGroupSuccess;
+        infoData.avgGroupSuccess = avgGroupSuccess;
     }
 }

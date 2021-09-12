@@ -73,6 +73,19 @@ public class AgentKomm {
         potentialReprodPartners = new Vector<Agent>();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AgentKomm agentKomm = (AgentKomm) o;
+        return groupsJoined == agentKomm.groupsJoined && groupsLeft == agentKomm.groupsLeft && groupsDissolved == agentKomm.groupsDissolved && cancellations == agentKomm.cancellations && leader.equals(agentKomm.leader);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(groupsJoined, groupsLeft, groupsDissolved, cancellations, leader);
+    }
+
     // Method that deals with the leader of a group dying
     public void death() {
         if (thisAgent.getSpecial() == AgentSpecial.LEADER)

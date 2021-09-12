@@ -870,6 +870,10 @@ public class Agent extends MovingObject implements IAgent{
         return world.visible(this, go, 6);
     }
 
+    public boolean inGroup() {
+        return komm.partners.size() > 1;
+    }
+
     // Method to return a String with most of the important attributes
     public String getStat() {
         float dist;

@@ -14,7 +14,6 @@ import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.Styler;
 
-import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -69,6 +68,18 @@ public class SwingManager {
     private static JLabel InfoLabelGroupsCurrent;
     private static JLabel InfoLabelGroupsDissolved;
 
+    private static JLabel InfoLabelGroupMembersAlltimeMax;
+    private static JLabel InfoLabelGroupMembersAlltimeAvg;
+    private static JLabel InfoLabelGroupMembersCurrentMax;
+    private static JLabel InfoLabelGroupMembersCurrentAvg;
+
+    private static JLabel InfoLabelGroupSuccessMax;
+    private static JLabel InfoLabelGroupSuccessAvg;
+
+    private static JLabel InfoLabelGroupAttackersBest;
+    private static JLabel InfoLabelGroupParalyzersBest;
+    private static JLabel InfoLabelGroupAttackersAvg;
+    private static JLabel InfoLabelGroupParalyzersAvg;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -433,6 +444,81 @@ public class SwingManager {
         InfoLabelGroupsDissolved.setFont(infoFont);
         groupPanel.add(InfoLabelGroupsDissolved);
 
+        JLabel subtitleLabelGroupMembers = new JLabel("Group Member Stats");
+        subtitleLabelGroupMembers.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelGroupMembers.setFont(titleFont);
+        groupPanel.add(subtitleLabelGroupMembers);
+
+        InfoLabelGroupMembersAlltimeMax = new JLabel("All-Time Max:");
+        InfoLabelGroupMembersAlltimeMax.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupMembersAlltimeMax.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupMembersAlltimeMax);
+
+        InfoLabelGroupMembersAlltimeAvg = new JLabel("All-Time Avg:");
+        InfoLabelGroupMembersAlltimeAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupMembersAlltimeAvg.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupMembersAlltimeAvg);
+
+        InfoLabelGroupMembersCurrentMax = new JLabel("Current Max:");
+        InfoLabelGroupMembersCurrentMax.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupMembersCurrentMax.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupMembersCurrentMax);
+
+        InfoLabelGroupMembersCurrentAvg = new JLabel("Current Avg:");
+        InfoLabelGroupMembersCurrentAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupMembersCurrentAvg.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupMembersCurrentAvg);
+
+        JLabel subtitleLabelGroupSuccess = new JLabel("Group Success");
+        subtitleLabelGroupSuccess.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelGroupSuccess.setFont(titleFont);
+        groupPanel.add(subtitleLabelGroupSuccess);
+
+        InfoLabelGroupSuccessMax = new JLabel("Avg:");
+        InfoLabelGroupSuccessMax.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupSuccessMax.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupSuccessMax);
+
+        InfoLabelGroupSuccessAvg = new JLabel("Max:");
+        InfoLabelGroupSuccessAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupSuccessAvg.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupSuccessAvg);
+
+        JLabel subtitleLabelGroupConstellations = new JLabel("Group Constellations");
+        subtitleLabelGroupConstellations.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelGroupConstellations.setFont(titleFont);
+        groupPanel.add(subtitleLabelGroupConstellations);
+
+        JLabel subsubtitleLabelGroupBest = new JLabel("Best Group");
+        subsubtitleLabelGroupBest.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subsubtitleLabelGroupBest.setFont(infoFont);
+        groupPanel.add(subsubtitleLabelGroupBest);
+
+        InfoLabelGroupAttackersBest = new JLabel("# Attackers:");
+        InfoLabelGroupAttackersBest.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupAttackersBest.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupAttackersBest);
+
+        InfoLabelGroupParalyzersBest = new JLabel("# Paralyzers:");
+        InfoLabelGroupParalyzersBest.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupParalyzersBest.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupParalyzersBest);
+
+        JLabel subsubtitleLabelGroupAvg = new JLabel("Average Group");
+        subsubtitleLabelGroupAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subsubtitleLabelGroupAvg.setFont(titleFont);
+        groupPanel.add(subsubtitleLabelGroupAvg);
+
+        InfoLabelGroupAttackersAvg = new JLabel("# Attackers:");
+        InfoLabelGroupAttackersAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupAttackersAvg.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupAttackersAvg);
+
+        InfoLabelGroupParalyzersAvg = new JLabel("# Paralyzers:");
+        InfoLabelGroupParalyzersAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupParalyzersAvg.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupParalyzersAvg);
+
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
         tabbedPane.add("Population", populationPanel);
@@ -484,6 +570,12 @@ public class SwingManager {
         InfoLabelGroupsAlltime.setText("All-Time: " + infoData.numberGroupsAlltime);
         InfoLabelGroupsCurrent.setText("Current: " + infoData.numberGroups);
         InfoLabelGroupsDissolved.setText("Dissolved: " + infoData.numberGroupsDissolved);
+        InfoLabelGroupMembersAlltimeMax.setText("All-Time Max:" + infoData.maxNumberGroupMembers);
+        InfoLabelGroupMembersAlltimeAvg.setText("All-Time Avg: " + df2.format(infoData.avgNumberGroupMembers));
+        InfoLabelGroupMembersCurrentMax.setText("Current Max: " + infoData.maxNumberActiveGroupMembers);
+        InfoLabelGroupMembersCurrentAvg.setText("Current Avg: " + df2.format(infoData.avgNumberActiveGroupMembers));
+        InfoLabelGroupSuccessMax.setText("Max: " + infoData.maxGroupSuccess);
+        InfoLabelGroupSuccessAvg.setText("Avg: " + df2.format(infoData.avgGroupSuccess));
     }
 
     private static void writeParametersToConfig(Properties properties) {
