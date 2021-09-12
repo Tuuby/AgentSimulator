@@ -254,6 +254,11 @@ public class Agent extends MovingObject implements IAgent{
         Graphics.drawImage(animations[currentAnimation].getImage(), x, y, 30, 30);
     }
 
+    public void renderHighlight() {
+        Graphics.setColor(0.8f, 1.0f, 0, 1.0f);
+        Graphics.fillRect(x, y, 30, 30);
+    }
+
     public void renderDebug() {
         if (targetToHunt != null && (currentState == HUNTING || currentState == EATING)) {
             Graphics.setColor(1, 0, 0, 1);

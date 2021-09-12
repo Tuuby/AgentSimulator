@@ -200,10 +200,16 @@ public class World {
     public void renderAll() {
         Graphics.setColor(0.4f, 0.75f, 0.35f, 1);
         Graphics.fillRect(width / 2.0f, height / 2.0f, width, height);
-        for (int j = 0; j < world[0].length; j++)
-            for (int i = 0; i < world.length; i++)
-                for (GameObject go : world[i][j])
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Agent && infoData.selectedAgent != null && go.getUniqueID() == infoData.selectedAgent.uniqueID) {
+                        ((Agent) go).renderHighlight();
+                    }
                     go.render();
+                }
+            }
+        }
     }
 
     public void renderDebug() {

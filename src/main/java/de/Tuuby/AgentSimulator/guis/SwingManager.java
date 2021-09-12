@@ -542,6 +542,8 @@ public class SwingManager {
         JPanel detailedPanel = new JPanel();
         detailedPanel.setLayout(new BoxLayout(detailedPanel, BoxLayout.Y_AXIS));
 
+        // TODO: Rethink the way, to select agents for inspection
+        // Currently the agents start around ID: 95
         JLabel subtitleLabelAgentNumber = new JLabel("Agent Number:");
         subtitleLabelAgentNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
         subtitleLabelAgentNumber.setFont(infoFont);
