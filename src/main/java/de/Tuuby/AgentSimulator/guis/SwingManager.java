@@ -65,6 +65,11 @@ public class SwingManager {
     private static JLabel InfoLabelAgentFood;
     private static JLabel InfoLabelAgentFoodCap;
 
+    private static JLabel InfoLabelGroupsAlltime;
+    private static JLabel InfoLabelGroupsCurrent;
+    private static JLabel InfoLabelGroupsDissolved;
+
+
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
         Font titleFont = new Font("SansSerif", Font.BOLD, 16);
@@ -403,9 +408,35 @@ public class SwingManager {
         JSeparator separator5 = new JSeparator(JSeparator.HORIZONTAL);
         populationPanel.add(separator5);
 
+        // Create the third tab for the Tab Panel
+        // "Groups"-Tab
+        JPanel groupPanel = new JPanel();
+        groupPanel.setLayout(new BoxLayout(groupPanel, BoxLayout.Y_AXIS));
+
+        JLabel subtitleLabelGroups = new JLabel("# Groups");
+        subtitleLabelGroups.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelGroups.setFont(titleFont);
+        groupPanel.add(subtitleLabelGroups);
+
+        InfoLabelGroupsAlltime = new JLabel("All-Time:");
+        InfoLabelGroupsAlltime.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupsAlltime.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupsAlltime);
+
+        InfoLabelGroupsCurrent = new JLabel("Current:");
+        InfoLabelGroupsCurrent.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupsCurrent.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupsCurrent);
+
+        InfoLabelGroupsDissolved = new JLabel("Dissolved:");
+        InfoLabelGroupsDissolved.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelGroupsDissolved.setFont(infoFont);
+        groupPanel.add(InfoLabelGroupsDissolved);
+
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
         tabbedPane.add("Population", populationPanel);
+        tabbedPane.add("Groups", groupPanel);
         mainPanel.add(tabbedPane, BorderLayout.EAST);
         mainFrame.getContentPane().add(mainPanel);
     }
@@ -450,6 +481,9 @@ public class SwingManager {
         InfoLabelAgentMaxStamina.setText("Max. Stamina: " + df0.format(infoData.avgAgentMaxStamina) + "/" + infoData.maxAgentMaxStamina);
         InfoLabelAgentFood.setText("Food: " + df0.format(infoData.avgAgentFood) + "/" + infoData.maxAgentFood);
         InfoLabelAgentFoodCap.setText("Food Cap.: " + df0.format(infoData.avgAgentFoodCapacity) + "/" + infoData.maxAgentFoodCapacity);
+        InfoLabelGroupsAlltime.setText("All-Time: " + infoData.numberGroupsAlltime);
+        InfoLabelGroupsCurrent.setText("Current: " + infoData.numberGroups);
+        InfoLabelGroupsDissolved.setText("Dissolved: " + infoData.numberGroupsDissolved);
     }
 
     private static void writeParametersToConfig(Properties properties) {

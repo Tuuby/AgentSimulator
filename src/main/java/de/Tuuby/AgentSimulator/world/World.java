@@ -701,6 +701,7 @@ public class World {
         infoData.avgNutriValue = avgHerbEnergy;
         infoData.numberHerbivore = herbivoreCounter;
         infoData.numberAgent = agentCounter;
+
         infoData.numberParalysedHerbivores = paralyzedHerbivoreCounter;
         infoData.numberDeadHerbivores = deadHerbivoreCounter;
         infoData.numberHerbivoresAlltime = totalHerbivores;
@@ -735,5 +736,9 @@ public class World {
         infoData.maxAgentFood = maxAgentFood;
         infoData.avgAgentFoodCapacity = avgAgentFoodCapacity;
         infoData.maxAgentFoodCapacity = maxAgentFoodCapacity;
+
+        infoData.numberGroupsAlltime = AgentKomm.cGroups;
+        infoData.numberGroups = AgentKomm.cGroups - AgentKomm.cGroupsDissolved;
+        infoData.numberGroupsDissolved = AgentKomm.cGroupsDissolved;
     }
 }
