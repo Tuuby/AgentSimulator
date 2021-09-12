@@ -152,6 +152,20 @@ public class World {
         return avgHerbEnergy;
     }
 
+    public Agent getAgentById(long agentId) {
+        for (int j = 0; j < world[0].length; j++) {
+            for (int i = 0; i < world.length; i++) {
+                for (GameObject go : world[i][j]) {
+                    if (go instanceof Agent) {
+                        if (go.getUniqueID() == agentId)
+                            return (Agent) go;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     // Method to clear the entire world of GameObjects
     public void doClear() {
         for (int j = 0; j < world[0].length; j++)
@@ -791,5 +805,7 @@ public class World {
         infoData.avgNumberActiveGroupMembers = avgGroupMembers;
         infoData.maxGroupSuccess = maxGroupSuccess;
         infoData.avgGroupSuccess = avgGroupSuccess;
+
+        infoData.selectedAgent = getAgentById(Long.valueOf((Integer) SwingManager.AgentNumberSpinner.getValue()));
     }
 }

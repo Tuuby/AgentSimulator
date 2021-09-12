@@ -1,5 +1,6 @@
 package de.Tuuby.AgentSimulator.logging;
 
+import de.Tuuby.AgentSimulator.world.Agent;
 import de.Tuuby.AgentSimulator.world.enums.AgentSpecial;
 import de.Tuuby.AgentSimulator.world.enums.AgentStates;
 
@@ -75,34 +76,5 @@ public class DataSet {
     public double avgNumberParalyzer;
 
     // "Detailed"
-    public int agentId;
-    public boolean agentMale;
-    public AgentSpecial agentSpecial;
-    public AgentStates agentState;
-
-    public int agentGeneration;
-    public int agentAge;
-    public int agentRetirementAge;
-    public int agentSpeed;
-    public int agentVisionRange;
-    public int agentStamina;
-    public int agentStaminaSaturation;
-    public int agentFood;
-    public int agentFoodSaturation;
-    public int agentReprodInstict;
-    public int agentNumberReproductions;
-    public int agentParalysesOrKills;
-
-    public double ancestorRetirementAge;
-    public double ancestorSpeed;
-    public double ancestorVisionRange;
-    public double ancestorStamina;
-    public double ancestorFoodCapacity;
-    public double ancestorReprodInstict;
-
-    public int leaderId;
-    public int[] groupMemberIds;
-    public int numberGroupAttacker;
-    public int numberGroupParalysers;
-    public double avgGroupFood;
+    public Agent selectedAgent;
 }

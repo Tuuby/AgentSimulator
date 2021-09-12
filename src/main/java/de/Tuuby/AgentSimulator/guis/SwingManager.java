@@ -7,6 +7,7 @@ import de.Tuuby.AgentSimulator.logging.DataSet;
 import de.Tuuby.AgentSimulator.logging.LoggingHandler;
 import de.Tuuby.AgentSimulator.main;
 import de.Tuuby.AgentSimulator.resource.PropertiesManager;
+import de.Tuuby.AgentSimulator.world.Agent;
 import de.Tuuby.AgentSimulator.world.WorldGenerator;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
@@ -14,6 +15,7 @@ import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.Styler;
 
+import javax.sound.sampled.Line;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -55,7 +57,7 @@ public class SwingManager {
     private static JLabel InfoLabelAgentsInGroup;
     private static JLabel InfoLabelAgentsAlltime;
 
-    private static JLabel InfoLabelAgentGeneration;
+    private static JLabel InfoLabelAgentGenerationAvg;
     private static JLabel InfoLabelAgentAge;
     private static JLabel InfoLabelAgentSpeed;
     private static JLabel InfoLabelAgentVision;
@@ -80,6 +82,22 @@ public class SwingManager {
     private static JLabel InfoLabelGroupParalyzersBest;
     private static JLabel InfoLabelGroupAttackersAvg;
     private static JLabel InfoLabelGroupParalyzersAvg;
+
+    // Detailed tab swing elements
+    public static JSpinner AgentNumberSpinner;
+    private static JLabel InfoLabelDetailedGender;
+    private static JLabel InfoLabelDetailedSpecial;
+    private static JLabel InfoLabelDetailedState;
+
+    private static JLabel InfoLabelDetailedGeneration;
+    private static JLabel InfoLabelDetailedAges;
+    private static JLabel InfoLabelDetailedSpeed;
+    private static JLabel InfoLabelDetailedVision;
+    private static JLabel InfoLabelDetailedStamina;
+    private static JLabel InfoLabelDetailedFood;
+    private static JLabel InfoLabelDetailedReprodInstinct;
+    private static JLabel InfoLabelDetailedReprods;
+    private static JLabel InfoLabelDetailedParalyzes;
 
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
@@ -376,10 +394,10 @@ public class SwingManager {
         subtitleLabelAgentAttributes.setFont(titleFont);
         populationPanel.add(subtitleLabelAgentAttributes);
 
-        InfoLabelAgentGeneration = new JLabel("Generaion No.:");
-        InfoLabelAgentGeneration.setAlignmentX(Component.CENTER_ALIGNMENT);
-        InfoLabelAgentGeneration.setFont(infoFont);
-        populationPanel.add(InfoLabelAgentGeneration);
+        InfoLabelAgentGenerationAvg = new JLabel("Generaion No.:");
+        InfoLabelAgentGenerationAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAgentGenerationAvg.setFont(infoFont);
+        populationPanel.add(InfoLabelAgentGenerationAvg);
 
         InfoLabelAgentAge = new JLabel("Age:");
         InfoLabelAgentAge.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -506,7 +524,7 @@ public class SwingManager {
 
         JLabel subsubtitleLabelGroupAvg = new JLabel("Average Group");
         subsubtitleLabelGroupAvg.setAlignmentX(Component.CENTER_ALIGNMENT);
-        subsubtitleLabelGroupAvg.setFont(titleFont);
+        subsubtitleLabelGroupAvg.setFont(infoFont);
         groupPanel.add(subsubtitleLabelGroupAvg);
 
         InfoLabelGroupAttackersAvg = new JLabel("# Attackers:");
@@ -519,10 +537,87 @@ public class SwingManager {
         InfoLabelGroupParalyzersAvg.setFont(infoFont);
         groupPanel.add(InfoLabelGroupParalyzersAvg);
 
+        // Create the fourth tab for the Tab Panel
+        // "Detailed"-Tab
+        JPanel detailedPanel = new JPanel();
+        detailedPanel.setLayout(new BoxLayout(detailedPanel, BoxLayout.Y_AXIS));
+
+        JLabel subtitleLabelAgentNumber = new JLabel("Agent Number:");
+        subtitleLabelAgentNumber.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelAgentNumber.setFont(infoFont);
+        detailedPanel.add(subtitleLabelAgentNumber);
+
+        SpinnerModel agentCountNumber = new SpinnerNumberModel(1, 0, 10000000, 1);
+        AgentNumberSpinner = new JSpinner(agentCountNumber);
+        AgentNumberSpinner.setMaximumSize(new Dimension(50, 50));
+        AgentNumberSpinner.setAlignmentX(Component.CENTER_ALIGNMENT);
+        detailedPanel.add(AgentNumberSpinner);
+
+        InfoLabelDetailedGender = new JLabel("Gender");
+        InfoLabelDetailedGender.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedGender.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedGender);
+
+        InfoLabelDetailedSpecial = new JLabel("Special");
+        InfoLabelDetailedSpecial.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedSpecial.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedSpecial);
+
+        InfoLabelDetailedState = new JLabel("State");
+        InfoLabelDetailedState.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedState.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedState);
+
+        InfoLabelDetailedGeneration = new JLabel("Generation No:");
+        InfoLabelDetailedGeneration.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedGeneration.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedGeneration);
+
+        InfoLabelDetailedAges = new JLabel("Age / Retirement Age:");
+        InfoLabelDetailedAges.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedAges.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedAges);
+
+        InfoLabelDetailedSpeed = new JLabel("Speed:");
+        InfoLabelDetailedSpeed.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedSpeed.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedSpeed);
+
+        InfoLabelDetailedVision = new JLabel("Vision Range:");
+        InfoLabelDetailedVision.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedVision.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedVision);
+
+        InfoLabelDetailedStamina = new JLabel("Stamina / Saturation:");
+        InfoLabelDetailedStamina.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedStamina.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedStamina);
+
+        InfoLabelDetailedFood = new JLabel("Food / Saturation:");
+        InfoLabelDetailedFood.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedFood.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedFood);
+
+        InfoLabelDetailedReprodInstinct = new JLabel("Reproductive Instinct:");
+        InfoLabelDetailedReprodInstinct.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedReprodInstinct.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedReprodInstinct);
+
+        InfoLabelDetailedReprods = new JLabel("# Reproductions:");
+        InfoLabelDetailedReprods.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedReprods.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedReprods);
+
+        InfoLabelDetailedParalyzes = new JLabel("# Paralyzes / Kills:");
+        InfoLabelDetailedParalyzes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelDetailedParalyzes.setFont(infoFont);
+        detailedPanel.add(InfoLabelDetailedParalyzes);
+
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
         tabbedPane.add("Population", populationPanel);
         tabbedPane.add("Groups", groupPanel);
+        tabbedPane.add("Detailed", detailedPanel);
         mainPanel.add(tabbedPane, BorderLayout.EAST);
         mainFrame.getContentPane().add(mainPanel);
     }
@@ -559,7 +654,7 @@ public class SwingManager {
         InfoLabelAgentsLeaders.setText("Leaders: " + infoData.numberLeader);
         InfoLabelAgentsInGroup.setText("In a Group: " + infoData.numberAgentsInGroup);
         InfoLabelAgentsAlltime.setText("All-Time: " + infoData.numberAgentAlltime);
-        InfoLabelAgentGeneration.setText("Generation No.: " + df0.format(infoData.avgGeneration) + "/" + infoData.maxGeneration);
+        InfoLabelAgentGenerationAvg.setText("Generation No.: " + df0.format(infoData.avgGeneration) + "/" + infoData.maxGeneration);
         InfoLabelAgentAge.setText("Age: " + df2.format(infoData.avgAge) + "/" + infoData.maxAge);
         InfoLabelAgentSpeed.setText("Speed: " + df0.format(infoData.avgAgentSpeed) + "/" + infoData.maxAgentSpeed);
         InfoLabelAgentVision.setText("Vision: " + df0.format(infoData.avgAgentVisionRange) + "/" + infoData.maxAgentVisionRange);
@@ -576,6 +671,33 @@ public class SwingManager {
         InfoLabelGroupMembersCurrentAvg.setText("Current Avg: " + df2.format(infoData.avgNumberActiveGroupMembers));
         InfoLabelGroupSuccessMax.setText("Max: " + infoData.maxGroupSuccess);
         InfoLabelGroupSuccessAvg.setText("Avg: " + df2.format(infoData.avgGroupSuccess));
+        if (null != infoData.selectedAgent) {
+            InfoLabelDetailedGender.setText(infoData.selectedAgent.getDna().male ? "Male" : "Female");
+            InfoLabelDetailedSpecial.setText(infoData.selectedAgent.getSpecial().name());
+            InfoLabelDetailedState.setText(infoData.selectedAgent.getState().name());
+            InfoLabelDetailedGeneration.setText("Generation No: " + infoData.selectedAgent.getDna().generationNo);
+            InfoLabelDetailedAges.setText("Age / Retirement Age: " + infoData.selectedAgent.getAge() + " / " + infoData.selectedAgent.getDna().highAge);
+            InfoLabelDetailedSpeed.setText("Speed: " + infoData.selectedAgent.getSpeed());
+            InfoLabelDetailedVision.setText("Range of Vision: " + infoData.selectedAgent.getDna().visibility);
+            InfoLabelDetailedStamina.setText("Stamina / Saturation: " + infoData.selectedAgent.getStamina() + " / " + infoData.selectedAgent.getDna().stamina);
+            InfoLabelDetailedFood.setText("Food / Saturation: " + infoData.selectedAgent.getFood() + " / " + infoData.selectedAgent.getDna().foodSaturation);
+            InfoLabelDetailedReprodInstinct.setText("Reproductive Instinct: " + infoData.selectedAgent.getDna().reproductInstinct);
+            InfoLabelDetailedReprods.setText("# Reproductions: " + infoData.selectedAgent.getReproductions());
+            InfoLabelDetailedParalyzes.setText("# Paralyzes / Kills: " + infoData.selectedAgent.getParalysesOrKills());
+        } else {
+            InfoLabelDetailedGender.setText("Gender");
+            InfoLabelDetailedSpecial.setText("Special");
+            InfoLabelDetailedState.setText("State");
+            InfoLabelDetailedGeneration.setText("Generation No: ");
+            InfoLabelDetailedAges.setText("Age / Retirement Age: ");
+            InfoLabelDetailedSpeed.setText("Speed: ");
+            InfoLabelDetailedVision.setText("Range of Vision: ");
+            InfoLabelDetailedStamina.setText("Stamina / Saturation: ");
+            InfoLabelDetailedFood.setText("Food / Saturation: ");
+            InfoLabelDetailedReprodInstinct.setText("Reproductive Instinct: ");
+            InfoLabelDetailedReprods.setText("# Reproductions: ");
+            InfoLabelDetailedParalyzes.setText("# Paralyzes / Kills: ");
+        }
     }
 
     private static void writeParametersToConfig(Properties properties) {

@@ -318,6 +318,14 @@ public class Agent extends MovingObject implements IAgent{
         return food;
     }
 
+    public int getReproductions() {
+        return reproductions;
+    }
+
+    public int getParalysesOrKills() {
+        return paralysesOrKills;
+    }
+
     // Method to set the MovingFood object as targetTuHunt if the agent is currently able to hunt
     public boolean setTarget(MovingFood target, Integer amount) {
         if (currentState == REPRODUCING2)
