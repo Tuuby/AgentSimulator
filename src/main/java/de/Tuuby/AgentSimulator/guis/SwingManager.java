@@ -99,6 +99,13 @@ public class SwingManager {
     private static JLabel InfoLabelDetailedReprods;
     private static JLabel InfoLabelDetailedParalyzes;
 
+    private static JLabel InfoLabelAncestorAge;
+    private static JLabel InfoLabelAncestorSpeed;
+    private static JLabel InfoLabelAncestorVision;
+    private static JLabel InfoLabelAncestorStamina;
+    private static JLabel InfoLabelAncestorFood;
+    private static JLabel InfoLabelAncestorReprod;
+
     public static void build(JFrame mainFrame, GLCanvas glCanvas, Properties properties) {
 
         Font titleFont = new Font("SansSerif", Font.BOLD, 16);
@@ -615,6 +622,41 @@ public class SwingManager {
         InfoLabelDetailedParalyzes.setFont(infoFont);
         detailedPanel.add(InfoLabelDetailedParalyzes);
 
+        JLabel subtitleLabelAncestorAttributes =  new JLabel("Average Ancestor Attributes");
+        subtitleLabelAncestorAttributes.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitleLabelAncestorAttributes.setFont(titleFont);
+        detailedPanel.add(subtitleLabelAgentAttributes);
+
+        InfoLabelAncestorAge = new JLabel("Retirement Age:");
+        InfoLabelAncestorAge.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAncestorAge.setFont(infoFont);
+        detailedPanel.add(InfoLabelAncestorAge);
+
+        InfoLabelAncestorSpeed = new JLabel("Speed:");
+        InfoLabelAncestorSpeed.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAncestorSpeed.setFont(infoFont);
+        detailedPanel.add(InfoLabelAncestorSpeed);
+
+        InfoLabelAncestorVision = new JLabel("Range of Vision:");
+        InfoLabelAncestorVision.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAncestorVision.setFont(infoFont);
+        detailedPanel.add(InfoLabelAncestorVision);
+
+        InfoLabelAncestorStamina = new JLabel("Stamina:");
+        InfoLabelAncestorStamina.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAncestorStamina.setFont(infoFont);
+        detailedPanel.add(InfoLabelAncestorStamina);
+
+        InfoLabelAncestorFood = new JLabel("Food Capacity:");
+        InfoLabelAncestorFood.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAncestorFood.setFont(infoFont);
+        detailedPanel.add(InfoLabelAncestorFood);
+
+        InfoLabelAncestorReprod = new JLabel("Reproducitve Instinct");
+        InfoLabelAncestorReprod.setAlignmentX(Component.CENTER_ALIGNMENT);
+        InfoLabelAncestorReprod.setFont(infoFont);
+        detailedPanel.add(InfoLabelAncestorReprod);
+
         // Finalizing the tabbed panel
         tabbedPane.add("World", worldPanel);
         tabbedPane.add("Population", populationPanel);
@@ -686,6 +728,12 @@ public class SwingManager {
             InfoLabelDetailedReprodInstinct.setText("Reproductive Instinct: " + infoData.selectedAgent.getDna().reproductInstinct);
             InfoLabelDetailedReprods.setText("# Reproductions: " + infoData.selectedAgent.getReproductions());
             InfoLabelDetailedParalyzes.setText("# Paralyzes / Kills: " + infoData.selectedAgent.getParalysesOrKills());
+            InfoLabelAncestorAge.setText("Retirement Age: " +  infoData.selectedAgent.getDna().prevHighAge);
+            InfoLabelAncestorSpeed.setText("Speed: " + infoData.selectedAgent.getDna().prevSpeed);
+            InfoLabelAncestorVision.setText("Range of Vision: " + infoData.selectedAgent.getDna().prevVisib);
+            InfoLabelAncestorStamina.setText("Stamina: " + infoData.selectedAgent.getDna().prevStamina);
+            InfoLabelAncestorFood.setText("Food Capacity: " + infoData.selectedAgent.getDna().prevFoodCap);
+            InfoLabelAncestorReprod.setText("Reproductive Instinct: " + infoData.selectedAgent.getDna().prevReprod);
         } else {
             InfoLabelDetailedGender.setText("Gender");
             InfoLabelDetailedSpecial.setText("Special");
@@ -699,6 +747,12 @@ public class SwingManager {
             InfoLabelDetailedReprodInstinct.setText("Reproductive Instinct: ");
             InfoLabelDetailedReprods.setText("# Reproductions: ");
             InfoLabelDetailedParalyzes.setText("# Paralyzes / Kills: ");
+            InfoLabelAncestorAge.setText("Retirement Age: ");
+            InfoLabelAncestorSpeed.setText("Speed: ");
+            InfoLabelAncestorVision.setText("Range of Vision: ");
+            InfoLabelAncestorStamina.setText("Stamina: ");
+            InfoLabelAncestorFood.setText("Food Capacity: ");
+            InfoLabelAncestorReprod.setText("Reproductive Instinct: ");
         }
     }
 
